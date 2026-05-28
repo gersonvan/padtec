@@ -1,0 +1,27 @@
+{
+  "name": "confluence-mermaid-package",
+  "version": "1.0.0",
+  "description": "Pacote completo para converter Markdown com diagramas Mermaid para Confluence ADF com renderização correta",
+  "main": "scripts/convert-md-to-adf.js",
+  "scripts": {
+    "convert": "node scripts/convert-md-to-adf.js",
+    "update": "node scripts/update-confluence-page.js",
+    "batch": "node scripts/batch-update-pages.js",
+    "test": "node scripts/convert-md-to-adf.js examples/basic-example.md"
+  },
+  "keywords": [
+    "confluence",
+    "mermaid",
+    "adf",
+    "markdown",
+    "documentation",
+    "atlassian"
+  ],
+  "author": "GrupoAVP",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
