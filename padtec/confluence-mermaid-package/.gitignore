@@ -1,0 +1,32 @@
+# Credenciais (NUNCA commitar!)
+config.js
+
+# Arquivos ADF gerados
+*.adf.json
+
+# Logs
+*.log
+restore-log*.json
+
+# Node modules (caso adicione dependências)
+node_modules/
+
+# Arquivos temporários
+.tmp-*/
+tmp/
+temp/
+
+# Backups
+backup-*/
+*.backup
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
