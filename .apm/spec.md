@@ -1,6 +1,6 @@
 ---
 title: PADTec — Padrão AVP de Documentação Técnica
-modified: Spec creation by the Planner.
+modified: Documentos-Fonte Referenciados — substituído `APM_RULES.md` (inexistente) por `AGENTS.md` em `Processos_docentes/` com base em achado da Task 1.1 (task-01-01.log.md). Modified by the Manager.
 ---
 
 # APM Spec
@@ -205,7 +205,7 @@ Artefatos pré-existentes que são fontes de conteúdo ou padrões para destila�
 | `Projetos AVP/SiteUnigrande/apm-7-confluence-documentation-template.md` | Base estrutural do template de publicação Confluence |
 | `Projetos AVP/PortalDoAlunoUGD/confluence-mermaid-package/` | Versão de referência primária para consolidação do ferramental |
 | `Projetos AVP/SiteUnigrande/confluence-mermaid-package/` | Versão alternativa para diff e portabilidade de features |
-| `Projetos AVP/Processos_docentes/APM_RULES.md` | Referência estrutural (estilo, não conteúdo) para `AGENTS.md` |
+| `Projetos AVP/Processos_docentes/AGENTS.md` | Referência estrutural (estilo e bloco `APM_RULES`) para `AGENTS.md` deste workspace |
 | `Projetos AVP/siteavp-docs/docs/00-baseline-referencia-siteavp-docs.md` | Insumo meta-documental para o guia humano |
 | `Projetos AVP/siteavp-docs/docs/01-estrutura-canonica-documental.md` | Insumo meta-documental para o guia humano |
 | `Projetos AVP/SiteUnigrande/docs/` (32 arquivos) | Amostra de referência de documentação L3 madura |
