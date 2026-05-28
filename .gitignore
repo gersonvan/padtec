@@ -1,0 +1,8 @@
+# Sistema
+.DS_Store
+
+# Dependências
+node_modules/
+
+# Worktrees APM (checkouts do próprio repo — não versionar)
+.apm/worktrees/

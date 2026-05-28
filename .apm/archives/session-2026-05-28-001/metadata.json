@@ -1,0 +1,11 @@
+{
+  "cliVersion": "0.5.3",
+  "templateVersion": "v0.5.3+templates.1",
+  "assistants": [
+    "GitHub Copilot"
+  ],
+  "installedAt": "2026-01-26T13:26:03.318Z",
+  "lastUpdated": "2026-01-26T13:26:03.318Z",
+  "archivedAt": "2026-05-28T19:44:18.462Z",
+  "reason": "archive"
+}
