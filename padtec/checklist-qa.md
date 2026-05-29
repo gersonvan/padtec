@@ -73,15 +73,15 @@ Conteúdo gerado não contém estimativas de tempo, custo, esforço, projeção 
 
 Cada nível alvo tem um conjunto mínimo de arquivos cuja presença é obrigatória. Os nomes seguem o padrão `NN-slug-em-kebab-case.md`.
 
-**L1 — Essencial:**
+**L1 — Essencial** (três seções do núcleo):
 
 - [ ] `README.md` na raiz do projeto destino, atualizado pelo agente ou criado.
 - [ ] `docs/01-visao-geral.md` presente.
+- [ ] `docs/02-arquitetura.md` presente.
+- [ ] `docs/03-stack-e-dependencias.md` presente.
 
 **L2 — Completo:** além dos arquivos de L1,
 
-- [ ] `docs/02-arquitetura.md` presente.
-- [ ] `docs/03-stack-e-dependencias.md` presente.
 - [ ] `docs/04-estrutura-do-projeto.md` presente.
 - [ ] `docs/05-modelo-de-dominio.md` presente.
 - [ ] `docs/06-fluxos-de-negocio.md` presente.
