@@ -13,8 +13,8 @@ title: PADTec — Padrão AVP de Documentação Técnica
 | Task | Status | Agent | Branch |
 |------|--------|-------|--------|
 | 2.1 | Done | templates-agent | |
-| 2.2 | Active | prompts-agent | feat/prompt-mestre-e-variantes |
-| 2.3 | Waiting: 2.2 | prompts-agent | |
+| 2.2 | Done | prompts-agent | |
+| 2.3 | Active | prompts-agent | feat/prompts-secoes-e-extensoes |
 
 ## Worker Tracking
 
@@ -22,7 +22,7 @@ title: PADTec — Padrão AVP de Documentação Técnica
 |-------|----------|-------|
 | foundation-agent | 1 | |
 | templates-agent | 1 | |
-| prompts-agent | 1 | uninitialized |
+| prompts-agent | 1 | |
 | tooling-agent | 1 | |
 
 ## Version Control

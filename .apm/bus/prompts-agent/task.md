@@ -1,220 +1,271 @@
 ---
 stage: 2
-task: 2
+task: 3
 agent: prompts-agent
-log_path: ".apm/memory/stage-02/task-02-02.log.md"
+log_path: ".apm/memory/stage-02/task-02-03.log.md"
 has_dependencies: true
 ---
 
-# Task 2.2: Prompt mestre e prompts de variante
+# Task 2.3: Sub-prompts de seção do núcleo e de extensão por capacidade
 
 ## Task Reference
 
-Task 2.2 — atribuída ao Prompts Agent.
+Task 2.3 — atribuída ao Prompts Agent (same-agent continuation após Task 2.2).
 
 ## Context from Dependencies
 
-This Task depends on work completed by the Foundation Agent (Task 1.1) and the Templates Agent (Task 2.1):
+Esta Task depende diretamente de Tasks já concluídas e integradas em `main`:
 
 **Integration Steps:**
 
-1. Leia integralmente [.apm/memory/stage-1/esqueleto-canonico.md](.apm/memory/stage-1/esqueleto-canonico.md) — contrato autoritativo de 24 seções do núcleo (15 universais + 9 condicionais) com naming, nível mínimo, descrição e mapeamento a capacidades.
-2. Leia integralmente [.apm/memory/stage-1/indice-padroes.md](.apm/memory/stage-1/indice-padroes.md) — vocabulário, padrões estruturais, padrões de diagramas Mermaid destilados das dez fontes.
-3. Liste e inspecione os templates produzidos pela Task 2.1:
-   - `padtec/templates/L1-essencial/` (3 arquivos núcleo).
-   - `padtec/templates/L2-completo/` (11 arquivos núcleo + 9 em `condicionais/`).
-   - `padtec/templates/L3-aprofundado/` (15 arquivos núcleo + 9 em `condicionais/`).
+1. Releia [padtec/prompts/00-mestre.md](padtec/prompts/00-mestre.md) — produzido por você na Task 2.2. O **Contrato de invocação de sub-prompts** (bloco em §vi) é autoritativo: cada sub-prompt que você criará aqui recebe **exatamente os seis parâmetros** definidos no contrato (`nível`, `variante`, `pasta-de-saída`, `capacidades-ativas`, `modo-monorepo`, `raiz-do-projeto-destino`).
+2. Releia [.apm/memory/stage-1/esqueleto-canonico.md](.apm/memory/stage-1/esqueleto-canonico.md) — nomes autoritativos das 15 seções de núcleo + 9 condicionais, com mapeamento a níveis e capacidades.
+3. Inspecione os templates produzidos pela Task 2.1, **um por seção/condicional**, para entender os placeholders concretos que cada sub-prompt deve orientar a IA a preencher:
+   - `padtec/templates/L1-essencial/{01,02,03}-*.md`
+   - `padtec/templates/L2-completo/*.md` (11 núcleo + 9 em `condicionais/`)
+   - `padtec/templates/L3-aprofundado/*.md` (15 núcleo + 9 em `condicionais/`)
 
-   Esses são os artefatos-alvo que os prompts referenciam — abra alguns para entender o padrão estrutural (cabeçalho de regras de qualidade em comentário HTML, placeholders `<<...>>`, diretivas `<!-- IA: ... -->`, placeholders Mermaid em seções estruturais L2 — 02, 05, 06, 07 — e em todos os L3 novos — 12, 13, 14, 15).
+   Você não precisa abrir todos os 47 — abra ao menos: `02-arquitetura.md` (placeholder Mermaid), `05-modelo-de-dominio.md` (erDiagram), `07-interface-externa.md` (tabela de endpoints), `12-quick-start.md` (L3-only), `condicionais/condicional-banco-de-dados.md` (estrutura de condicional), `condicionais/condicional-auth.md` (a leitura confirmará o naming exato).
 
-**Producer Output Summary — esqueleto canônico:**
+**Producer Output Summary — esqueleto canônico (relembrado):**
 
-- **Núcleo universal (15):** `01-visao-geral.md`, `02-arquitetura.md`, `03-stack-e-dependencias.md` (L1); `04-estrutura-do-projeto.md`, `05-modelo-de-dominio.md`, `06-fluxos-de-negocio.md`, `07-interface-externa.md`, `08-frontend.md`, `09-backend.md`, `10-configuracao-e-ambientes.md`, `11-infraestrutura-e-deployment.md` (L2 adicionais); `12-quick-start.md`, `13-glossario.md`, `14-faq-e-troubleshooting.md`, `15-manutencao-da-documentacao.md` (L3 adicionais). Inclusão: `L1 ⊂ L2 ⊂ L3` (cópia byte-a-byte quando replicado).
-- **Núcleo condicional (9 por nível L2 e L3):** mapeamento 1:1 com capacidades — `condicional-banco-de-dados.md` → `banco-de-dados`; `condicional-cache.md` → `cache`; `condicional-filas-async.md` → `filas-async`; `condicional-autenticacao-e-autorizacao.md` → `auth`; `condicional-integracoes-externas.md` → `integracoes-externas`; `condicional-armazenamento-de-arquivos.md` → `storage`; `condicional-notificacoes.md` → `notificacoes`; `condicional-jobs-agendados.md` → `jobs-agendados`; `condicional-multi-tenancy.md` → `multi-tenancy`.
+- **Núcleo universal (15):** `01-visao-geral` (L1), `02-arquitetura` (L1), `03-stack-e-dependencias` (L1); `04-estrutura-do-projeto`, `05-modelo-de-dominio`, `06-fluxos-de-negocio`, `07-interface-externa`, `08-frontend`, `09-backend`, `10-configuracao-e-ambientes`, `11-infraestrutura-e-deployment` (acrescentados em L2); `12-quick-start`, `13-glossario`, `14-faq-e-troubleshooting`, `15-manutencao-da-documentacao` (acrescentados em L3). Inclusão `L1 ⊂ L2 ⊂ L3` (cópia byte-a-byte quando replicado).
+- **Núcleo condicional (9):** os arquivos de condicional existem em `templates/L2-completo/condicionais/` e `templates/L3-aprofundado/condicionais/`. Mapeamento exato slug-de-capacidade → arquivo-de-template-condicional (este é o que o seu sub-prompt de extensão lê):
+  - `banco-de-dados` → `condicional-banco-de-dados.md`
+  - `cache` → `condicional-cache.md`
+  - `filas-async` → `condicional-filas-async.md`
+  - `auth` → `condicional-autenticacao-e-autorizacao.md`
+  - `integracoes-externas` → `condicional-integracoes-externas.md`
+  - `storage` → `condicional-armazenamento-de-arquivos.md`
+  - `notificacoes` → `condicional-notificacoes.md`
+  - `jobs-agendados` → `condicional-jobs-agendados.md`
+  - `multi-tenancy` → `condicional-multi-tenancy.md`
 
-**Producer Output Summary — templates da Task 2.1:**
+**Upstream Context — naming dos sub-prompts (contratual):**
 
-Todos os 47 templates têm padrão estrutural uniforme:
-- Cabeçalho `<!-- Regras de qualidade aplicáveis a este documento: ... -->` listando as seis regras-duras.
-- Título humanizado (`# <Título>`).
-- Seções internas com placeholders explícitos `<<DESCRIÇÃO_DO_QUE_PREENCHER>>`.
-- Diretivas-à-IA `<!-- IA: ... -->` em cada bloco onde a IA deve gerar conteúdo.
-- Placeholders Mermaid (`` ```mermaid ... ``` ``) em seções estruturais conforme padrão observado em corpora L3.
-
-Independência de stack rigorosamente preservada no núcleo (verificado por `grep -riE` — zero violações). Exemplos de stack permitidos apenas em `templates/<nível>/condicionais/`.
-
-**Upstream Context — regras de qualidade do produto:**
-
-As **seis regras-duras de qualidade** que devem ser **replicadas literalmente** no `00-mestre.md` (bloco vii) e estarão referenciadas em cabeçalho de cada sub-prompt (Task 2.3, depois):
-
-1. **Evidência rastreável.** Toda afirmação técnica em conteúdo gerado deve citar `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural e não pontual) do código-fonte do projeto destino. Formato sugerido: nota de rodapé ou citação inline.
-2. **Anti-alucinação.** Quando o sub-prompt requisita uma seção mas a evidência não é encontrada no código, o conteúdo gerado registra o marcador literal `// CARÊNCIA: não identificado no código` no lugar da afirmação. Proibido inferir além do código.
-3. **Glossário mínimo.** Toda execução produz um documento de glossário com no mínimo **30 termos** identificados no código (nomes de domínio, entidades, abreviações usadas no projeto). Em L2 o mínimo sobe para 60; em L3, 100.
-4. **Cobertura exaustiva.** Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência e job encontrado no código aparece em alguma tabela do conteúdo gerado. Cobertura não-exaustiva é falha de QA.
-5. **Versões exatas.** Toda versão de runtime, framework ou biblioteca-chave citada deve ser versão exata (pinada conforme aparece no manifesto), nunca range. Quando o manifesto registra range (ex.: `^10.0.0`), o conteúdo gerado registra o range literal entre crases e a versão resolvida do lockfile separadamente.
-6. **Sem estimativas.** Conteúdo gerado não contém estimativas de tempo, custo ou esforço. Cronogramas, "X dias", "Y horas", projeções financeiras são proibidos.
-
-**Upstream Context — sinais técnicos das nove capacidades (tabela autoritativa, replicar literalmente no `00-mestre.md` bloco iv):**
-
-| Capacidade | Slug da extensão | Sinais técnicos no código |
-|---|---|---|
-| Banco de dados | `banco-de-dados` | TypeORM, Prisma, Sequelize, arquivos `.sql`, migrations, schema files |
-| Cache | `cache` | Redis, `cache-manager`, `ioredis`, decorators de cache |
-| Filas / Processamento assíncrono | `filas-async` | Bull, BullMQ, RabbitMQ, Kafka, SQS, decorators `@Process` |
-| Autenticação e autorização | `auth` | passport, JWT, OAuth, OpenID, guards de auth, middlewares de sessão |
-| Integrações externas | `integracoes-externas` | clientes HTTP nomeados, SDKs de terceiros (axios com baseURL fixa, SDKs de provedores) |
-| Armazenamento de arquivos | `storage` | Azure Blob, AWS S3, multer, fs-extra usado para upload |
-| Notificações | `notificacoes` | SendGrid, Twilio, nodemailer, SMTP, push notification SDKs |
-| Jobs agendados | `jobs-agendados` | `@nestjs/schedule`, `node-cron`, cron jobs declarados |
-| Multi-tenancy | `multi-tenancy` | múltiplas conexões nomeadas, schemas dinâmicos, tenant resolvers |
-
-**Upstream Context — sinais de monorepo (replicar no bloco v do mestre):** presença de `nx.json`, `pnpm-workspace.yaml`, `lerna.json`, `turbo.json`, ou múltiplos `package.json` em estrutura `apps/`/`packages/`. Monorepo é **extensão** das variantes `full-stack-web` ou `backend-api`, não variante própria.
+- Sub-prompts de seção: arquivo `padtec/prompts/secoes/NN-<slug>.md` com naming **idêntico** ao nome do template correspondente em `padtec/templates/<nível>/`. Total: **15 arquivos**.
+- Sub-prompts de extensão: arquivo `padtec/prompts/extensoes/<slug-de-capacidade>.md` (sem prefixo `condicional-` — usa o slug puro da capacidade, conforme `00-mestre.md` §vi.4 prevê: `prompts/extensoes/<slug-da-capacidade>.md`). Total: **9 arquivos**.
 
 ## Objective
 
-Escrever o orquestrador `00-mestre.md` e os cinco prompts de variante, definindo o contrato pelo qual os sub-prompts de seção do núcleo e de extensão por capacidade serão consumidos na Task 2.3.
+Escrever os 15 sub-prompts de seção do núcleo e os 9 sub-prompts de extensão por capacidade, completando o pacote de prompts orquestrados do PADTec. Cada sub-prompt recebe os seis parâmetros do contrato canônico definido em `00-mestre.md` §vi e produz **um documento** em `pasta-de-saída/` no projeto destino, preenchendo o template correspondente com evidências extraídas do código.
 
 ## Detailed Instructions
 
-### A. Prompt mestre `padtec/prompts/00-mestre.md`
+### A. Estrutura uniforme de **todo** sub-prompt
 
-Cobrir, **na ordem abaixo, com cabeçalhos claros**, os sete blocos:
+Cada arquivo (de seção ou de extensão) começa com o seguinte padrão estrutural — adapte os placeholders `<<...>>` ao sub-prompt específico, mas mantenha a ordem e os cabeçalhos.
 
-**(i) Identidade.** Declaração tipo "Você é o orquestrador PADTec v1.0, responsável por gerar documentação técnica reversa do projeto atual." Definir o ponto único de entrada: usuário invoca este prompt no GitHub Copilot Chat dentro do projeto destino, agente tem tool-calling nativo (lê arquivos diretamente), proibido pedir colagem de conteúdo no chat.
+````markdown
+# Sub-prompt PADTec — <<Título humano da seção ou extensão>>
 
-**(ii) Parâmetros de entrada.** O **nível alvo** é fornecido pelo usuário (`L1`, `L2` ou `L3`). Outros parâmetros opcionais: pasta de saída (default: detectada por bloco iii.3 abaixo), publicar no Confluence (default: não). Definir formato esperado da invocação (ex.: "Execute o PADTec no nível L2 nesta pasta").
+## Parâmetros recebidos do orquestrador
 
-**(iii) Procedimento de detecção de variante.** Algoritmo de detecção em ordem, consumindo sinais técnicos no projeto destino:
+Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de invocação de sub-prompts** ali definido. Assume que recebeu valores resolvidos para:
 
-1. Listar arquivos da raiz e detectar manifestos: `package.json`, `pom.xml`, `requirements.txt`, `*.csproj`, `go.mod`, `Cargo.toml`, manifests de IaC (`*.bicep`, `*.tf`, `*.tfstate`).
-2. Detectar estrutura: `apps/`, `packages/`, `src/`, `pages/` ou `app/` (Next.js), `infra/`, `bicep/`.
-3. Detectar `docs/`, `documentation/` ou `documentacao/` como pasta-alvo de saída (se nenhuma existir, criar `docs/`).
-4. Resolver variante por árvore de decisão (descreva a árvore explicitamente; ex.: "se há manifests Bicep/Terraform e não há `package.json` aplicacional → `iac`; se há `package.json` com `dependencies.next` ou `dependencies.vite` sem backend acoplado → `frontend-site`; se há `package.json` com framework backend e sem frontend acoplado → `backend-api`; se há ambos no mesmo repo ou em `apps/web` + `apps/api` → `full-stack-web`; se nenhum manifesto aplicacional mas há scripts em `scripts/` ou `bin/` → `automacao-script`").
+- `nível` — `L1`, `L2` ou `L3`.
+- `variante` — slug da variante resolvida.
+- `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
+- `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
+- `modo-monorepo` — `sim` ou `não`.
+- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
 
-**(iv) Procedimento de detecção de capacidades.** Iterar sobre cada uma das nove capacidades. Para cada, executar busca no projeto destino pelos sinais técnicos listados literalmente na tabela do Upstream Context acima. Quando ao menos um sinal é detectado, a capacidade está **ativa**; sub-prompt de extensão correspondente entrará na fila de despacho. **Reproduza a tabela com nove linhas literalmente** dentro deste bloco.
+## Template a preencher
 
-**(v) Procedimento de detecção de monorepo.** Buscar pelos quatro arquivos de configuração de monorepo (`nx.json`, `pnpm-workspace.yaml`, `lerna.json`, `turbo.json`) e por presença de `apps/`+`packages/` com múltiplos `package.json`. Quando detectado, ativar documentação extra de workspace + por app, ainda dentro da variante resolvida.
+<<Para sub-prompts de seção:>> Leia integralmente `templates/<nível-resolvido>/<NN-slug>.md`, onde `<nível-resolvido>` é `L1-essencial` para `L1`, `L2-completo` para `L2`, `L3-aprofundado` para `L3`. Esse arquivo é o template autoritativo desta seção.
 
-**(vi) Sequência de despacho.** Ordem fixa de invocação:
+<<Para sub-prompts de extensão:>> Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-<arquivo-da-capacidade>.md` — somente acionado quando `nível` é `L2` ou `L3` (capacidades não existem em `L1-essencial`).
 
-1. Carregar prompt da variante resolvida (`padtec/prompts/variantes/<slug>.md`).
-2. Resolver o conjunto de seções a gerar pelo cruzamento (variante + nível). A variante define seções específicas que estendem o núcleo; o nível define o subconjunto do núcleo a usar.
-3. Para cada seção do núcleo no nível alvo, invocar o sub-prompt de seção correspondente em `padtec/prompts/secoes/`. Para cada capacidade ativa, invocar o sub-prompt de extensão correspondente em `padtec/prompts/extensoes/`.
-4. Definir e documentar o **contrato de invocação** de sub-prompts — formato exato pelo qual o `00-mestre.md` despacha um sub-prompt para o agente Copilot Chat (a Task 2.3 implementará cada sub-prompt segundo este contrato). Sugestão de formato: "Leia integralmente o arquivo `padtec/prompts/secoes/<nome>.md` e execute as instruções nele, com os parâmetros: nível=<L1|L2|L3>, variante=<slug>, pasta-de-saída=<caminho>, capacidades-ativas=<lista>." Este formato é a **API** que sub-prompts irão consumir; documente-o em um bloco delimitado e claramente nomeado (ex.: `## Contrato de invocação de sub-prompts`) para que a Task 2.3 referencie sem ambiguidade.
-5. Ao final, apontar o usuário para `padtec/checklist-qa.md` para validação da saída.
+## Procedimento de extração de evidências
 
-**(vii) Regras de qualidade.** Reproduzir **literalmente** as seis regras-duras da seção Upstream Context acima. Não parafrasear. Não abreviar. Texto idêntico.
+<<Lista numerada e específica de buscas a executar no `raiz-do-projeto-destino`. Cite extensões de arquivo, nomes de manifesto, padrões de busca, decoradores, anotações etc. relevantes para esta seção/capacidade. Seja específico — esta é a parte que dá valor real ao sub-prompt.>>
 
-### B. Cinco prompts de variante
+## Procedimento de preenchimento
 
-Em `padtec/prompts/variantes/`, redigir um arquivo por variante com os slugs **exatos** abaixo. Os slugs já correspondem aos definidos no esqueleto canônico e nas tabelas autoritativas do README do pacote.
+1. Para cada placeholder `<<...>>` no template, substitua pelo conteúdo correspondente extraído na etapa anterior.
+2. Para cada diretiva `<!-- IA: ... -->`, execute a diretiva e remova o comentário do documento final.
+3. Para cada bloco `mermaid` placeholder, gere o diagrama Mermaid correspondente conforme o tipo indicado (`flowchart`, `erDiagram`, `sequenceDiagram` etc.). Diagrama mínimo aceitável: dois nós e uma aresta significativa do código real.
+4. Quando uma evidência requerida não puder ser localizada, registre o marcador literal `// CARÊNCIA: não identificado no código` no lugar daquela afirmação. Proibido inferir.
 
-- `padtec/prompts/variantes/full-stack-web.md`
-- `padtec/prompts/variantes/backend-api.md`
-- `padtec/prompts/variantes/frontend-site.md`
-- `padtec/prompts/variantes/automacao-script.md`
-- `padtec/prompts/variantes/iac.md`
+## Regras de qualidade aplicáveis
 
-Padrão estrutural de cada arquivo:
+Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Em particular, para esta seção/extensão, atenção especial a:
 
-1. **Identidade.** "Você é o prompt da variante `<slug>` do PADTec v1.0. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino se enquadra nesta variante."
-2. **Seções específicas que estendem o núcleo.** Para cada variante, listar as seções do núcleo que recebem **ênfase específica** ou **conteúdo adicional** nesta variante (ex.: `backend-api` enfatiza `07-interface-externa.md`, `09-backend.md`, `10-configuracao-e-ambientes.md`, e diagrama de sequência de fluxo de requisição obrigatório em `06`).
-3. **Exemplos de stack permitidos nesta variante.** Aqui — e **somente** em prompts de variante, extensões e condicionais — é permitido citar nomes específicos de framework/biblioteca/runtime como exemplos típicos. Sugestões mínimas por variante (não exaustivo; o Worker pode ampliar):
-   - `full-stack-web`: NestJS + Next.js, Django + React, Spring Boot + Angular.
-   - `backend-api`: NestJS, Express, FastAPI, Spring Boot, ASP.NET Core.
-   - `frontend-site`: Next.js, Nuxt, Vite + React, SvelteKit, Astro.
-   - `automacao-script`: scripts Python, Node CLIs, shell scripts, processadores ETL.
-   - `iac`: Bicep, Terraform, ARM templates, CloudFormation, Ansible.
-4. **Referências cruzadas a templates da Task 2.1.** Apontar explicitamente, por caminho relativo a `padtec/`, quais templates esta variante consome com mais ênfase. Exemplo:
-   ```markdown
-   - Template L2: `templates/L2-completo/07-interface-externa.md` — preencher tabela de endpoints com método, rota, código de resposta e citação de evidência.
-   ```
-5. **Indicação sobre monorepo (quando aplicável).** Para `full-stack-web` e `backend-api`, incluir bloco explicando o que muda quando `00-mestre.md` detectou monorepo (gerar documentação extra de workspace + por app).
-6. **Regras de qualidade.** Pode referenciar o bloco vii do mestre por linha-resumo ("Aplicam-se integralmente as seis regras-duras de qualidade do `00-mestre.md`"). Não precisa reproduzir literalmente — o mestre é a referência autoritativa.
+<<Liste as duas ou três regras que são mais críticas para esta seção/extensão, com justificativa de uma linha cada. Ex.: para `13-glossario`, regra 3 (mínimo de termos) é central; para `07-interface-externa`, regra 4 (cobertura exaustiva) é central.>>
 
-### C. Restrições gerais
+## Saída esperada
 
-- **Independência de stack do núcleo é mantida.** O `00-mestre.md` é classificado como **não-núcleo** (assim como variantes/extensões) — pode citar exemplos de stack quando estritamente necessário (ex.: na detecção de monorepo e capacidades a tabela cita nomes concretos como Redis, RabbitMQ etc., porque são sinais técnicos). Mas evite excessos: o mestre é orquestração; especificidade de stack vive em variantes/extensões/condicionais.
-- **Tool-calling nativo.** Todos os prompts assumem que o agente Copilot Chat lê arquivos do projeto destino diretamente. **Proibido instruir o usuário a colar trechos de código, conteúdo de arquivo ou saída de comando dentro do chat.** Frases como "cole aqui", "informe o conteúdo de", "copie e cole" não devem aparecer em nenhum arquivo desta Task.
-- **Caminhos relativos a `padtec/`.** Toda referência a arquivos do pacote usa caminho relativo à raiz `padtec/`. Não usar caminhos absolutos do sistema de arquivos.
-- **Autocontenção do pacote.** Os prompts NÃO podem referenciar Spec, Plan, Tracker ou qualquer artefato APM desta sessão. O pacote é distribuído por cópia e não tem acesso a esses documentos no momento da execução.
+Documento markdown gravado em `<pasta-de-saída>/<NN-slug>.md` (sub-prompts de seção) ou `<pasta-de-saída>/<slug-da-capacidade>.md` (sub-prompts de extensão), com placeholders preenchidos, diretivas executadas, evidências citadas e ausências marcadas com `// CARÊNCIA`.
 
-### D. Verificações automatizadas obrigatórias
+## Comportamento por nível (somente sub-prompts de seção)
+
+<<Quando o sub-prompt cobre uma seção que existe em múltiplos níveis (todas, no caso do núcleo), descreva o que muda. Para seções `01`–`03`: idênticas em L1, L2 e L3 (template já é cópia byte-a-byte). Para seções `04`–`11`: existem em L2 e L3; em L3 podem ter Mermaid adicional ou aprofundamento. Para seções `12`–`15`: somente L3.>>
+
+Se este sub-prompt for invocado com `nível` fora do conjunto suportado, retorne imediatamente sem produzir saída (situação que o `00-mestre.md` previne na resolução do conjunto de seções; este é um guard defensivo).
+
+## Comportamento sob `modo-monorepo: sim` (quando aplicável)
+
+<<Para seções/extensões cujo conteúdo escala por app (ex.: `09-backend`, `08-frontend`, condicionais de `auth`/`banco-de-dados`), descreva que o sub-prompt deve produzir um arquivo por app dentro de `pasta-de-saída/apps/<nome-do-app>/<NN-slug>.md`. Para seções/extensões globais (ex.: `01-visao-geral`, `11-infraestrutura-e-deployment`, `13-glossario`), descreva que o documento permanece único.>>
+````
+
+### B. Lista exata dos 15 sub-prompts de seção a criar
+
+Em `padtec/prompts/secoes/`:
+
+| Arquivo | Existe nos níveis | Naturezas-chave |
+|---|---|---|
+| `01-visao-geral.md` | L1, L2, L3 | prosa de overview do produto/sistema |
+| `02-arquitetura.md` | L1, L2, L3 | diagrama Mermaid `flowchart` em L2/L3 |
+| `03-stack-e-dependencias.md` | L1, L2, L3 | tabelas de versões exatas (regra 5) |
+| `04-estrutura-do-projeto.md` | L2, L3 | árvore de pastas + descrição |
+| `05-modelo-de-dominio.md` | L2, L3 | diagrama Mermaid `erDiagram` em L2/L3 |
+| `06-fluxos-de-negocio.md` | L2, L3 | diagrama Mermaid `sequenceDiagram` em L2/L3 |
+| `07-interface-externa.md` | L2, L3 | diagrama Mermaid `sequenceDiagram` em L2/L3 + tabela de endpoints (regra 4) |
+| `08-frontend.md` | L2, L3 | componentes, rotas, estado |
+| `09-backend.md` | L2, L3 | módulos, controladores, serviços (regra 4 para módulos) |
+| `10-configuracao-e-ambientes.md` | L2, L3 | variáveis de ambiente, perfis, segredos (regra 1 importante) |
+| `11-infraestrutura-e-deployment.md` | L2, L3 | pipeline, ambientes-alvo, IaC |
+| `12-quick-start.md` | L3 | passos numerados executáveis pelo leitor |
+| `13-glossario.md` | L3 | regra 3 central: mínimo 100 termos em L3 |
+| `14-faq-e-troubleshooting.md` | L3 | perguntas e respostas extraídas de issues/READMEs |
+| `15-manutencao-da-documentacao.md` | L3 | quando atualizar, gatilhos, donos |
+
+### C. Lista exata dos 9 sub-prompts de extensão a criar
+
+Em `padtec/prompts/extensoes/`. **Naming usa o slug puro da capacidade**, não o nome do template (que tem prefixo `condicional-`). Cada extensão lê o template `templates/<nível>/condicionais/<arquivo-mapeado>` e produz `<pasta-de-saída>/<slug>.md`.
+
+| Arquivo do sub-prompt | Template lido | Sinais técnicos típicos (já presentes em `00-mestre.md` §iv) |
+|---|---|---|
+| `banco-de-dados.md` | `condicionais/condicional-banco-de-dados.md` | TypeORM, Prisma, Sequelize, `.sql`, migrations, schema files |
+| `cache.md` | `condicionais/condicional-cache.md` | Redis, `cache-manager`, `ioredis`, decorators de cache |
+| `filas-async.md` | `condicionais/condicional-filas-async.md` | Bull, BullMQ, RabbitMQ, Kafka, SQS, decorators `@Process` |
+| `auth.md` | `condicionais/condicional-autenticacao-e-autorizacao.md` | passport, JWT, OAuth, OpenID, guards, middlewares de sessão |
+| `integracoes-externas.md` | `condicionais/condicional-integracoes-externas.md` | clientes HTTP nomeados, SDKs de terceiros |
+| `storage.md` | `condicionais/condicional-armazenamento-de-arquivos.md` | Azure Blob, AWS S3, multer, fs-extra usado para upload |
+| `notificacoes.md` | `condicionais/condicional-notificacoes.md` | SendGrid, Twilio, nodemailer, SMTP, push SDKs |
+| `jobs-agendados.md` | `condicionais/condicional-jobs-agendados.md` | `@nestjs/schedule`, `node-cron`, cron jobs declarados |
+| `multi-tenancy.md` | `condicionais/condicional-multi-tenancy.md` | múltiplas conexões nomeadas, schemas dinâmicos, tenant resolvers |
+
+### D. Restrições gerais
+
+- **Independência de stack do núcleo permanece.** Sub-prompts de seção em `prompts/secoes/` são **não-núcleo** para fins desta restrição? **Não — são núcleo.** Os sub-prompts de seção descrevem **procedimentos genéricos** e não devem nomear frameworks/bibliotecas específicas no corpo do procedimento. Quando precisar dar exemplo de sinal técnico em um sub-prompt de seção (ex.: para 09-backend, "procure decoradores que indiquem controladores HTTP"), use linguagem genérica. Sub-prompts de extensão (em `prompts/extensoes/`) podem nomear stacks livremente — eles existem precisamente para capturar especificidade por capacidade.
+- **Tool-calling nativo.** Todos os sub-prompts assumem agente Copilot Chat com acesso direto a arquivos. **Proibido instruir o usuário a colar trechos no chat.**
+- **Caminhos relativos a `padtec/`.** Referências a templates, ao mestre ou a outros sub-prompts usam caminho relativo à raiz do pacote.
+- **Autocontenção do pacote.** Não referenciar Spec/Plan/Tracker ou qualquer artefato APM desta sessão.
+- **Sem composição entre sub-prompts.** Conforme §vi do mestre: "O sub-prompt **não** procura outros sub-prompts: composição é responsabilidade exclusiva do mestre." Não inclua diretivas tipo "depois desta seção, invoque também...".
+
+### E. Verificações automatizadas obrigatórias
 
 Antes de declarar Success:
 
-1. Estrutura: `ls padtec/prompts/00-mestre.md padtec/prompts/variantes/*.md` lista o mestre e exatamente cinco arquivos de variante com os slugs corretos.
-2. Cobertura dos sete blocos no mestre: `grep -cE '^##? ' padtec/prompts/00-mestre.md` retorna ≥ 7 cabeçalhos; inspecionar visualmente para confirmar que todos os sete blocos (identidade, parâmetros, detecção de variante, detecção de capacidades, detecção de monorepo, sequência de despacho, regras de qualidade) estão presentes.
-3. Sinais técnicos das nove capacidades aparecem literalmente no mestre:
+1. **Contagem exata de arquivos:**
    ```bash
-   for cap in banco-de-dados cache filas-async auth integracoes-externas storage notificacoes jobs-agendados multi-tenancy; do
-     grep -q "$cap" padtec/prompts/00-mestre.md && echo "ok: $cap" || echo "FALTA: $cap"
+   echo "seções: $(ls padtec/prompts/secoes/*.md 2>/dev/null | grep -v gitkeep | wc -l) (esperado 15)"
+   echo "extensões: $(ls padtec/prompts/extensoes/*.md 2>/dev/null | grep -v gitkeep | wc -l) (esperado 9)"
+   ```
+2. **Naming exato de seções (15):**
+   ```bash
+   for f in 01-visao-geral 02-arquitetura 03-stack-e-dependencias 04-estrutura-do-projeto 05-modelo-de-dominio 06-fluxos-de-negocio 07-interface-externa 08-frontend 09-backend 10-configuracao-e-ambientes 11-infraestrutura-e-deployment 12-quick-start 13-glossario 14-faq-e-troubleshooting 15-manutencao-da-documentacao; do
+     [ -f "padtec/prompts/secoes/$f.md" ] && echo "ok: $f" || echo "FALTA: $f"
    done
    ```
-   Todas as nove devem dar `ok`.
-4. Cobertura de stack signals representativos:
+3. **Naming exato de extensões (9):**
    ```bash
-   grep -ciE 'TypeORM|Prisma|Redis|Bull|JWT|Azure Blob|AWS S3|SendGrid' padtec/prompts/00-mestre.md
-   ```
-   Retornar ≥ 6 (presença razoável de sinais técnicos da tabela).
-5. Cada prompt de variante referencia pelo menos um template da Task 2.1 por caminho relativo:
-   ```bash
-   for v in full-stack-web backend-api frontend-site automacao-script iac; do
-     grep -qE 'templates/L[123][^[:space:]]*\.md' "padtec/prompts/variantes/$v.md" && echo "ok: $v" || echo "FALTA refs: $v"
+   for f in banco-de-dados cache filas-async auth integracoes-externas storage notificacoes jobs-agendados multi-tenancy; do
+     [ -f "padtec/prompts/extensoes/$f.md" ] && echo "ok: $f" || echo "FALTA: $f"
    done
    ```
-6. Contrato de invocação de sub-prompts está definido no mestre:
+4. **Cabeçalhos contratuais em todo sub-prompt:** cada arquivo deve conter os blocos `## Parâmetros recebidos do orquestrador`, `## Template a preencher`, `## Procedimento de extração de evidências`, `## Procedimento de preenchimento`, `## Regras de qualidade aplicáveis`, `## Saída esperada`. Execute:
    ```bash
-   grep -iE 'contrato de invoca|invoca.*sub-prompt|leia.*prompts/secoes' padtec/prompts/00-mestre.md
+   for f in padtec/prompts/secoes/*.md padtec/prompts/extensoes/*.md; do
+     [ "$(basename "$f")" = ".gitkeep" ] && continue
+     missing=""
+     for h in "Parâmetros recebidos do orquestrador" "Template a preencher" "Procedimento de extração de evidências" "Procedimento de preenchimento" "Regras de qualidade aplicáveis" "Saída esperada"; do
+       grep -q "$h" "$f" || missing="$missing | $h"
+     done
+     [ -z "$missing" ] && echo "ok: $f" || echo "FALTA em $f: $missing"
+   done
    ```
-   Deve retornar ao menos uma linha.
-7. Ausência de pedidos de colagem manual:
+5. **Os seis parâmetros do contrato aparecem literalmente em todo sub-prompt:**
    ```bash
-   grep -riE 'cole aqui|paste here|informe o conte[uú]do de|copie e cole' padtec/prompts/
+   for f in padtec/prompts/secoes/*.md padtec/prompts/extensoes/*.md; do
+     [ "$(basename "$f")" = ".gitkeep" ] && continue
+     for p in "nível" "variante" "pasta-de-saída" "capacidades-ativas" "modo-monorepo" "raiz-do-projeto-destino"; do
+       grep -q "$p" "$f" || echo "FALTA '$p' em $f"
+     done
+   done
    ```
-   Deve retornar zero ocorrências.
-8. Ausência de emojis decorativos (usar `perl` no macOS, pois BSD `grep` não tem `-P`):
+   Saída ideal: vazia.
+6. **Cada sub-prompt referencia seu template correspondente por caminho:**
    ```bash
-   perl -CSD -ne 'while (/([\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{1F600}-\x{1F64F}])/g) { print "$ARGV:$.: $1\n" }' padtec/prompts/00-mestre.md padtec/prompts/variantes/*.md
+   for f in padtec/prompts/secoes/*.md; do
+     [ "$(basename "$f")" = ".gitkeep" ] && continue
+     grep -qE 'templates/(L[123][^/]*|<n[íi]vel-resolvido>)/' "$f" || echo "FALTA ref template em $f"
+   done
+   for f in padtec/prompts/extensoes/*.md; do
+     [ "$(basename "$f")" = ".gitkeep" ] && continue
+     grep -qE 'condicionais/condicional-' "$f" || echo "FALTA ref condicional em $f"
+   done
    ```
-   Deve retornar zero saídas.
+7. **Independência de stack nos sub-prompts de seção** (extensões podem mencionar):
+   ```bash
+   grep -liE 'NestJS|Next\.js|Express|Django|Spring|SQL Server|PostgreSQL|Redis|TypeORM|Prisma|Bull|RabbitMQ' padtec/prompts/secoes/*.md
+   ```
+   Saída esperada: vazia.
+8. **Ausência de pedidos de colagem manual:**
+   ```bash
+   grep -riE 'cole aqui|paste here|informe o conte[uú]do de|copie e cole' padtec/prompts/secoes/ padtec/prompts/extensoes/
+   ```
+   Saída esperada: vazia.
+9. **Ausência de composição cruzada entre sub-prompts:**
+   ```bash
+   grep -riE 'invoque (o |outro )?sub-prompt|despache .*sub-prompt|carregue .*prompts/(secoes|extensoes)/' padtec/prompts/secoes/ padtec/prompts/extensoes/
+   ```
+   Saída esperada: vazia (a composição é exclusiva do mestre, conforme §vi do `00-mestre.md`).
+10. **Ausência de emojis decorativos** (BSD grep não suporta `-P`; use `perl`):
+    ```bash
+    perl -CSD -ne 'while (/([\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{1F600}-\x{1F64F}])/g) { print "$ARGV:$.: $1\n" }' padtec/prompts/secoes/*.md padtec/prompts/extensoes/*.md
+    ```
+    Saída esperada: vazia.
 
 ## Workspace
 
-- **Worktree (área de trabalho):** `.apm/worktrees/feat-prompt-mestre-e-variantes/` — branch `feat/prompt-mestre-e-variantes`. Realize todas as escritas nesta área. A árvore espelha a raiz: você verá `padtec/templates/`, `padtec/README.md`, `padtec/confluence-mermaid-package/` já presentes (vindos da base) — pode lê-los livremente, **não modificar**.
-- **Runtime APM resolve a partir da raiz do projeto:** O Task Log deve ser gravado na cópia do `.apm/` da raiz do projeto (`/Users/gersonvan/Library/CloudStorage/OneDrive-Pessoal/Documentos/Projetos AVP/Centralizador de Docs/.apm/memory/stage-02/task-02-02.log.md`), não na cópia espelhada dentro do worktree. Leituras de `.apm/memory/stage-1/...` podem ser feitas indistintamente.
-- **Caminho correto para os projetos-fonte (se precisar inspecionar):** `../<projeto>/...` (não `../Projetos AVP/<projeto>/...`). Esses projetos são **somente leitura** — qualquer escrita ali é violação de escopo.
-- **macOS BSD grep não suporta `-P`:** use `perl -CSD -ne` para checagens Unicode (veja exemplos em D.8).
-- **Commit:** após todas as validações passarem, commit no branch `feat/prompt-mestre-e-variantes` com mensagem `<tipo>: <descrição imperativa pt-BR>` (ex.: `feat: cria prompt mestre e prompts de variante do PADTec`). Sem identificadores APM no nome.
-- **Idioma:** pt-BR com acentuação correta, tom técnico-formal, sem emojis decorativos.
+- **Worktree (área de trabalho):** `.apm/worktrees/feat-prompts-secoes-e-extensoes/` — branch `feat/prompts-secoes-e-extensoes`. Faça todas as escritas nesta área. A árvore já contém `padtec/templates/`, `padtec/prompts/00-mestre.md`, `padtec/prompts/variantes/` (vindos da base). Pode lê-los livremente, **não modificar**.
+- **Runtime APM resolve a partir da raiz do projeto:** Task Log em `/Users/gersonvan/Library/CloudStorage/OneDrive-Pessoal/Documentos/Projetos AVP/Centralizador de Docs/.apm/memory/stage-02/task-02-03.log.md`, não na cópia espelhada do worktree.
+- **macOS BSD grep não suporta `-P`:** use `perl -CSD -ne` para checagens Unicode.
+- **Commit:** após validações passarem, commit no branch `feat/prompts-secoes-e-extensoes` com mensagem `feat: cria sub-prompts de seção e extensão do PADTec` (ou descrição imperativa equivalente em pt-BR). Sem identificadores APM no nome.
+- **Idioma:** pt-BR, técnico-formal, sem emojis decorativos.
 
 ## Expected Output
 
-- `padtec/prompts/00-mestre.md` cobrindo os sete blocos (identidade, parâmetros, detecção de variante, detecção de capacidades, detecção de monorepo, sequência de despacho, regras de qualidade) com o contrato de invocação de sub-prompts explicitamente definido.
-- Cinco arquivos em `padtec/prompts/variantes/` com os slugs exatos: `full-stack-web.md`, `backend-api.md`, `frontend-site.md`, `automacao-script.md`, `iac.md`. Cada um com identidade, seções específicas, exemplos de stack, referências cruzadas a templates da Task 2.1, indicação de monorepo quando aplicável, referência às regras de qualidade do mestre.
+- 15 arquivos em `padtec/prompts/secoes/` com naming exato listado em §B.
+- 9 arquivos em `padtec/prompts/extensoes/` com naming exato listado em §C.
+- Todos seguindo a estrutura uniforme de §A com os seis cabeçalhos contratuais, os seis parâmetros do contrato literalmente citados, e referência ao template correspondente por caminho.
 
 ## Validation Criteria
 
-- (a) `00-mestre.md` existe e cobre os sete blocos.
-- (b) Os cinco prompts de variante existem com os slugs exatos.
-- (c) Cada prompt de variante referencia explicitamente ao menos um arquivo de template produzido na Task 2.1 por caminho relativo.
-- (d) O contrato de invocação de sub-prompts está definido em `00-mestre.md` em bloco delimitado e claramente nomeado, em formato consumível pela Task 2.3.
-- (e) Os nove slugs das capacidades aparecem literalmente no procedimento de detecção do mestre.
-- (f) Busca por strings de colagem manual ("cole aqui", "paste here", "informe o conteúdo de", "copie e cole") retorna zero ocorrências em todos os arquivos da Task.
-- (g) Idioma pt-BR, tom técnico-formal, sem emojis decorativos.
+- (a) 15 arquivos `secoes/*.md` + 9 arquivos `extensoes/*.md` com naming exato.
+- (b) Cada sub-prompt contém os seis cabeçalhos contratuais da estrutura uniforme.
+- (c) Cada sub-prompt cita literalmente os seis parâmetros do contrato (`nível`, `variante`, `pasta-de-saída`, `capacidades-ativas`, `modo-monorepo`, `raiz-do-projeto-destino`).
+- (d) Cada sub-prompt de seção referencia seu template em `templates/<nível-resolvido>/<arquivo>` (literal ou pelo padrão `templates/<nível-resolvido>/<NN-slug>.md`); cada sub-prompt de extensão referencia o template `condicionais/condicional-<arquivo>`.
+- (e) Sub-prompts de seção respeitam independência de stack (busca por nomes de framework retorna vazio).
+- (f) Zero pedidos de colagem manual; zero composição cruzada entre sub-prompts; zero emojis decorativos.
+- (g) Idioma pt-BR, tom técnico-formal.
 
 ## Instruction Accuracy
 
-O objetivo e os outputs esperados são autoritativos. Os slugs de variante (`full-stack-web`, `backend-api`, `frontend-site`, `automacao-script`, `iac`) e os de capacidade (lista de nove) são contratuais — devem ser usados exatamente como escritos. Se você detectar incoerência entre os slugs descritos nesta Task e o que o `README.md` do pacote ou o esqueleto canônico usam, o esqueleto canônico é autoritativo; registre a divergência no Task Log para revisão do Manager. Se a inspeção dos templates da Task 2.1 revelar diferença estrutural (ex.: placeholder Mermaid ausente em alguma seção L3 que você presumia ter), ajuste a referência cruzada ao que efetivamente existe e registre no Task Log.
+- O naming dos 15 sub-prompts de seção é **literal** ao naming dos templates do núcleo. Se algum naming acima divergir do que existe em `padtec/templates/L3-aprofundado/`, o nome do template é autoritativo — ajuste o sub-prompt e registre a divergência no Task Log.
+- O naming dos 9 sub-prompts de extensão usa o **slug puro da capacidade** (sem `condicional-`). Conferência cruzada: o `00-mestre.md` §vi.4 prevê `prompts/extensoes/<slug-da-capacidade>.md` — autoritativo. Se você criou a si próprio uma variante na Task 2.2 que diverge desse padrão, ajuste agora.
+- Se durante a redação você identificar que um sub-prompt precisa de uma 7ª seção estrutural não prevista em §A para fazer sentido, adicione-a apenas a esse sub-prompt e registre no Task Log.
 
 ## Task Iteration
 
-Quando uma validação falhar, investigue antes de corrigir: leia a saída de erro, rastreie a causa, entenda o que falhou. Aplique uma mudança direcionada por iteração. Se uma correção não resolver, despache um subagente de debug com instruções estruturadas (erro, o que você investigou e tentou, caminhos relevantes, comportamento esperado vs real). Valide as descobertas do subagente antes de aplicar. Se não resolver após investigação por subagente, reporte com status Partial.
+Quando uma validação falhar, investigue antes de corrigir. Aplique uma mudança direcionada por iteração. Se uma correção não resolver, despache um subagente de debug. Valide descobertas antes de aplicar. Se não resolver após investigação, reporte Partial.
 
 ## Task Logging
 
-Grave o Task Log em `.apm/memory/stage-02/task-02-02.log.md` (a partir da raiz do projeto). Procedimento e formato em `.github/apm-guides/task-logging.md` §3.1 Task Log Procedure.
+Task Log em `.apm/memory/stage-02/task-02-03.log.md` (raiz do projeto). Procedimento em `.github/apm-guides/task-logging.md` §3.1.
 
 ## Task Report
 
-Ao concluir, escreva o Task Report no seu Report Bus (`.apm/bus/prompts-agent/report.md`) para que o usuário o retorne ao Manager via `/apm-5-check-reports`.
+Escreva o Task Report em `.apm/bus/prompts-agent/report.md` ao concluir.
