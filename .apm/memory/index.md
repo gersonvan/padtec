@@ -51,3 +51,27 @@ Commits relevantes: `5099159` (mestre + variantes), `1e7eb42` (merge 2.2), `4d82
 - task-02-02.log.md
 - task-02-03.log.md
 
+### Stage 3 — Costura, Empacotamento e QA Final
+
+Stage concluída com uma única Task (3.1) executada pelo Foundation Agent (mesma instância que executou 1.1 e 1.2). Revisão integrativa estática do pacote inteiro produzido nos Stages 1 e 2, sem criação de novos artefatos do produto e sem execução contra projeto destino.
+
+Duas correções substantivas in-loco foram aplicadas:
+
+1. **`padtec/checklist-qa.md`** — Parte B.1 listava L1 com apenas `01-visao-geral.md` e atribuía `02-arquitetura.md` e `03-stack-e-dependencias.md` como adicionais de L2, contrariando o esqueleto canônico (L1 = três seções 01, 02, 03 conforme acordado na Task 1.1). Reescrito o bloco L1 incluindo as três seções; removidas as duas linhas duplicadas em L2.
+2. **`padtec/guia-humano.md`** — Passo 6 apontava para `README.md` do subpacote `confluence-mermaid-package/`, divergindo do `prompts/00-mestre.md` que referencia `QUICKSTART.md` como entrada operacional. Ajustado para apontar `QUICKSTART.md` (entrada) e `INSTALL.md` (instalação completa) com links relativos.
+
+As duas correções expuseram o valor da Task 3.1: ambas eram incoerências cruzadas pontuais que nenhum Worker individual teria capturado em sua própria Task. Demais artefatos foram validados íntegros: mapeamento 1:1 entre templates L3 e sub-prompts de seção (15↕15, diff vazio), mapeamento triplo capacidade↔condicional L2↔condicional L3↔extensão (9↔9↔9↔9 sem órfãos), caminhos no mestre válidos, independência de stack no núcleo preservada, ausente pedidos de colagem manual e referências a artefatos APM nos arquivos do pacote próprios.
+
+Veredicto registrado sobre emojis: arquivos do subpacote `confluence-mermaid-package/` (CHANGELOG, QUICKSTART, INSTALL, README, how-to) contêm emojis decorativos, mas esse subpacote é ferramenta externa consolidada (Task 1.3) com versionamento próprio, distribuída intocavelmente. Artefatos PADTec próprios (templates, prompts, README, guia, checklist, glossário, VERSION) não contêm emojis decorativos. Gate aprovado.
+
+Registro completo das correções e observações em `.apm/memory/stage-3/correcoes.md`. Esqueleto canônico em `.apm/memory/stage-1/esqueleto-canonico.md` permanece autoritativo — nenhuma atualização necessária.
+
+Commits relevantes: `27bae66` (correções), `bf8fb11` (merge 3.1 em main).
+
+**Task Logs:**
+- task-03-01.log.md
+
+## Project Phase Complete
+
+PADTec v1.0 entregue. Pacote portátil em `padtec/` contém: VERSION (`v1.0` exato, 4 bytes), README + guia humano + checklist QA + glossário base (5 arquivos raiz), 47 templates (3 L1 + 11 L2 + 15 L3 + 9+9 condicionais L2/L3), orquestrador `00-mestre.md` + 5 prompts de variante + 15 sub-prompts de seção + 9 sub-prompts de extensão, e ferramental Confluence consolidado em subpacote próprio. Pacote autocontido (não referencia artefatos APM desta sessão), com independência de stack no núcleo, e pronto para ser copiado a projetos destino conforme `guia-humano.md`.
+
