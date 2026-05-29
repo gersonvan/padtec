@@ -2,6 +2,17 @@
 
 Este guia descreve, em sequência executável, como aplicar o PADTec a um projeto de software para produzir documentação técnica a partir do código-fonte. O guia é direcionado a um leitor humano sem contexto prévio sobre o pacote. Toda execução técnica é feita por um agente de codificação no GitHub Copilot Chat do VS Code — o usuário humano apenas dispara, acompanha e valida.
 
+## Resumo executivo
+
+1. **Copiar** a pasta `padtec/` para a raiz do projeto destino.
+2. **Escolher o nível:** `L1` (essencial), `L2` (completo, padrão) ou `L3` (aprofundado).
+3. **Invocar** no Copilot Chat do projeto destino, em uma mensagem só: apontar para `padtec/prompts/00-mestre.md` e informar o nível.
+4. **Aguardar** o agente detectar variante e capacidades e gerar os arquivos em `docs/`. Lacunas aparecem como `// CARÊNCIA: não identificado no código`.
+5. **Validar** com `padtec/checklist-qa.md`. Pedir correção dos itens reprovados até zerar.
+6. **(Opcional) Publicar** no Confluence via `padtec/confluence-mermaid-package/QUICKSTART.md`.
+
+Detalhes de cada passo nas seções abaixo.
+
 ## Pré-requisitos
 
 - Repositório do projeto destino aberto no VS Code, com acesso à pasta raiz.
