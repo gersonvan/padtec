@@ -6,28 +6,22 @@ title: PADTec — Padrão AVP de Documentação Técnica
 
 ## Task Tracking
 
-**Stage 1:**
-
-| Task | Status | Agent | Branch |
-|------|--------|-------|--------|
-| 1.1 | Done | foundation-agent | |
-| 1.2 | Active | foundation-agent | feat/raiz-do-pacote-padtec |
-| 1.3 | Done | tooling-agent | |
+**Stage 1:** Complete
 
 **Stage 2:**
 
 | Task | Status | Agent | Branch |
 |------|--------|-------|--------|
-| 2.1 | Active | templates-agent | feat/templates-niveis-padtec |
-| 2.2 | Waiting: 2.1 | prompts-agent | |
-| 2.3 | Waiting: 2.1, 2.2 | prompts-agent | |
+| 2.1 | Done | templates-agent | |
+| 2.2 | Active | prompts-agent | feat/prompt-mestre-e-variantes |
+| 2.3 | Waiting: 2.2 | prompts-agent | |
 
 ## Worker Tracking
 
 | Agent | Instance | Notes |
 |-------|----------|-------|
 | foundation-agent | 1 | |
-| templates-agent | 1 | uninitialized |
+| templates-agent | 1 | |
 | prompts-agent | 1 | uninitialized |
 | tooling-agent | 1 | |
 
