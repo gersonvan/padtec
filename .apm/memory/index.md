@@ -32,3 +32,22 @@ Commits relevantes: `1840c1d` (consolidação Confluence), `fb94d65` (merge 1.3)
 - task-01-02.log.md
 - task-01-03.log.md
 
+### Stage 2 — Templates e Prompts Orquestrados
+
+Stage concluída com três Tasks Done em primeira tentativa, sem follow-ups. Workers envolvidos: Templates Agent (2.1) e Prompts Agent (2.2 e 2.3, mesma instância em encadeamento same-agent). Despacho 2.1 em paralelo com 1.2 no início da Stage; 2.2 após 2.1; 2.3 após 2.2 (dependência do contrato de invocação de sub-prompts).
+
+A Task 2.1 produziu 47 templates: 3 + 11 + 15 do núcleo cobrindo L1/L2/L3 com inclusão `L1 ⊂ L2 ⊂ L3` (cópia byte-a-byte) e 9 condicionais por capacidade replicados em L2 e L3. Padrão estrutural uniforme: cabeçalho de regras-duras em comentário HTML, placeholders `<<...>>`, diretivas `<!-- IA: ... -->`, placeholders Mermaid em seções estruturais e todas as L3 adicionais. Independência de stack no núcleo preservada por verificação automática.
+
+A Task 2.2 definiu o orquestrador `padtec/prompts/00-mestre.md` com sete blocos contratuais (identidade, parâmetros, detecção de variante, detecção de capacidades, detecção de monorepo, sequência de despacho com **Contrato de invocação de sub-prompts** em bloco delimitado, e regras de qualidade reproduzidas literalmente) e cinco prompts de variante (`full-stack-web`, `backend-api`, `frontend-site`, `automacao-script`, `iac`), cada um referenciando templates por caminho relativo.
+
+A Task 2.3 entregou 15 sub-prompts de seção (`prompts/secoes/NN-<slug>.md`, 1:1 com o núcleo) e 9 sub-prompts de extensão por capacidade (`prompts/extensoes/<slug>.md`, slug puro sem prefixo `condicional-` conforme contrato do mestre). Estrutura uniforme com seis cabeçalhos contratuais e os seis parâmetros do contrato citados literalmente em cada arquivo. Independência de stack respeitada nas seções; extensões livres para citar stacks. Ausente composição cruzada entre sub-prompts (a composição é exclusiva do mestre).
+
+Observação operacional: durante a remoção do worktree de 2.3 surgiram mudanças de modo (100644 → 100755) em `auth.md` e `cache.md` causadas pelo OneDrive; inofensivas, resolvidas com `git worktree remove --force`. Padrão a observar em próximas Tasks sob este workspace.
+
+Commits relevantes: `5099159` (mestre + variantes), `1e7eb42` (merge 2.2), `4d82b7a` (sub-prompts), `83a0a59` (merge 2.3). O commit `bf4be19`/`869fbda` (Task 2.1) já foi listado no Summary da Stage 1 por ter sido commitado naquela janela.
+
+**Task Logs:**
+- task-02-01.log.md
+- task-02-02.log.md
+- task-02-03.log.md
+

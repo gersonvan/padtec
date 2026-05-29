@@ -8,13 +8,13 @@ title: PADTec — Padrão AVP de Documentação Técnica
 
 **Stage 1:** Complete
 
-**Stage 2:**
+**Stage 2:** Complete
+
+**Stage 3:**
 
 | Task | Status | Agent | Branch |
 |------|--------|-------|--------|
-| 2.1 | Done | templates-agent | |
-| 2.2 | Done | prompts-agent | |
-| 2.3 | Active | prompts-agent | feat/prompts-secoes-e-extensoes |
+| 3.1 | Active | foundation-agent | chore/fechamento-padtec-v1 |
 
 ## Worker Tracking
 
