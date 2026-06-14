@@ -78,7 +78,7 @@ Resumo dos artefatos raiz:
 - `README.md`. Este arquivo. Apresenta o pacote e seus eixos. Primeira leitura para qualquer leitor.
 - `VERSION`. Versão semântica do pacote, leitura por inspeção rápida ou automação.
 - `guia-humano.md`. Roteiro passo a passo do usuário que vai aplicar o pacote a um projeto. Entrada operacional principal.
-- `prompts/`. Conteúdo executado pelo agente no GitHub Copilot Chat do projeto destino. O orquestrador é `00-mestre.md`; sub-prompts complementares ficam em `variantes/`, `secoes/` e `extensoes/`.
+- `prompts/`. Conteúdo executado por um agente com tool-calling nativo no ambiente do projeto destino. O orquestrador é `00-mestre.md`; sub-prompts complementares ficam em `variantes/`, `secoes/` e `extensoes/`.
 - `templates/`. Esqueletos de arquivos por nível. O agente preenche estes esqueletos com conteúdo extraído do código-fonte.
 - `checklist-qa.md`. Lista de verificações objetivas a serem executadas sobre a documentação gerada antes de declarar a entrega aceita.
 - `glossario-base.md`. Conjunto inicial de termos recorrentes. O glossário gerado em cada projeto destino estende esta base com termos específicos do domínio do projeto.
@@ -86,4 +86,4 @@ Resumo dos artefatos raiz:
 
 ## Como começar
 
-A entrada operacional do pacote é o arquivo [guia-humano.md](guia-humano.md). Ele descreve, em sequência executável, as ações que um usuário precisa realizar para aplicar o PADTec a um projeto: copiar o pacote, escolher o nível, invocar o prompt mestre no GitHub Copilot Chat e validar a documentação gerada.
+A entrada operacional do pacote é o arquivo [guia-humano.md](guia-humano.md). Ele descreve, em sequência executável, as ações que um usuário precisa realizar para aplicar o PADTec a um projeto: copiar o pacote, escolher o nível, invocar o prompt mestre em um ambiente de agente com tool-calling nativo e validar a documentação gerada.

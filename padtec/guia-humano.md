@@ -1,6 +1,6 @@
 # Guia humano — aplicar o PADTec a um projeto
 
-Este guia descreve, em sequência executável, como aplicar o PADTec a um projeto de software para produzir documentação técnica a partir do código-fonte. O guia é direcionado a um leitor humano sem contexto prévio sobre o pacote. Toda execução técnica é feita por um agente de codificação no GitHub Copilot Chat do VS Code — o usuário humano apenas dispara, acompanha e valida.
+Este guia descreve, em sequência executável, como aplicar o PADTec a um projeto de software para produzir documentação técnica a partir do código-fonte. O guia é direcionado a um leitor humano sem contexto prévio sobre o pacote. Toda execução técnica é feita por um agente de codificação com tool-calling nativo — o usuário humano apenas dispara, acompanha e valida.
 
 ## Resumo executivo
 
@@ -15,8 +15,8 @@ Detalhes de cada passo nas seções abaixo.
 
 ## Pré-requisitos
 
-- Repositório do projeto destino aberto no VS Code, com acesso à pasta raiz.
-- GitHub Copilot Chat habilitado e funcional no VS Code.
+- Repositório do projeto destino aberto em um ambiente que ofereça acesso nativo aos arquivos do projeto.
+- Agente de chat habilitado e funcional, capaz de usar tool-calling nativo para ler e gravar arquivos.
 - O projeto destino tem código-fonte válido a ser documentado (a documentação reflete o estado atual do código).
 - Permissão de escrita na raiz do projeto destino (o pacote é copiado para lá).
 
@@ -36,9 +36,9 @@ Decida qual dos três níveis de profundidade documental deseja produzir nesta e
 
 Critério prático de escolha: comece em L2. Promova a L3 quando o sistema tiver mais de uma equipe interagindo com ele ou quando o custo de uma decisão errada por falta de documentação for alto. Reserve L1 para projetos pequenos ou efêmeros.
 
-## Passo 3 — Invocar o prompt mestre no GitHub Copilot Chat
+## Passo 3 — Invocar o prompt mestre no ambiente de agente
 
-Com o projeto destino aberto no VS Code, abra o painel do GitHub Copilot Chat. No campo de mensagem, invoque o prompt mestre do PADTec apontando para o arquivo `padtec/prompts/00-mestre.md` da cópia que você fez no Passo 1. Informe explicitamente, na mesma mensagem, o nível alvo escolhido no Passo 2 (`L1`, `L2` ou `L3`).
+Com o projeto destino aberto no ambiente do agente, abra o painel de chat do agente. No campo de mensagem, invoque o prompt mestre do PADTec apontando para o arquivo `padtec/prompts/00-mestre.md` da cópia que você fez no Passo 1. Informe explicitamente, na mesma mensagem, o nível alvo escolhido no Passo 2 (`L1`, `L2` ou `L3`).
 
 O prompt mestre é projetado para um agente com tool-calling nativo — ou seja, o agente lerá os arquivos do projeto e do pacote diretamente. Não cole código nem conteúdo de arquivos na conversa; o agente já tem acesso ao sistema de arquivos.
 
