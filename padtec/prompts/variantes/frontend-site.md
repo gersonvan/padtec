@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Você é o prompt da variante `frontend-site` do PADTec v1.0. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **frontend ou site sem backend aplicacional acoplado** — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro`, sem dependências de framework backend (`@nestjs/core`, `express`, `fastify`, `koa`).
+Você é o prompt da variante `frontend-site` do PADTec v1.0.1. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **frontend ou site sem backend aplicacional acoplado** — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro`, sem dependências de framework backend (`@nestjs/core`, `express`, `fastify`, `koa`).
 
 Esta variante orienta a geração das seções do núcleo enfatizando **roteamento**, **composição de telas**, **gerência de estado**, **integração com APIs externas** e **estratégia de renderização**.
 

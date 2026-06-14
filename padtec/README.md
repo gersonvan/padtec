@@ -87,3 +87,12 @@ Resumo dos artefatos raiz:
 ## Como começar
 
 A entrada operacional do pacote é o arquivo [guia-humano.md](guia-humano.md). Ele descreve, em sequência executável, as ações que um usuário precisa realizar para aplicar o PADTec a um projeto: copiar o pacote, escolher o nível, invocar o prompt mestre em um ambiente de agente com tool-calling nativo e validar a documentação gerada.
+
+## Bibliografia e fontes técnicas recomendadas
+
+Estas fontes servem como base conceitual para os princípios de documentação técnica, engenharia reversa documental e arquitetura de software adotados pelo PADTec. São referências de apoio para apresentação ou estudo, não citações diretas de conteúdo já gerado.
+
+- Ian Sommerville, *Software Engineering*, 10ª edição, Addison-Wesley, 2015.
+- Andrew S. Tanenbaum, *Modern Operating Systems*, 4ª edição, Pearson, 2015.
+- ISO/IEC/IEEE 26514:2008, *Systems and software engineering — Requirements for designers and developers of user documentation*.
+- Martin Fowler, *Refactoring: Improving the Design of Existing Code*, 2ª edição, Addison-Wesley, 2018.
