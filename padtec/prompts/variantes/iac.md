@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Você é o prompt da variante `iac` (Infrastructure as Code) do PADTec v1.0. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **repositório de infraestrutura como código** — manifestos `*.bicep`, `*.tf`/`*.tfstate`, templates ARM, CloudFormation, ou playbooks Ansible — **sem** código aplicacional acoplado (sem `package.json` aplicacional, sem servidor longo-rodando).
+Você é o prompt da variante `iac` (Infrastructure as Code) do PADTec v1.0.1. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **repositório de infraestrutura como código** — manifestos `*.bicep`, `*.tf`/`*.tfstate`, templates ARM, CloudFormation, ou playbooks Ansible — **sem** código aplicacional acoplado (sem `package.json` aplicacional, sem servidor longo-rodando).
 
 Esta variante orienta a geração das seções do núcleo enfatizando **recursos provisionados**, **dependências entre recursos**, **parametrização por ambiente** e **pipeline de aplicação**.
 

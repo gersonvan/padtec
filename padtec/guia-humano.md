@@ -19,6 +19,7 @@ Detalhes de cada passo nas seções abaixo.
 - Agente de chat habilitado e funcional, capaz de usar tool-calling nativo para ler e gravar arquivos.
 - O projeto destino tem código-fonte válido a ser documentado (a documentação reflete o estado atual do código).
 - Permissão de escrita na raiz do projeto destino (o pacote é copiado para lá).
+- Referências de apoio estão listadas na seção “Bibliografia e fontes técnicas recomendadas” do [README.md](README.md).
 
 ## Passo 1 — Copiar a pasta `padtec/` para a raiz do projeto destino
 
