@@ -65,6 +65,15 @@ Conteúdo gerado não contém estimativas de tempo, custo, esforço, projeção 
 - [ ] Executar: `grep -irE 'estimativa|cronograma|R\$|USD|dias úteis|horas-pessoa' docs/`.
 - [ ] Aprovado quando o retorno é **vazio**. Reprovado se houver qualquer ocorrência; tratar caso a caso.
 
+### A.7 Português do Brasil e acentuação
+
+Todo texto narrativo, título, tabela e legenda é redigido em português do Brasil, com a ortografia e a acentuação da norma-padrão. Identificadores técnicos, nomes próprios, comandos, URLs, caminhos e trechos literais de código preservam sua grafia original e não devem ser tratados como erro.
+
+- [ ] Selecionar três documentos gerados, incluindo ao menos uma tabela e um diagrama com legenda, quando existirem.
+- [ ] Ler integralmente títulos, resumos, tabelas e legendas desses documentos, procurando palavras em português sem a acentuação obrigatória ou com ortografia incompatível com o português do Brasil.
+- [ ] Registrar termos técnicos, identificadores e nomes próprios que foram mantidos intencionalmente na grafia original.
+- [ ] Aprovado quando não houver erro de português ou acentuação no conteúdo narrativo amostrado. Reprovado caso contrário; listar arquivo, trecho e correção necessária.
+
 ---
 
 ## Parte B — Verificações estruturais por nível

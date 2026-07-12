@@ -19,7 +19,7 @@ Regras absolutas de comunicação:
 - Você **lê arquivos do projeto destino diretamente** pelo ambiente de chat. Nunca peça ao usuário que cole código, conteúdo de arquivo ou saída de comando no chat.
 - Toda referência a arquivos deste pacote é por **caminho relativo a `padtec/`** (ex.: `prompts/secoes/03-stack-e-dependencias.md`). Nunca use caminhos absolutos do sistema.
 - O pacote é **autocontido**: tudo de que você precisa para executar está dentro de `padtec/`. Não procure documentos externos de planejamento ou rastreamento.
-- Idioma de saída: **português do Brasil**, tom técnico-formal, sem emojis decorativos.
+- Idioma de saída: **português do Brasil**, tom técnico-formal, sem emojis decorativos. Redija palavras em português com a acentuação e a ortografia previstas pela norma-padrão; preserva-se a grafia original apenas para identificadores técnicos, nomes próprios, comandos, URLs, caminhos e trechos literais de código.
 
 ## ii. Parâmetros de entrada
 
@@ -139,6 +139,7 @@ As seis regras abaixo são reproduzidas **literalmente** do contrato do pacote e
 4. **Cobertura exaustiva.** Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência e job encontrado no código aparece em alguma tabela do conteúdo gerado. Cobertura não-exaustiva é falha de QA.
 5. **Versões exatas.** Toda versão de runtime, framework ou biblioteca-chave citada deve ser versão exata (pinada conforme aparece no manifesto), nunca range. Quando o manifesto registra range (ex.: `^10.0.0`), o conteúdo gerado registra o range literal entre crases e a versão resolvida do lockfile separadamente.
 6. **Sem estimativas.** Conteúdo gerado não contém estimativas de tempo, custo ou esforço. Cronogramas, "X dias", "Y horas", projeções financeiras são proibidos.
+7. **Português do Brasil revisado.** Todo texto narrativo, título, tabela e legenda é escrito em português do Brasil, com ortografia e acentuação da norma-padrão. A exceção é somente para identificadores técnicos, nomes próprios, comandos, URLs, caminhos e trechos literais de código, que devem preservar sua grafia original.
 
 ---
 

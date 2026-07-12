@@ -8,7 +8,7 @@ Este guia descreve, em sequência executável, como aplicar o PADTec a um projet
 2. **Escolher o nível:** `L1` (essencial), `L2` (completo, padrão) ou `L3` (aprofundado).
 3. **Invocar** no Copilot Chat do projeto destino, em uma mensagem só: apontar para `padtec/prompts/00-mestre.md` e informar o nível.
 4. **Aguardar** o agente detectar variante e capacidades e gerar os arquivos em `docs/`. Lacunas aparecem como `// CARÊNCIA: não identificado no código`.
-5. **Validar** com `padtec/checklist-qa.md`. Pedir correção dos itens reprovados até zerar.
+5. **Validar** com `padtec/checklist-qa.md`, incluindo a revisão de português do Brasil e acentuação. Pedir correção dos itens reprovados até zerar.
 6. **(Opcional) Publicar** no Confluence via `padtec/confluence-mermaid-package/QUICKSTART.md`.
 
 Detalhes de cada passo nas seções abaixo.
