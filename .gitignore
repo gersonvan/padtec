@@ -6,3 +6,5 @@ node_modules/
 
 # Coordenação interna e material de trabalho (não faz parte do pacote distribuível)
 .apm/
+.github/
+AGENTS.md
