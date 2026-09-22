@@ -652,7 +652,7 @@ graph TD
 
 ---
 
-**Autor:** Documentação baseada na experiência do projeto interno  
+**Autor:** Documentação baseada em experiência real de restauração de documentação técnica  
 **Versão:** 1.0  
 **Data:** Fevereiro 2026
 

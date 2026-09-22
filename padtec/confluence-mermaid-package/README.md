@@ -576,7 +576,7 @@ Este pacote foi desenvolvido internamente para facilitar documentação técnica
 
 ## 🎉 Créditos
 
-Desenvolvido durante a restauração de emergência da documentação Confluence do projeto interno (fevereiro 2026).
+Desenvolvido durante uma restauração emergencial de documentação técnica no Confluence (fevereiro 2026).
 
 **Principais desafios resolvidos:**
 - ✅ Estrutura ADF semântica correta (não mais texto plano em paragraphs)

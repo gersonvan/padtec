@@ -318,7 +318,7 @@ MIT License - Uso interno e externo permitido.
 
 ### 🙏 Acknowledgments
 
-Este pacote foi desenvolvido durante a restauração de emergência da documentação do projeto interno em fevereiro de 2026.
+Este pacote foi desenvolvido durante uma restauração emergencial de documentação técnica em fevereiro de 2026.
 
 **Desafios superados:**
 - ✅ 47 páginas corrompidas restauradas com sucesso
