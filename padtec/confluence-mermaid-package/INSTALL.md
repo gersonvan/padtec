@@ -22,8 +22,8 @@ cp config.template.js config.js
 Edite `config.js` e preencha:
 - **email**: seu-email@dominio.com
 - **token**: [Gere aqui](https://id.atlassian.com/manage-profile/security/api-tokens)
-- **cloudId**: `2045e6ff-7af5-435c-ad95-082238314feb` (exemplo)
-- **spaceId**: `917506` (exemplo)
+- **cloudId**: `SEU_CLOUD_ID_AQUI` (obtenha em `https://api.atlassian.com/oauth/token/accessible-resources`)
+- **spaceId**: `SEU_SPACE_ID_AQUI` (identificador numérico do espaço no Confluence)
 
 ### 3. Pronto! Use agora (30 segundos)
 

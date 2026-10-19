@@ -106,7 +106,7 @@ Execute na ordem abaixo, do início ao fim:
 
 ### Contrato de invocação de sub-prompts
 
-Toda invocação a um sub-prompt (de seção em `prompts/secoes/` ou de extensão em `prompts/extensoes/`) usa **o formato canônico abaixo**, sem variações. Este formato é a API consumida pelos sub-prompts implementados na Task 2.3 e adiante.
+Toda invocação a um sub-prompt (de seção em `prompts/secoes/` ou de extensão em `prompts/extensoes/`) usa **o formato canônico abaixo**, sem variações. Este formato é a interface que todos os sub-prompts assumem.
 
 ```
 Leia integralmente o arquivo `<caminho-relativo-do-sub-prompt-a-partir-de-padtec/>` e execute as instruções nele com os parâmetros abaixo:

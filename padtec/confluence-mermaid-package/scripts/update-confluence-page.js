@@ -146,7 +146,10 @@ async function updatePage(pageId, adfContent, title = null) {
   if (response.statusCode === 200) {
     const result = JSON.parse(response.data);
     console.log(`   ✅ Sucesso! Versão ${result.version.number}`);
-    console.log(`   🔗 URL: https://grupoavp.atlassian.net/wiki/spaces/ung/pages/${pageId}/`);
+    const links = result._links || {};
+    if (links.base && links.webui) {
+      console.log(`   🔗 URL: ${links.base}${links.webui}`);
+    }
     return result;
   } else {
     throw new Error(`HTTP ${response.statusCode}: ${response.data}`);

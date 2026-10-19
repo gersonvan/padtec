@@ -7,12 +7,12 @@ Regras de qualidade aplicáveis a este documento:
 5. Versões exatas: registrar a versão resolvida (do lockfile) sem usar ranges; quando o manifesto usar range, citar o literal do manifesto e a versão resolvida.
 6. Sem estimativas de tempo, custo ou esforço: descrever procedimentos sem prazos.
 
-Esta seção é condicional. Inclua-a na documentação do projeto somente se a capacidade `multi-tenancy` for detectada. Sinais típicos: múltiplas conexões de banco nomeadas por tenant, esquemas dinâmicos resolvidos em tempo de execução, resolvedores de tenant em camada de borda, isolamento de dados por identificador como `collegeId` ou `tenantId`, segregação de recursos compartilhados (cache, filas, armazenamento) por tenant.
+Esta seção é condicional. Inclua-a na documentação do projeto somente se a capacidade `multi-tenancy` for detectada. Sinais típicos: múltiplas conexões de banco nomeadas por tenant, esquemas dinâmicos resolvidos em tempo de execução, resolvedores de tenant em camada de borda, isolamento de dados por identificador como `organizationId` ou `tenantId`, segregação de recursos compartilhados (cache, filas, armazenamento) por tenant.
 -->
 
 # Multi-tenancy
 
-<!-- IA: documente o modelo de isolamento por tenant adotado pelo sistema. Esta é uma seção condicional — citar produtos, padrões e identificadores reais (por exemplo, `collegeId`, `tenantId`) é permitido. Inspire-se em sistemas que isolam por identificador de organização e demonstram fluxo end-to-end de resolução do tenant. -->
+<!-- IA: documente o modelo de isolamento por tenant adotado pelo sistema. Esta é uma seção condicional — citar produtos, padrões e identificadores reais (por exemplo, `organizationId`, `tenantId`) é permitido. Inspire-se em sistemas que isolam por identificador de organização e demonstram fluxo end-to-end de resolução do tenant. -->
 
 ## Modelo de isolamento
 

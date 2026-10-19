@@ -570,7 +570,7 @@ Este pacote foi desenvolvido internamente para facilitar documentação técnica
 
 - **Documentação Mermaid:** https://mermaid.js.org/
 - **API Confluence:** https://developer.atlassian.com/cloud/confluence/
-- **Problemas com o conversor:** Abra issue no repositório interno
+- **Problemas com o conversor:** abra uma issue no repositório do pacote
 
 ---
 

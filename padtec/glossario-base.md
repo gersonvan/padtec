@@ -1,25 +1,8 @@
 # Glossário-base — PADTec
 
-Vocabulário-semente para o glossário do projeto destino. Cada termo tem definição curta de uma a três linhas. O glossário gerado em cada projeto estende esta base com termos específicos do domínio do projeto destino — esta lista cobre vocabulário recorrente identificado nos projetos AVP de referência (educação, arquitetura técnica, processos internos).
+Vocabulário-semente para o glossário do projeto destino. Cada termo tem definição curta de uma a três linhas. O glossário gerado em cada projeto estende esta base com termos específicos do domínio do projeto destino — esta lista cobre vocabulário recorrente recorrente em sistemas de informação (arquitetura técnica e processo documental).
 
 A entrada segue o formato `- **Termo.** Definição curta.`.
-
-## Domínio — educação e gestão acadêmica AVP
-
-- **Aluno.** Pessoa física matriculada em curso oferecido pela instituição, identificada por matrícula única e vinculada a uma ou mais ofertas.
-- **Matrícula.** Vínculo formal entre um aluno e um curso ou disciplina em um período letivo específico; carrega situação acadêmica e financeira.
-- **Oferta de disciplina.** Instância concreta de uma disciplina disponibilizada em um período letivo, polo e turma, com vagas e plano de ensino próprios.
-- **Plano de ensino.** Documento estruturado que descreve ementa, objetivos, conteúdo programático e bibliografia de uma oferta de disciplina.
-- **Polo.** Unidade física ou virtual onde alunos recebem suporte presencial; relevante para cursos a distância e semipresenciais.
-- **Disciplina.** Componente curricular com identidade própria (código, carga horária, ementa); instanciada como oferta a cada período letivo.
-- **Curso.** Programa acadêmico de graduação, pós-graduação ou extensão composto por um conjunto de disciplinas obrigatórias e eletivas.
-- **Unidade.** Subdivisão organizacional da instituição (centro, faculdade, escola) responsável por oferecer cursos e disciplinas.
-- **Professor.** Pessoa que ministra disciplinas em ofertas específicas; pode acumular papéis de coordenador ou tutor.
-- **Coordenador.** Pessoa responsável administrativa e pedagogicamente por um curso, unidade ou polo.
-- **Período letivo.** Janela temporal (semestre, trimestre, módulo) durante a qual ofertas de disciplina ocorrem.
-- **Lyceum.** Sistema acadêmico de gestão (ERP) integrado pelos sistemas AVP como fonte autoritativa de dados acadêmicos e cadastrais.
-- **Diploma digital.** Documento de conclusão de curso emitido em formato eletrônico assinado digitalmente, conforme regulamentação aplicável.
-- **Ementa.** Texto que descreve sucintamente o conteúdo de uma disciplina; parte do plano de ensino.
 
 ## Arquitetura — termos técnicos transversais
 
@@ -43,7 +26,7 @@ A entrada segue o formato `- **Termo.** Definição curta.`.
 - **Mermaid.** Linguagem de marcação textual para descrição de diagramas (fluxo, sequência, entidade-relacionamento, classe, estado) renderizados visualmente.
 - **ADF.** Atlassian Document Format; representação JSON de conteúdo rico aceita pelas APIs do Confluence.
 
-## Processo — vocabulário PADTec e APM
+## Processo — vocabulário PADTec
 
 - **PADTec.** Padrão Documental Técnico; este pacote, voltado a engenharia reversa documental de sistemas de software.
 - **Engenharia reversa documental.** Processo de produzir documentação técnica a partir do código-fonte existente, com direção estrita código → documentação.
@@ -57,8 +40,3 @@ A entrada segue o formato `- **Termo.** Definição curta.`.
 - **Evidência rastreável.** Citação no formato `arquivo:linha` ou `arquivo` que ancora uma afirmação técnica do conteúdo gerado a um ponto verificável do código.
 - **Marcador de carência.** Texto literal `// CARÊNCIA: não identificado no código`, gravado em seções para as quais o código não fornece evidência suficiente.
 - **Cobertura exaustiva.** Regra de qualidade que exige que todo elemento estrutural do código (rota, controlador, entidade, job) apareça em alguma tabela do conteúdo gerado.
-- **APM.** Agentic Project Management; framework de coordenação de execução por agentes adotado no desenvolvimento deste pacote.
-- **Stage.** Etapa de execução do APM, agrupa Tasks relacionadas dentro de um Plan.
-- **Task.** Unidade de trabalho atribuída pelo Manager a um Worker no APM, com objetivo, instruções, critérios de validação e log.
-- **Worker.** Agente do APM dedicado à execução de Tasks de uma especialidade.
-- **Baseline.** Conjunto de referências autorizadas usadas como ponto de partida para uma síntese documental; documento que registra essa escolha.
