@@ -121,6 +121,7 @@ function parseInlineMarks(text) {
  * Converte Markdown para ADF
  */
 function markdownToAdf(markdown) {
+  markdown = markdown.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
   const lines = markdown.split('\n');
   const content = [];
   let i = 0;

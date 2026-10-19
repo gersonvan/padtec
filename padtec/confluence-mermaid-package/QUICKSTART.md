@@ -150,8 +150,10 @@ const PAGE_MAPPING = {
 Execute:
 
 ```bash
-node scripts/batch-update-pages.js
+node scripts/batch-update-pages.js docs/.adf-output
 ```
+
+O primeiro argumento é a pasta dos arquivos `.adf.json` gerados no passo anterior. Sem argumento, o script usa `options.adfDirectory` do `config.js` ou, na falta dela, `adf-files/` ao lado do pacote.
 
 ---
 
