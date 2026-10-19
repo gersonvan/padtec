@@ -37,7 +37,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 1 (Evidência rastreável):** cada fluxo, política e tempo de vida cita `arquivo:linha`.
 - **Regra 2 (Anti-alucinação):** **nunca** documente segredos, parâmetros sensíveis (chaves privadas, client secrets) ou políticas inferidas sem evidência clara. Registre `// CARÊNCIA` em vez de presumir.

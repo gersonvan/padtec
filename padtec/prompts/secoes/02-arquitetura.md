@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 1 (Evidência rastreável):** cada camada, dependência ou decisão arquitetural cita `arquivo:linha` ou `arquivo` que a evidencia.
 - **Regra 2 (Anti-alucinação):** quando uma decisão arquitetural for inferida sem documento ou padrão de código claro, registre `// CARÊNCIA`.

@@ -60,7 +60,7 @@ Quando o orquestrador detectou monorepo (sinais como `nx.json`, `pnpm-workspace.
 
 ## 6. Regras de qualidade
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas no bloco vii do `prompts/00-mestre.md`. Não as reproduza neste arquivo nem nas saídas: o `00-mestre.md` é a referência autoritativa.
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas no bloco vii do `prompts/00-mestre.md`. Não as reproduza neste arquivo nem nas saídas: o `00-mestre.md` é a referência autoritativa.
 
 ---
 

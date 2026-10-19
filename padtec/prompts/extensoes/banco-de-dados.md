@@ -37,7 +37,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** toda tabela/coleção identificada no schema aparece no documento.
 - **Regra 1 (Evidência rastreável):** cada tabela, índice, restrição e política cita `arquivo:linha`.

@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 3 (Glossário mínimo):** esta seção é o exemplar canônico da regra. Mínimo: **30 termos em `L1`**, **60 em `L2`**, **100 em `L3`**. Quando o glossário ficar abaixo do mínimo, amplie a busca a novas fontes (logs, exceptions com mensagem, arquivos de fixture, nomes de teste) antes de finalizar.
 - **Regra 1 (Evidência rastreável):** cada termo cita pelo menos um ponto no código onde aparece.

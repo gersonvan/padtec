@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 1 (Evidência rastreável):** cada passo do fluxo cita `arquivo:linha` do código que o implementa.
 - **Regra 2 (Anti-alucinação):** quando uma etapa for inferida sem código que a sustente, registre `// CARÊNCIA` em vez de presumir.

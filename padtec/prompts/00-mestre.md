@@ -131,12 +131,12 @@ Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do
 
 ## vii. Regras de qualidade
 
-As seis regras abaixo são reproduzidas **literalmente** do contrato do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
+As sete regras abaixo são o contrato de qualidade do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
 
 1. **Evidência rastreável.** Toda afirmação técnica em conteúdo gerado deve citar `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural e não pontual) do código-fonte do projeto destino. Formato sugerido: nota de rodapé ou citação inline.
 2. **Anti-alucinação.** Quando o sub-prompt requisita uma seção mas a evidência não é encontrada no código, o conteúdo gerado registra o marcador literal `// CARÊNCIA: não identificado no código` no lugar da afirmação. Proibido inferir além do código.
 3. **Glossário mínimo.** Toda execução produz um documento de glossário com no mínimo **30 termos** identificados no código (nomes de domínio, entidades, abreviações usadas no projeto). Em L2 o mínimo sobe para 60; em L3, 100.
-4. **Cobertura exaustiva.** Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência e job encontrado no código aparece em alguma tabela do conteúdo gerado. Cobertura não-exaustiva é falha de QA.
+4. **Cobertura exaustiva.** Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência, fila, job e integração encontrados no código aparecem em alguma tabela do conteúdo gerado. Cobertura não-exaustiva é falha de QA.
 5. **Versões exatas.** Toda versão de runtime, framework ou biblioteca-chave citada deve ser versão exata (pinada conforme aparece no manifesto), nunca range. Quando o manifesto registra range (ex.: `^10.0.0`), o conteúdo gerado registra o range literal entre crases e a versão resolvida do lockfile separadamente.
 6. **Sem estimativas.** Conteúdo gerado não contém estimativas de tempo, custo ou esforço. Cronogramas, "X dias", "Y horas", projeções financeiras são proibidos.
 7. **Português do Brasil revisado.** Todo texto narrativo, título, tabela e legenda é escrito em português do Brasil, com ortografia e acentuação da norma-padrão. A exceção é somente para identificadores técnicos, nomes próprios, comandos, URLs, caminhos e trechos literais de código, que devem preservar sua grafia original.

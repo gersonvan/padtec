@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 5 (Versões exatas):** esta seção é o exemplar canônico da regra. Toda versão citada é a resolvida do lockfile; ranges aparecem separadamente com a fonte do manifesto identificada.
 - **Regra 1 (Evidência rastreável):** cada entrada de tabela cita o caminho do manifesto/lockfile que a evidencia.

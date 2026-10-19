@@ -36,7 +36,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** a lista de rotas top-level cobre todas as rotas declaradas no projeto.
 - **Regra 1 (Evidência rastreável):** cada decisão de roteamento, estado e renderização cita `arquivo:linha` ou `arquivo`.

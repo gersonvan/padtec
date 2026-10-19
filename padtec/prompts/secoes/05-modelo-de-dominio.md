@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** toda entidade de persistência identificada no código aparece no diagrama e na tabela de entidades. Cobertura parcial é falha de QA.
 - **Regra 1 (Evidência rastreável):** cada entidade, atributo, relacionamento e invariante cita `arquivo:linha`.

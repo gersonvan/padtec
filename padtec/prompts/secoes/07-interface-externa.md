@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** esta seção é o exemplar canônico da regra. **Toda** rota e **todo** manipulador de mensagem do sistema aparece em alguma tabela. Cobertura parcial é falha de QA.
 - **Regra 1 (Evidência rastreável):** cada linha de tabela cita `arquivo:linha` da definição.

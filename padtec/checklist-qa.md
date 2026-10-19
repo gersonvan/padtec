@@ -1,12 +1,12 @@
 # Checklist de QA — documentação gerada pelo PADTec
 
-Verificações objetivas a executar sobre a documentação produzida pelo PADTec antes de declarar a entrega aceita. Cada item é binário (sim/não), uma contagem numérica ou uma checagem de presença/ausência de arquivo. Itens estão organizados em duas partes: regras-duras de qualidade e verificações estruturais por nível.
+Verificações objetivas a executar sobre a documentação produzida pelo PADTec antes de declarar a entrega aceita. Cada item é binário (sim/não), uma contagem numérica ou uma checagem de presença/ausência de arquivo. Itens estão organizados em duas partes: regras duras de qualidade e verificações estruturais por nível.
 
 Notação: `✅` aprovado; `❌` reprovado; quando o item requer contagem ou amostra, registre o valor observado ao lado.
 
 ---
 
-## Parte A — Regras-duras de qualidade
+## Parte A — Regras duras de qualidade
 
 ### A.1 Evidência rastreável
 
@@ -41,12 +41,14 @@ O arquivo `13-glossario.md` (ou equivalente conforme o nível) contém o número
 
 ### A.4 Cobertura exaustiva
 
-Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência e job presente no código aparece em pelo menos uma tabela de algum documento gerado.
+Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência, fila, job e integração presentes no código aparecem em pelo menos uma tabela de algum documento gerado.
 
 - [ ] Extrair do código a lista total de rotas HTTP (decoradores ou roteamento declarado).
 - [ ] Extrair do código a lista total de classes anotadas como controlador ou equivalente.
 - [ ] Extrair do código a lista total de entidades de persistência (classes anotadas como entidade, schemas, modelos).
 - [ ] Extrair do código a lista total de jobs (tarefas agendadas, processadores de fila).
+- [ ] Extrair do código a lista total de filas, tópicos e canais de mensageria (produtores e consumidores declarados).
+- [ ] Extrair do código a lista total de integrações externas (clientes HTTP nomeados, SDKs de terceiros configurados).
 - [ ] Para cada item extraído, verificar presença do nome em alguma tabela de algum arquivo `.md` em `docs/`.
 - [ ] Aprovado quando **cem por cento** dos itens extraídos aparecem em tabela. Reprovado caso contrário; listar omissões.
 
