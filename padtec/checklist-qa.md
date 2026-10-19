@@ -28,7 +28,7 @@ Quando o sub-prompt requisita uma seção mas o código não fornece evidência,
 
 ### A.3 Glossário mínimo
 
-O arquivo `13-glossario.md` (ou equivalente conforme o nível) contém o número mínimo de termos exigido pelo nível alvo.
+O arquivo `13-glossario.md`, gerado em todos os níveis, contém o número mínimo de termos exigido pelo nível alvo.
 
 | Nível | Mínimo de termos |
 |---|---|
@@ -36,7 +36,7 @@ O arquivo `13-glossario.md` (ou equivalente conforme o nível) contém o número
 | L2 | 60 |
 | L3 | 100 |
 
-- [ ] Executar contagem: `grep -cE "^- \*\*" docs/13-glossario.md` (ou padrão equivalente adotado pelo template).
+- [ ] Executar contagem: `grep -cE "^\| [^|-]" docs/13-glossario.md` e descontar uma linha de cabeçalho por tabela (o template tem seis tabelas, uma por categoria).
 - [ ] Aprovado quando a contagem é maior ou igual ao mínimo do nível alvo. Reprovado caso contrário; registrar a contagem observada.
 
 ### A.4 Cobertura exaustiva
@@ -84,12 +84,13 @@ Todo texto narrativo, título, tabela e legenda é redigido em português do Bra
 
 Cada nível alvo tem um conjunto mínimo de arquivos cuja presença é obrigatória. Os nomes seguem o padrão `NN-slug-em-kebab-case.md`.
 
-**L1 — Essencial** (três seções do núcleo):
+**L1 — Essencial** (três seções do núcleo e o glossário):
 
 - [ ] `README.md` na raiz do projeto destino, atualizado pelo agente ou criado.
 - [ ] `docs/01-visao-geral.md` presente.
 - [ ] `docs/02-arquitetura.md` presente.
 - [ ] `docs/03-stack-e-dependencias.md` presente.
+- [ ] `docs/13-glossario.md` presente (gerado em todos os níveis).
 
 **L2 — Completo:** além dos arquivos de L1,
 
@@ -105,7 +106,6 @@ Cada nível alvo tem um conjunto mínimo de arquivos cuja presença é obrigató
 **L3 — Aprofundado:** além dos arquivos de L2,
 
 - [ ] `docs/12-quick-start.md` presente.
-- [ ] `docs/13-glossario.md` presente.
 - [ ] `docs/14-faq-e-troubleshooting.md` presente.
 - [ ] `docs/15-manutencao-da-documentacao.md` presente.
 
@@ -135,7 +135,7 @@ A partir do nível L2, certos documentos exigem diagramas Mermaid mínimos.
 
 ### B.4 Glossário com estrutura mínima
 
-Cada entrada do glossário tem termo em negrito seguido de definição curta, e quando aplicável, exemplo de uso ou categoria.
+Cada entrada do glossário ocupa uma linha de tabela com o termo na primeira coluna, a definição na segunda e, quando aplicável, exemplo de uso e evidência nas colunas seguintes.
 
 - [ ] Amostrar dez entradas do `13-glossario.md`.
 - [ ] Para cada uma, verificar presença de termo destacado e definição.

@@ -9,15 +9,17 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 ## Template a preencher
 
-Leia integralmente `templates/L3-aprofundado/13-glossario.md`. Esta seção existe **apenas em `L3`**, embora a regra 3 (glossário mínimo) seja aplicável a todos os níveis com mínimos diferentes — a seção dedicada é responsabilidade do `L3`.
+Leia integralmente `templates/<nível-resolvido>/13-glossario.md`, onde `<nível-resolvido>` é `L1-essencial` para `L1`, `L2-completo` para `L2`, `L3-aprofundado` para `L3`. Esta seção é gerada em **todos os níveis**, com mínimos distintos de termos (30 em `L1`, 60 em `L2`, 100 em `L3`); o template é o mesmo nos três níveis.
 
 ## Procedimento de extração de evidências
 
 Execute, em `raiz-do-projeto-destino`:
+
+Leia primeiro `glossario-base.md`, na raiz do pacote, e separe os termos aplicáveis ao projeto — aqueles cujo conceito aparece no código. Eles entram no glossário com a definição da semente, acrescida da evidência local; termos da semente sem ocorrência no código ficam de fora.
 
 1. Catalogue termos de **domínio** lendo nomes de entidades (do modelo de domínio), atributos significativos, métodos de domínio e papéis declarados em código.
 2. Catalogue termos **técnicos** específicos ao sistema: padrões internos nomeados (ex.: nome próprio de um padrão de organização), abreviações usadas consistentemente (em nomes de arquivo, em logs, em commits), camadas/categorias internas com nome próprio.
@@ -45,7 +47,7 @@ Documento markdown gravado em `<pasta-de-saída>/13-glossario.md`, com termos or
 
 ## Comportamento por nível
 
-A seção dedicada existe em `L3`. Em `L1` e `L2`, o glossário pode aparecer como anexo de outra seção; o `00-mestre.md` decide quando despachar este sub-prompt. Se invocado com `nível` fora de `L1|L2|L3`, retorne sem produzir saída.
+A seção é gerada em `L1`, `L2` e `L3`, variando apenas o mínimo de termos exigido. Se invocado com `nível` fora de `L1|L2|L3`, retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 

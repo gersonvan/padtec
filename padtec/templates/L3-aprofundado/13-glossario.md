@@ -11,7 +11,7 @@ Regras de qualidade aplicáveis a este documento:
 
 # Glossário
 
-<!-- IA: o glossário deve conter, no mínimo, 100 termos em L3, 60 em L2 e 30 em L1 (este nível). Organize por categoria (Domínio, Arquitetura, Operação, Dados, Interface, Segurança). Dentro de cada categoria, ordene alfabeticamente. Cada termo deve apontar o ponto de codificação (`arquivo:linha`) quando o termo for materializado no código. Definição local prevalece sobre definição genérica. -->
+<!-- IA: o glossário deve conter, no mínimo, 30 termos em `L1`, 60 em `L2` e 100 em `L3`. Organize por categoria (Domínio, Arquitetura, Dados, Interface, Operação, Segurança). Dentro de cada categoria, ordene alfabeticamente. Cada termo deve apontar o ponto de codificação (`arquivo:linha`) quando o termo for materializado no código. Definição local prevalece sobre definição genérica. -->
 
 ## Como ler
 

@@ -43,10 +43,10 @@ Execute os passos abaixo **em ordem**, lendo os arquivos do projeto destino dire
 
 1. **Listar a raiz e detectar manifestos de projeto.** Procure por: `package.json`, `pom.xml`, `build.gradle` ou `build.gradle.kts`, `requirements.txt` ou `pyproject.toml`, `*.csproj` ou `*.sln`, `go.mod`, `Cargo.toml`, e manifestos de infraestrutura como código (`*.bicep`, `*.tf`, `*.tfstate`, `*.yaml` de CloudFormation, playbooks Ansible).
 2. **Detectar estrutura de diretórios.** Observe presença de `apps/`, `packages/`, `src/`, `pages/` ou `app/` (convenção Next.js), `infra/` ou `bicep/`, `scripts/` ou `bin/` (CLIs/scripts), `cmd/` (Go).
-3. **Detectar pasta de saída.** Procure, nesta ordem, por `docs/`, `documentation/`, `documentacao/` na raiz. Se nenhuma existir, crie `docs/`. A pasta resolvida é a `pasta-de-saída` repassada a cada sub-prompt.
+3. **Detectar pasta de saída.** Procure, nesta ordem, por `docs/`, `documentation/`, `documentacao/` na raiz. Se nenhuma existir, crie `docs/`. A pasta resolvida é a `pasta-de-saída` repassada a cada sub-prompt. Ao reexecutar o PADTec, regenere integralmente os arquivos que pertencem ao conjunto gerado (`NN-<slug>.md` e `condicional-<slug>.md`); não altere nem remova outros arquivos presentes na pasta de saída.
 4. **Resolver variante por árvore de decisão.** Aplique as regras abaixo em ordem; pare na primeira que casar:
    - Há manifestos `*.bicep`, `*.tf` ou playbooks Ansible **e não há** `package.json` aplicacional nem outro manifesto de aplicação na raiz → **`iac`**.
-   - Há `package.json` com `dependencies.next`, `dependencies.nuxt`, `dependencies.vite`, `dependencies.svelte` ou `dependencies.astro` **sem** dependências de framework backend acopladas (Nest, Express, Fastify, Koa) → **`frontend-site`**.
+   - Há `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro` em `dependencies` ou `devDependencies` **sem** dependências de framework backend acopladas (Nest, Express, Fastify, Koa) → **`frontend-site`**.
    - Há `package.json` com framework backend (`@nestjs/core`, `express`, `fastify`, `koa`) **ou** manifestos backend não-JS (`pom.xml`, `*.csproj`, `requirements.txt` com Django/FastAPI/Flask, `go.mod` com servidor HTTP), **sem** frontend aplicacional acoplado → **`backend-api`**.
    - Há **ambos** frontend e backend no mesmo repositório — seja em raiz única (ex.: `package.json` com `next` e `@nestjs/core`) seja em estrutura `apps/web` + `apps/api`/`apps/backend` — → **`full-stack-web`**.
    - Não há manifestos aplicacionais nem de IaC, mas há scripts em `scripts/`, `bin/`, `cmd/` ou um único arquivo executável de entrada → **`automacao-script`**.
@@ -95,13 +95,13 @@ Execute na ordem abaixo, do início ao fim:
 
 1. **Carregar variante.** Leia integralmente `prompts/variantes/<slug>.md`, onde `<slug>` é a variante resolvida em iii.4. Esse arquivo descreve ênfases específicas, exemplos de stack típicos e referências cruzadas a templates.
 2. **Resolver conjunto de seções.** O nível alvo (`L1`, `L2`, `L3`) define o subconjunto do núcleo a gerar:
-   - **L1:** seções `01`, `02`, `03`.
-   - **L2:** seções `01` a `11`.
+   - **L1:** seções `01`, `02`, `03` e `13`.
+   - **L2:** seções `01` a `11` e `13`.
    - **L3:** seções `01` a `15`.
-   Além disso, para cada capacidade ativa detectada em iv, a seção condicional correspondente entra no conjunto.
+   Além disso, para cada capacidade ativa detectada em iv, a seção condicional correspondente entra no conjunto. As seções condicionais existem apenas em `L2` e `L3`; em `L1`, as extensões não produzem saída.
 3. **Despacho do núcleo.** Para cada seção do núcleo no nível alvo, invoque o sub-prompt de seção em `prompts/secoes/NN-<slug>.md` conforme o **contrato de invocação de sub-prompts** definido abaixo. Sub-prompts de seção são autoritativos para o conteúdo gerado; o mestre apenas despacha e repassa parâmetros.
 4. **Despacho de extensões por capacidade.** Para cada capacidade ativa, invoque o sub-prompt de extensão em `prompts/extensoes/<slug-da-capacidade>.md`, também pelo mesmo contrato. Esses sub-prompts produzem ou enriquecem as seções condicionais correspondentes em `pasta-de-saída/`.
-5. **Pós-execução: QA.** Ao final, aponte explicitamente o usuário para `checklist-qa.md` e descreva como percorrê-lo. O checklist é gate humano antes de qualquer publicação.
+5. **Pós-execução: QA.** Ao final, execute os itens mecânicos de `checklist-qa.md` (A.2, A.3, A.6 e B.1 — buscas, contagens e presença de arquivos) e reporte o resultado de cada um. Em seguida, aponte explicitamente o usuário para os itens de amostragem e leitura (A.1, A.4, A.5, A.7 e B.2 a B.4), que são gate humano antes de qualquer publicação.
 6. **Publicação no Confluence (condicional).** Se o usuário pediu publicação no Confluence, consulte `confluence-mermaid-package/QUICKSTART.md` para o procedimento; não tente publicar sem o checklist QA aprovado.
 
 ### Contrato de invocação de sub-prompts
@@ -116,7 +116,7 @@ Leia integralmente o arquivo `<caminho-relativo-do-sub-prompt-a-partir-de-padtec
 - pasta-de-saída: <caminho-relativo-no-projeto-destino>
 - capacidades-ativas: <lista-de-slugs-separada-por-vírgula-ou-vazia>
 - modo-monorepo: <sim|não>
-- raiz-do-projeto-destino: <caminho-absoluto-ou-".">
+- raiz-do-projeto-destino: <caminho-relativo-ao-workspace-ou-".">
 ```
 
 Regras do contrato:
@@ -126,14 +126,15 @@ Regras do contrato:
 - Quando não houver capacidades ativas, repasse `capacidades-ativas: (vazio)`.
 - Quando `modo-monorepo: sim`, o sub-prompt pode emitir um documento por app; o orquestrador apenas observa a saída.
 - O sub-prompt **não** procura outros sub-prompts: composição é responsabilidade exclusiva do mestre.
+- Os sub-prompts executam no mesmo contexto deste mestre: a variante carregada em vi.1 e os parâmetros resolvidos permanecem disponíveis a eles.
 
-Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do próximo. Não dispare múltiplos em paralelo — alguns sub-prompts dependem de saídas de outros (ex.: `condicional-banco-de-dados.md` é referenciado por `05-modelo-de-dominio.md`).
+Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do próximo. Não dispare múltiplos em paralelo: a ordem numérica satisfaz as dependências existentes (`13-glossario.md` consolida termos de `05-modelo-de-dominio.md`; `14-faq-e-troubleshooting.md` referencia `12-quick-start.md`; `15-manutencao-da-documentacao.md` referencia todos os anteriores).
 
 ## vii. Regras de qualidade
 
 As sete regras abaixo são o contrato de qualidade do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
 
-1. **Evidência rastreável.** Toda afirmação técnica em conteúdo gerado deve citar `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural e não pontual) do código-fonte do projeto destino. Formato sugerido: nota de rodapé ou citação inline.
+1. **Evidência rastreável.** Toda afirmação técnica em conteúdo gerado deve citar `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural e não pontual) do código-fonte do projeto destino. Formato sugerido: nota de rodapé ou citação inline. Caminhos citados são relativos à raiz do projeto destino.
 2. **Anti-alucinação.** Quando o sub-prompt requisita uma seção mas a evidência não é encontrada no código, o conteúdo gerado registra o marcador literal `// CARÊNCIA: não identificado no código` no lugar da afirmação. Proibido inferir além do código.
 3. **Glossário mínimo.** Toda execução produz um documento de glossário com no mínimo **30 termos** identificados no código (nomes de domínio, entidades, abreviações usadas no projeto). Em L2 o mínimo sobe para 60; em L3, 100.
 4. **Cobertura exaustiva.** Toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência, fila, job e integração encontrados no código aparecem em alguma tabela do conteúdo gerado. Cobertura não-exaustiva é falha de QA.
