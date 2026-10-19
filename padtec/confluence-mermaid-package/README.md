@@ -288,7 +288,7 @@ Edite `scripts/convert-md-to-adf.js` na função que cria o macro:
 
 ### Adicionar mais tipos de blocos
 
-Para adicionar suporte a novos tipos de blocos (ex: callouts, panels), edite a função `convertMarkdownToADF()` em `convert-md-to-adf.js`.
+Para adicionar suporte a novos tipos de blocos (ex: callouts, panels), edite a função `markdownToAdf()` em `scripts/convert-md-to-adf.js`.
 
 ---
 
