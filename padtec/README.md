@@ -1,6 +1,6 @@
 # PADTec
 
-**Padrão Documental Técnico** — pacote de engenharia reversa documental.
+**Padrão Automatizado de Documentação Técnica** — pacote de engenharia reversa documental.
 
 ## Identidade
 
@@ -24,17 +24,17 @@ A geração documental é configurada por três escolhas independentes:
 | `backend-api` | Serviço de API isolado, sem frontend próprio |
 | `frontend-site` | Aplicação de página única (SPA) ou site estático/server-side rendering |
 | `automacao-script` | Ferramentas de linha de comando, scripts de automação, utilitários de processamento em lote |
-| `iac` | Infraestrutura como código (Bicep, Terraform, ARM) |
+| `iac` | Infraestrutura como código (Bicep, Terraform, ARM, CloudFormation, Ansible) |
 
 ### Níveis
 
 | Nível | Pasta | Volume aproximado |
 |---|---|---|
-| L1 — Essencial | `templates/L1-essencial/` | README robusto e um documento de visão geral |
-| L2 — Completo | `templates/L2-completo/` | 10 a 14 documentos cobrindo arquitetura, modelo, interface externa e operação |
-| L3 — Aprofundado | `templates/L3-aprofundado/` | Aproximadamente 30 documentos, com quick-start, glossário extenso, FAQ e guia de manutenção da documentação |
+| L1 — Essencial | `templates/L1-essencial/` | Quatro documentos: visão geral, arquitetura, stack e glossário |
+| L2 — Completo | `templates/L2-completo/` | Onze documentos de núcleo (nove quando a variante não tem frontend ou backend), glossário e até nove seções condicionais |
+| L3 — Aprofundado | `templates/L3-aprofundado/` | Quinze documentos de núcleo e até nove seções condicionais, incluindo quick-start, glossário extenso, FAQ e guia de manutenção da documentação |
 
-Relação de inclusão: `L1 ⊂ L2 ⊂ L3`. Todo conteúdo de um nível inferior aparece nos níveis superiores, sempre com profundidade incremental.
+Relação de inclusão: `L1 ⊂ L2 ⊂ L3`. Todo conteúdo de um nível inferior aparece nos níveis superiores, com amplitude incremental: cada nível acrescenta seções ao anterior.
 
 ### Capacidades condicionais
 
@@ -50,7 +50,7 @@ Relação de inclusão: `L1 ⊂ L2 ⊂ L3`. Todo conteúdo de um nível inferior
 | `jobs-agendados` | Tarefas periódicas com gatilho temporal |
 | `multi-tenancy` | Isolamento de dados e recursos por tenant |
 
-Quando uma capacidade é detectada no código, uma seção condicional correspondente é instanciada nos templates do nível escolhido.
+Quando uma capacidade é detectada no código, uma seção condicional correspondente é instanciada a partir do template condicional (nos níveis L2 e L3).
 
 ## Estrutura do pacote
 
@@ -60,7 +60,7 @@ padtec/
 ├── VERSION                            versão semântica do pacote
 ├── guia-humano.md                     passo a passo operacional do usuário
 ├── prompts/
-│   ├── 00-mestre.md                   prompt orquestrador chamado no Copilot Chat
+│   ├── 00-mestre.md                   prompt orquestrador invocado no chat do agente de codificação
 │   ├── variantes/                     sub-prompts específicos por variante
 │   ├── secoes/                        sub-prompts genéricos por seção do núcleo
 │   └── extensoes/                     sub-prompts por capacidade condicional
