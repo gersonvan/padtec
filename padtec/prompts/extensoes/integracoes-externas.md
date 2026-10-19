@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/integracoes-externas.md`, com catálogo exaustivo de integrações, política de timeout/retry/disjuntor por integração, plano de contingência quando documentado.
+Documento markdown gravado em `<pasta-de-saída>/condicional-integracoes-externas.md`, com catálogo exaustivo de integrações, política de timeout/retry/disjuntor por integração, plano de contingência quando documentado.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que tenha integrações próprias (`<pasta-de-saída>/apps/<nome-do-app>/integracoes-externas.md`). Integrações encapsuladas em pacote compartilhado em `packages/` entram no documento de workspace e são referenciadas pelos apps consumidores.
+Em monorepo, gere o documento por app que tenha integrações próprias (`<pasta-de-saída>/apps/<nome-do-app>/condicional-integracoes-externas.md`). Integrações encapsuladas em pacote compartilhado em `packages/` entram no documento de workspace e são referenciadas pelos apps consumidores.

@@ -22,7 +22,7 @@ Regras de qualidade aplicáveis a este documento:
 
 ## Inventário de mensagens consumidas e publicadas
 
-<!-- IA: liste filas, tópicos e canais consumidos ou publicados pelo sistema. Quando o sistema não consome nem publica mensagens, registre apenas "Não aplicável". Para detalhes da infraestrutura de mensageria, ver `condicionais/condicional-filas-async.md`. -->
+<!-- IA: liste filas, tópicos e canais consumidos ou publicados pelo sistema. Quando o sistema não consome nem publica mensagens, registre apenas "Não aplicável". Para detalhes da infraestrutura de mensageria, ver `./condicional-filas-async.md`. -->
 
 | Direção | Canal | Esquema da mensagem | Garantia de entrega | Evidência |
 |---|---|---|---|---|

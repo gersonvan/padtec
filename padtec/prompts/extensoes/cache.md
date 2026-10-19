@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/cache.md`, com camadas catalogadas, esquema de chaves descrito, política de TTL e invalidação documentada, observabilidade e tratamento de inconsistência cobertos.
+Documento markdown gravado em `<pasta-de-saída>/condicional-cache.md`, com camadas catalogadas, esquema de chaves descrito, política de TTL e invalidação documentada, observabilidade e tratamento de inconsistência cobertos.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que utilize cache (`<pasta-de-saída>/apps/<nome-do-app>/cache.md`). Quando o cache é compartilhado por todos os apps através de um pacote comum, registre o padrão uma vez na visão de workspace.
+Em monorepo, gere o documento por app que utilize cache (`<pasta-de-saída>/apps/<nome-do-app>/condicional-cache.md`). Quando o cache é compartilhado por todos os apps através de um pacote comum, registre o padrão uma vez na visão de workspace.

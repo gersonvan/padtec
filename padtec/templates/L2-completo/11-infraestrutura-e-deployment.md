@@ -10,7 +10,7 @@ Regras de qualidade aplicáveis a este documento:
 
 # Infraestrutura e implantação
 
-<!-- IA: documente a topologia de implantação, recursos de plataforma utilizados, pipeline de integração e entrega contínua, observabilidade em produção e procedimento de retorno seguro a versão anterior. Use vocabulário genérico — não cite nomes de produto comercial. Para detalhes da plataforma específica, ver os arquivos em `condicionais/` quando aplicável. -->
+<!-- IA: documente a topologia de implantação, recursos de plataforma utilizados, pipeline de integração e entrega contínua, observabilidade em produção e procedimento de retorno seguro a versão anterior. Use vocabulário genérico — não cite nomes de produto comercial. Para detalhes da plataforma específica, ver os arquivos em `condicional-<slug>.md` quando aplicável. -->
 
 ## Topologia de implantação
 

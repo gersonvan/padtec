@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/filas-async.md`, com canais catalogados, produtores e consumidores mapeados, política de retentativa e DLQ descritas, garantias de entrega e idempotência documentadas.
+Documento markdown gravado em `<pasta-de-saída>/condicional-filas-async.md`, com canais catalogados, produtores e consumidores mapeados, política de retentativa e DLQ descritas, garantias de entrega e idempotência documentadas.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que produza ou consuma mensagens (`<pasta-de-saída>/apps/<nome-do-app>/filas-async.md`). Canais compartilhados entre apps aparecem em ambos, com o app de origem (produtor) destacado.
+Em monorepo, gere o documento por app que produza ou consuma mensagens (`<pasta-de-saída>/apps/<nome-do-app>/condicional-filas-async.md`). Canais compartilhados entre apps aparecem em ambos, com o app de origem (produtor) destacado.

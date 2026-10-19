@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/multi-tenancy.md`, com modelo de isolamento descrito, resolução do tenant documentada, roteamento de dados explicado, segregação de cada recurso compartilhado coberta, provisionamento e proteções descritos.
+Documento markdown gravado em `<pasta-de-saída>/condicional-multi-tenancy.md`, com modelo de isolamento descrito, resolução do tenant documentada, roteamento de dados explicado, segregação de cada recurso compartilhado coberta, provisionamento e proteções descritos.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, multi-tenancy é geralmente transversal a todos os apps. Gere um documento de workspace (`<pasta-de-saída>/multi-tenancy.md`) com o modelo central e, para cada app que aplique nuances próprias, um adendo em `<pasta-de-saída>/apps/<nome-do-app>/multi-tenancy.md` apenas com as diferenças observáveis.
+Em monorepo, multi-tenancy é geralmente transversal a todos os apps. Gere um documento de workspace (`<pasta-de-saída>/condicional-multi-tenancy.md`) com o modelo central e, para cada app que aplique nuances próprias, um adendo em `<pasta-de-saída>/apps/<nome-do-app>/condicional-multi-tenancy.md` apenas com as diferenças observáveis.

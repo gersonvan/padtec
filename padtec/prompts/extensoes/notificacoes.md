@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/notificacoes.md`, com canais catalogados, templates descritos, gatilhos mapeados, rastreamento de entrega e tratamento de falha cobertos.
+Documento markdown gravado em `<pasta-de-saída>/condicional-notificacoes.md`, com canais catalogados, templates descritos, gatilhos mapeados, rastreamento de entrega e tratamento de falha cobertos.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que emita notificações (`<pasta-de-saída>/apps/<nome-do-app>/notificacoes.md`). Quando a infraestrutura de notificação é compartilhada por pacote comum em `packages/`, registre o modelo na visão de workspace e referencie nos apps consumidores.
+Em monorepo, gere o documento por app que emita notificações (`<pasta-de-saída>/apps/<nome-do-app>/condicional-notificacoes.md`). Quando a infraestrutura de notificação é compartilhada por pacote comum em `packages/`, registre o modelo na visão de workspace e referencie nos apps consumidores.

@@ -15,7 +15,7 @@ Este sub-prompt é despachado apenas quando o slug `storage` está em `capacidad
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-armazenamento-de-arquivos.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
+Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-storage.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
 
 ## Procedimento de extração de evidências
 
@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/storage.md`, com escopos catalogados, padrão de envio e recuperação documentados, política de ciclo de vida descrita, restrições de upload listadas.
+Documento markdown gravado em `<pasta-de-saída>/condicional-storage.md`, com escopos catalogados, padrão de envio e recuperação documentados, política de ciclo de vida descrita, restrições de upload listadas.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que utilize storage (`<pasta-de-saída>/apps/<nome-do-app>/storage.md`). Quando o storage é compartilhado entre apps via pacote comum, registre o padrão na visão de workspace e referencie nos apps consumidores.
+Em monorepo, gere o documento por app que utilize storage (`<pasta-de-saída>/apps/<nome-do-app>/condicional-storage.md`). Quando o storage é compartilhado entre apps via pacote comum, registre o padrão na visão de workspace e referencie nos apps consumidores.

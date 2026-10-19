@@ -46,7 +46,7 @@ Regras de qualidade aplicáveis a este documento:
 
 ## Conexão com dependências externas
 
-<!-- IA: cenários de falha de integração com dependências externas (timeout, falha de autenticação, contrato divergente). Para detalhes da integração específica, ver `condicionais/condicional-integracoes-externas.md`. -->
+<!-- IA: cenários de falha de integração com dependências externas (timeout, falha de autenticação, contrato divergente). Para detalhes da integração específica, ver `./condicional-integracoes-externas.md`. -->
 
 ### `<<TITULO_DO_CENARIO>>`
 

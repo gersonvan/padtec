@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/jobs-agendados.md`, com jobs catalogados, observabilidade descrita, tolerância a falhas documentada, procedimento de re-execução manual coberto.
+Documento markdown gravado em `<pasta-de-saída>/condicional-jobs-agendados.md`, com jobs catalogados, observabilidade descrita, tolerância a falhas documentada, procedimento de re-execução manual coberto.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que execute jobs (`<pasta-de-saída>/apps/<nome-do-app>/jobs-agendados.md`). Quando os jobs estão centralizados em um app dedicado (worker), gere o documento apenas naquele app.
+Em monorepo, gere o documento por app que execute jobs (`<pasta-de-saída>/apps/<nome-do-app>/condicional-jobs-agendados.md`). Quando os jobs estão centralizados em um app dedicado (worker), gere o documento apenas naquele app.

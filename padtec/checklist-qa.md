@@ -108,6 +108,7 @@ Cada nível alvo tem um conjunto mínimo de arquivos cuja presença é obrigató
 - [ ] `docs/15-manutencao-da-documentacao.md` presente.
 
 **Seções condicionais (todos os níveis ≥ L2):** para cada capacidade detectada pelo agente, o arquivo `docs/condicional-<slug>.md` correspondente deve existir.
+Slugs válidos (os mesmos da tabela de capacidades do `README.md`): `banco-de-dados`, `cache`, `filas-async`, `auth`, `integracoes-externas`, `storage`, `notificacoes`, `jobs-agendados`, `multi-tenancy`.
 
 - [ ] Listar capacidades detectadas (o agente reporta ao final da execução).
 - [ ] Para cada capacidade na lista, confirmar a presença do arquivo `condicional-<slug>.md`.

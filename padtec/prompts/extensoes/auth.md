@@ -15,7 +15,7 @@ Este sub-prompt é despachado apenas quando o slug `auth` está em `capacidades-
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-autenticacao-e-autorizacao.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
+Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-auth.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
 
 ## Procedimento de extração de evidências
 
@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/auth.md`, com fluxos catalogados, modelo de identidade descrito, política de autorização documentada (com matriz papel × endpoint quando aplicável), gestão de sessões e política de senhas cobertas.
+Documento markdown gravado em `<pasta-de-saída>/condicional-auth.md`, com fluxos catalogados, modelo de identidade descrito, política de autorização documentada (com matriz papel × endpoint quando aplicável), gestão de sessões e política de senhas cobertas.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que aplique autorização (`<pasta-de-saída>/apps/<nome-do-app>/auth.md`). Quando a autenticação é centralizada por gateway compartilhado, registre o modelo central na visão de workspace e referencie em cada app.
+Em monorepo, gere o documento por app que aplique autorização (`<pasta-de-saída>/apps/<nome-do-app>/condicional-auth.md`). Quando a autenticação é centralizada por gateway compartilhado, registre o modelo central na visão de workspace e referencie em cada app.

@@ -44,8 +44,8 @@ Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/banco-de-dados.md`, com motor identificado, modelo físico tabulado, migrations catalogadas, política de transação descrita, padrões de acesso documentados.
+Documento markdown gravado em `<pasta-de-saída>/condicional-banco-de-dados.md`, com motor identificado, modelo físico tabulado, migrations catalogadas, política de transação descrita, padrões de acesso documentados.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que tenha conexão própria a banco (`<pasta-de-saída>/apps/<nome-do-app>/banco-de-dados.md`). Quando dois apps compartilham o mesmo banco via pacote comum em `packages/`, registre o schema uma única vez na visão de workspace e referencie em cada app.
+Em monorepo, gere o documento por app que tenha conexão própria a banco (`<pasta-de-saída>/apps/<nome-do-app>/condicional-banco-de-dados.md`). Quando dois apps compartilham o mesmo banco via pacote comum em `packages/`, registre o schema uma única vez na visão de workspace e referencie em cada app.

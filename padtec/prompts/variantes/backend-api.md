@@ -48,7 +48,7 @@ Os templates abaixo são consumidos com ênfase nesta variante. Caminhos relativ
 - `templates/L2-completo/10-configuracao-e-ambientes.md` — inventário de variáveis e perfis.
 - `templates/L2-completo/11-infraestrutura-e-deployment.md` — topologia, pipeline, observabilidade.
 - `templates/L2-completo/condicionais/condicional-banco-de-dados.md` — quando capacidade `banco-de-dados` ativa.
-- `templates/L2-completo/condicionais/condicional-autenticacao-e-autorizacao.md` — quando capacidade `auth` ativa.
+- `templates/L2-completo/condicionais/condicional-auth.md` — quando capacidade `auth` ativa.
 - `templates/L2-completo/condicionais/condicional-filas-async.md` — quando capacidade `filas-async` ativa.
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são consumidos; mantenha em `02` a separação explícita das camadas internas.
