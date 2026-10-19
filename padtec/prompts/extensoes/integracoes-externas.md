@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `integracoes-externas` está em `capacidades-ativas`.
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** **toda** integração externa identificada aparece no documento.
 - **Regra 1 (Evidência rastreável):** cada integração, timeout, retry e fallback cita `arquivo:linha`.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/integracoes-externas.md`, com catálogo exaustivo de integrações, política de timeout/retry/disjuntor por integração, plano de contingência quando documentado.
+Documento markdown gravado em `<pasta-de-saída>/condicional-integracoes-externas.md`, com catálogo exaustivo de integrações, política de timeout/retry/disjuntor por integração, plano de contingência quando documentado.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que tenha integrações próprias (`<pasta-de-saída>/apps/<nome-do-app>/integracoes-externas.md`). Integrações encapsuladas em pacote compartilhado em `packages/` entram no documento de workspace e são referenciadas pelos apps consumidores.
+Em monorepo, gere o documento por app que tenha integrações próprias (`<pasta-de-saída>/apps/<nome-do-app>/condicional-integracoes-externas.md`). Integrações encapsuladas em pacote compartilhado em `packages/` entram no documento de workspace e são referenciadas pelos apps consumidores.

@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `cache` está em `capacidades-ativas`.
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 1 (Evidência rastreável):** cada chave, TTL e política cita `arquivo:linha`.
 - **Regra 2 (Anti-alucinação):** quando a política de invalidação não estiver explícita, registre `// CARÊNCIA` em vez de presumir um padrão.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/cache.md`, com camadas catalogadas, esquema de chaves descrito, política de TTL e invalidação documentada, observabilidade e tratamento de inconsistência cobertos.
+Documento markdown gravado em `<pasta-de-saída>/condicional-cache.md`, com camadas catalogadas, esquema de chaves descrito, política de TTL e invalidação documentada, observabilidade e tratamento de inconsistência cobertos.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que utilize cache (`<pasta-de-saída>/apps/<nome-do-app>/cache.md`). Quando o cache é compartilhado por todos os apps através de um pacote comum, registre o padrão uma vez na visão de workspace.
+Em monorepo, gere o documento por app que utilize cache (`<pasta-de-saída>/apps/<nome-do-app>/condicional-cache.md`). Quando o cache é compartilhado por todos os apps através de um pacote comum, registre o padrão uma vez na visão de workspace.

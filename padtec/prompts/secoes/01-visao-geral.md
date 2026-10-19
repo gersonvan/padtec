@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 ## Template a preencher
 
@@ -29,12 +29,12 @@ Execute, em `raiz-do-projeto-destino`:
 
 1. Para cada placeholder `<<...>>` no template, substitua pelo conteúdo correspondente extraído na etapa anterior.
 2. Para cada diretiva `<!-- IA: ... -->`, execute a diretiva e remova o comentário do documento final.
-3. Não há diagrama Mermaid obrigatório nesta seção; mantenha a prosa enxuta e objetiva.
+3. Gere o diagrama de contexto `flowchart LR` previsto no template (sistema, atores e sistemas externos); mantenha a prosa enxuta e objetiva.
 4. Quando uma evidência requerida não puder ser localizada, registre o marcador literal `// CARÊNCIA: não identificado no código` no lugar daquela afirmação. Proibido inferir.
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 1 (Evidência rastreável):** cada afirmação sobre nome, escopo, atores ou proposta de valor cita o arquivo de origem (tipicamente `README.md` ou manifesto).
 - **Regra 2 (Anti-alucinação):** quando a documentação existente não declara escopo ou atores, registre `// CARÊNCIA` em vez de presumir.

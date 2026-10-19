@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 ## Template a preencher
 
@@ -34,7 +34,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** esta seção é o exemplar canônico da regra. **Toda** rota e **todo** manipulador de mensagem do sistema aparece em alguma tabela. Cobertura parcial é falha de QA.
 - **Regra 1 (Evidência rastreável):** cada linha de tabela cita `arquivo:linha` da definição.
@@ -45,7 +45,7 @@ Documento markdown gravado em `<pasta-de-saída>/07-interface-externa.md`, com t
 
 ## Comportamento por nível
 
-Existe apenas em `L2` e `L3`. Em `L3`, o template pode requerer detalhamento adicional (esquemas, exemplos, códigos de erro tabulados); siga o template. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
+Existe apenas em `L2` e `L3`. Os templates de `L2` e `L3` compartilham o mesmo esqueleto nesta seção. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 

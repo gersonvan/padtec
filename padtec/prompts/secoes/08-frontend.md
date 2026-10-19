@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 ## Template a preencher
 
@@ -36,7 +36,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** a lista de rotas top-level cobre todas as rotas declaradas no projeto.
 - **Regra 1 (Evidência rastreável):** cada decisão de roteamento, estado e renderização cita `arquivo:linha` ou `arquivo`.
@@ -47,7 +47,7 @@ Documento markdown gravado em `<pasta-de-saída>/08-frontend.md`, com roteamento
 
 ## Comportamento por nível
 
-Existe apenas em `L2` e `L3`. Em `L3`, o template pode pedir aprofundamento (mapa visual de rotas, decisões de performance, política de cache); siga o template. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
+Existe apenas em `L2` e `L3`. Os templates de `L2` e `L3` compartilham o mesmo esqueleto nesta seção. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 

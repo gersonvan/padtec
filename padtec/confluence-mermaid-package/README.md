@@ -265,30 +265,16 @@ journey
 
 ### Customizar Layout do Mermaid
 
-Edite `scripts/convert-md-to-adf.js` na função que cria o macro:
+Edite o bloco `options` do seu `config.js`:
 
-```javascript
-{
-  type: 'bodiedExtension',
-  attrs: {
-    extensionType: 'com.github.busar.confluence.mermaid:mermaid-macro',
-    extensionKey: 'mermaid-macro',
-    parameters: {
-      macroParams: {
-        // Opções disponíveis:
-        layout: 'full-width',    // 'default', 'full-width', 'center', 'align-start', 'align-end'
-        alignment: {             // Alinhamento horizontal
-          value: 'center'        // 'left', 'center', 'right'
-        }
-      }
-    }
-  }
-}
-```
+- `mermaidLayout`: `default`, `full-width`, `center`, `align-start` ou `align-end`.
+- `mermaidAlignment`: `left`, `center` ou `right`.
+
+O conversor lê esses valores ao montar a macro Mermaid; não é necessário editar os scripts.
 
 ### Adicionar mais tipos de blocos
 
-Para adicionar suporte a novos tipos de blocos (ex: callouts, panels), edite a função `convertMarkdownToADF()` em `convert-md-to-adf.js`.
+Para adicionar suporte a novos tipos de blocos (ex: callouts, panels), edite a função `markdownToAdf()` em `scripts/convert-md-to-adf.js`.
 
 ---
 
@@ -343,7 +329,7 @@ confluence-mermaid-package/
 
 ### Problema: Diagramas aparecem como texto plano
 
-**Causa:** ADF estruturado incorretamente (conteúdo dentro de `paragraph` ao invés de `bodiedExtension`)
+**Causa:** ADF estruturado incorretamente (conteúdo dentro de `paragraph` em vez de um nó `extension` com a macro Mermaid)
 
 **Solução:** Use o conversor deste pacote que gera a estrutura correta
 

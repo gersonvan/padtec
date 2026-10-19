@@ -4,7 +4,7 @@
  * Atualização em lote de páginas do Confluence
  * 
  * Configure o mapeamento PAGE_MAPPING abaixo e execute:
- *   node batch-update-pages.js
+ *   node batch-update-pages.js <pasta-dos-arquivos-adf>
  */
 
 const https = require('https');
@@ -32,8 +32,8 @@ const PAGE_MAPPING = {
   // '345678': 'diagrama-arquitetura',
 };
 
-// Diretório onde estão os arquivos ADF
-const ADF_DIRECTORY = path.join(__dirname, '..', 'adf-files');
+// Diretório dos arquivos ADF: primeiro argumento da linha de comando, options.adfDirectory do config.js ou adf-files/ ao lado do pacote
+const ADF_DIRECTORY = path.resolve(process.argv[2] || config.options?.adfDirectory || path.join(__dirname, '..', 'adf-files'));
 
 // ═══════════════════════════════════════════════════════════════
 
@@ -251,5 +251,7 @@ async function main() {
 
 // Executar
 if (require.main === module) {
-  main().catch(console.error);
+  main()
+    .then(() => { process.exitCode = stats.errors.length > 0 ? 1 : 0; })
+    .catch((error) => { console.error(error); process.exitCode = 1; });
 }

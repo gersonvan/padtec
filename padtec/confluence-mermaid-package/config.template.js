@@ -42,6 +42,9 @@ module.exports = {
     
     // Timeout para requisições HTTP (em ms)
     httpTimeout: 180000,
+
+    // Pasta dos arquivos .adf.json usada pela atualização em lote (também aceita como primeiro argumento do script)
+    adfDirectory: 'adf-files',
     
     // Delay entre requisições em batch (em ms)
     batchDelay: 1000,

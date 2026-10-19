@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `filas-async` está em `capacidades-ativas`.
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** toda fila/tópico/canal identificado aparece no documento, com produtor e consumidor mapeados.
 - **Regra 1 (Evidência rastreável):** cada canal, política e métrica cita `arquivo:linha`.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/filas-async.md`, com canais catalogados, produtores e consumidores mapeados, política de retentativa e DLQ descritas, garantias de entrega e idempotência documentadas.
+Documento markdown gravado em `<pasta-de-saída>/condicional-filas-async.md`, com canais catalogados, produtores e consumidores mapeados, política de retentativa e DLQ descritas, garantias de entrega e idempotência documentadas.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que produza ou consuma mensagens (`<pasta-de-saída>/apps/<nome-do-app>/filas-async.md`). Canais compartilhados entre apps aparecem em ambos, com o app de origem (produtor) destacado.
+Em monorepo, gere o documento por app que produza ou consuma mensagens (`<pasta-de-saída>/apps/<nome-do-app>/condicional-filas-async.md`). Canais compartilhados entre apps aparecem em ambos, com o app de origem (produtor) destacado.

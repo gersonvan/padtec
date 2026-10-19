@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `jobs-agendados` está em `capacidades-ativas`.
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** todo job identificado aparece no documento, com expressão de calendário registrada.
 - **Regra 1 (Evidência rastreável):** cada job, política e procedimento cita `arquivo:linha`.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/jobs-agendados.md`, com jobs catalogados, observabilidade descrita, tolerância a falhas documentada, procedimento de re-execução manual coberto.
+Documento markdown gravado em `<pasta-de-saída>/condicional-jobs-agendados.md`, com jobs catalogados, observabilidade descrita, tolerância a falhas documentada, procedimento de re-execução manual coberto.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que execute jobs (`<pasta-de-saída>/apps/<nome-do-app>/jobs-agendados.md`). Quando os jobs estão centralizados em um app dedicado (worker), gere o documento apenas naquele app.
+Em monorepo, gere o documento por app que execute jobs (`<pasta-de-saída>/apps/<nome-do-app>/condicional-jobs-agendados.md`). Quando os jobs estão centralizados em um app dedicado (worker), gere o documento apenas naquele app.

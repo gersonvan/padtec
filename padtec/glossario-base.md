@@ -28,7 +28,7 @@ A entrada segue o formato `- **Termo.** Definição curta.`.
 
 ## Processo — vocabulário PADTec
 
-- **PADTec.** Padrão Documental Técnico; este pacote, voltado a engenharia reversa documental de sistemas de software.
+- **PADTec.** Padrão Automatizado de Documentação Técnica; este pacote, voltado a engenharia reversa documental de sistemas de software.
 - **Engenharia reversa documental.** Processo de produzir documentação técnica a partir do código-fonte existente, com direção estrita código → documentação.
 - **Variante.** Tipo de sistema sendo documentado; um dos cinco valores fixos do pacote (`full-stack-web`, `backend-api`, `frontend-site`, `automacao-script`, `iac`).
 - **Nível.** Profundidade da documentação produzida; um de três valores (`L1`, `L2`, `L3`) com relação de inclusão `L1 ⊂ L2 ⊂ L3`.

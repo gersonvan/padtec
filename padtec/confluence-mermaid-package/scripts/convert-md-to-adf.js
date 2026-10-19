@@ -121,6 +121,7 @@ function parseInlineMarks(text) {
  * Converte Markdown para ADF
  */
 function markdownToAdf(markdown) {
+  markdown = markdown.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
   const lines = markdown.split('\n');
   const content = [];
   let i = 0;
@@ -282,7 +283,7 @@ function markdownToAdf(markdown) {
         }
 
         // Skip separator line (|---|---|)
-        if (currentLine.match(/^\|[\s\-:]+\|$/)) {
+        if (/^\|(?:\s*:?-+:?\s*\|)+$/.test(currentLine)) {
           i++;
           continue;
         }
@@ -362,7 +363,7 @@ function convertFile(inputPath, outputPath) {
  */
 function convertDirectory(dirPath, outputDir) {
   const files = fs.readdirSync(dirPath)
-    .filter(f => f.endsWith('.md'))
+    .filter(f => f.toLowerCase().endsWith('.md'))
     .map(f => path.join(dirPath, f));
 
   if (files.length === 0) {
@@ -430,7 +431,7 @@ Exemplos:
     console.log('═══════════════════════════════════════════════════════════════');
   } else {
     // Processar arquivo único
-    const outputPath = inputPath.replace('.md', '.adf.json');
+    const outputPath = path.join(path.dirname(inputPath), path.basename(inputPath, path.extname(inputPath)) + '.adf.json');
     
     console.log('═══════════════════════════════════════════════════════════════');
     console.log('📦 CONVERSOR MARKDOWN → ADF');

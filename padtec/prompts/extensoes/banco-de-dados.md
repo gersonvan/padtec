@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `banco-de-dados` está em `capacidades-ativas`.
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** toda tabela/coleção identificada no schema aparece no documento.
 - **Regra 1 (Evidência rastreável):** cada tabela, índice, restrição e política cita `arquivo:linha`.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/banco-de-dados.md`, com motor identificado, modelo físico tabulado, migrations catalogadas, política de transação descrita, padrões de acesso documentados.
+Documento markdown gravado em `<pasta-de-saída>/condicional-banco-de-dados.md`, com motor identificado, modelo físico tabulado, migrations catalogadas, política de transação descrita, padrões de acesso documentados.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que tenha conexão própria a banco (`<pasta-de-saída>/apps/<nome-do-app>/banco-de-dados.md`). Quando dois apps compartilham o mesmo banco via pacote comum em `packages/`, registre o schema uma única vez na visão de workspace e referencie em cada app.
+Em monorepo, gere o documento por app que tenha conexão própria a banco (`<pasta-de-saída>/apps/<nome-do-app>/condicional-banco-de-dados.md`). Quando dois apps compartilham o mesmo banco via pacote comum em `packages/`, registre o schema uma única vez na visão de workspace e referencie em cada app.

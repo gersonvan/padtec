@@ -9,7 +9,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `notificacoes` está em `capacidades-ativas`.
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 4 (Cobertura exaustiva):** todo canal e todo tipo de notificação identificado aparece no documento.
 - **Regra 1 (Evidência rastreável):** cada canal, template e gatilho cita `arquivo:linha`.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/notificacoes.md`, com canais catalogados, templates descritos, gatilhos mapeados, rastreamento de entrega e tratamento de falha cobertos.
+Documento markdown gravado em `<pasta-de-saída>/condicional-notificacoes.md`, com canais catalogados, templates descritos, gatilhos mapeados, rastreamento de entrega e tratamento de falha cobertos.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que emita notificações (`<pasta-de-saída>/apps/<nome-do-app>/notificacoes.md`). Quando a infraestrutura de notificação é compartilhada por pacote comum em `packages/`, registre o modelo na visão de workspace e referencie nos apps consumidores.
+Em monorepo, gere o documento por app que emita notificações (`<pasta-de-saída>/apps/<nome-do-app>/condicional-notificacoes.md`). Quando a infraestrutura de notificação é compartilhada por pacote comum em `packages/`, registre o modelo na visão de workspace e referencie nos apps consumidores.

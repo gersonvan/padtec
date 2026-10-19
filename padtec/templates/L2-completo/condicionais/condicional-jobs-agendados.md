@@ -3,9 +3,10 @@ Regras de qualidade aplicáveis a este documento:
 1. Evidência rastreável: toda afirmação técnica cita `arquivo:linha` ou intervalo verificável no código-fonte.
 2. Anti-alucinação: quando não houver evidência no código, registrar `// CARÊNCIA: não identificado no código` em vez de inferir.
 3. Glossário mínimo conforme nível: L1 com 30 termos, L2 com 60 termos, L3 com 100 termos.
-4. Cobertura exaustiva: toda rota, endpoint, módulo, entidade, fila, job ou integração documentada deve aparecer em alguma tabela.
+4. Cobertura exaustiva: toda rota HTTP, endpoint, módulo, classe-controlador, entidade de persistência, fila, job ou integração deve aparecer em alguma tabela.
 5. Versões exatas: registrar a versão resolvida (do lockfile) sem usar ranges; quando o manifesto usar range, citar o literal do manifesto e a versão resolvida.
 6. Sem estimativas de tempo, custo ou esforço: descrever procedimentos sem prazos.
+7. Português do Brasil revisado: texto narrativo, títulos, tabelas e legendas em português do Brasil, com ortografia e acentuação da norma-padrão; identificadores, comandos, URLs, caminhos e trechos de código preservam a grafia original.
 
 Esta seção é condicional. Inclua-a na documentação do projeto somente se a capacidade `jobs-agendados` for detectada. Sinais típicos: agendadores embutidos (@nestjs/schedule, node-cron, APScheduler, Quartz), declarações de tarefas com expressão cron, agendadores gerenciados de plataforma, planilha de execuções periódicas.
 -->

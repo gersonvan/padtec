@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Você é o prompt da variante `backend-api` do PADTec v1.0.1. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **backend que expõe API** sem frontend aplicacional acoplado — manifestos típicos: `package.json` com `@nestjs/core`, `express` ou `fastify`; `pom.xml` (Spring); `requirements.txt` com Django/FastAPI/Flask; `*.csproj` ASP.NET Core; `go.mod` com servidor HTTP.
+Este arquivo orienta o orquestrador quando a variante resolvida é `backend-api` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **backend que expõe API** sem frontend aplicacional acoplado — manifestos típicos: `package.json` com `@nestjs/core`, `express` ou `fastify`; `pom.xml` (Spring); `requirements.txt` com Django/FastAPI/Flask; `*.csproj` ASP.NET Core; `go.mod` com servidor HTTP.
 
 Esta variante orienta a geração das seções do núcleo enfatizando **contratos públicos**, **ciclo de vida da requisição** e **persistência**.
 
@@ -41,15 +41,15 @@ Identifique a stack efetiva pelos manifestos do projeto destino antes de gerar c
 
 Os templates abaixo são consumidos com ênfase nesta variante. Caminhos relativos a `padtec/`.
 
-- `templates/L1-essencial/02-arquitetura.md` — diagrama de camadas internas do backend.
-- `templates/L2-completo/06-fluxos-de-negocio.md` — diagramas de sequência por caso de uso.
-- `templates/L2-completo/07-interface-externa.md` — tabela exaustiva de endpoints e canais de mensageria.
-- `templates/L2-completo/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
-- `templates/L2-completo/10-configuracao-e-ambientes.md` — inventário de variáveis e perfis.
-- `templates/L2-completo/11-infraestrutura-e-deployment.md` — topologia, pipeline, observabilidade.
-- `templates/L2-completo/condicionais/condicional-banco-de-dados.md` — quando capacidade `banco-de-dados` ativa.
-- `templates/L2-completo/condicionais/condicional-autenticacao-e-autorizacao.md` — quando capacidade `auth` ativa.
-- `templates/L2-completo/condicionais/condicional-filas-async.md` — quando capacidade `filas-async` ativa.
+- `templates/<nível-resolvido>/02-arquitetura.md` — diagrama de camadas internas do backend.
+- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — diagramas de sequência por caso de uso.
+- `templates/<nível-resolvido>/07-interface-externa.md` — tabela exaustiva de endpoints e canais de mensageria.
+- `templates/<nível-resolvido>/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
+- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — inventário de variáveis e perfis.
+- `templates/<nível-resolvido>/11-infraestrutura-e-deployment.md` — topologia, pipeline, observabilidade.
+- `templates/<nível-resolvido>/condicionais/condicional-banco-de-dados.md` — quando capacidade `banco-de-dados` ativa.
+- `templates/<nível-resolvido>/condicionais/condicional-auth.md` — quando capacidade `auth` ativa.
+- `templates/<nível-resolvido>/condicionais/condicional-filas-async.md` — quando capacidade `filas-async` ativa.
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são consumidos; mantenha em `02` a separação explícita das camadas internas.
 
@@ -63,7 +63,7 @@ Quando o orquestrador detectou monorepo:
 
 ## 6. Regras de qualidade
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas no bloco vii do `prompts/00-mestre.md`. Não as reproduza neste arquivo nem nas saídas: o `00-mestre.md` é a referência autoritativa.
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas no bloco vii do `prompts/00-mestre.md`. Não as reproduza neste arquivo nem nas saídas: o `00-mestre.md` é a referência autoritativa.
 
 ---
 

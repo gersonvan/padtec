@@ -9,13 +9,13 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 - `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
 - `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
 - `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho absoluto ou `.`.
+- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
 
 Este sub-prompt é despachado apenas quando o slug `auth` está em `capacidades-ativas`.
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-autenticacao-e-autorizacao.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
+Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-auth.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
 
 ## Procedimento de extração de evidências
 
@@ -37,15 +37,15 @@ Execute, em `raiz-do-projeto-destino`:
 
 ## Regras de qualidade aplicáveis
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta extensão, atenção especial a:
 
 - **Regra 1 (Evidência rastreável):** cada fluxo, política e tempo de vida cita `arquivo:linha`.
 - **Regra 2 (Anti-alucinação):** **nunca** documente segredos, parâmetros sensíveis (chaves privadas, client secrets) ou políticas inferidas sem evidência clara. Registre `// CARÊNCIA` em vez de presumir.
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/auth.md`, com fluxos catalogados, modelo de identidade descrito, política de autorização documentada (com matriz papel × endpoint quando aplicável), gestão de sessões e política de senhas cobertas.
+Documento markdown gravado em `<pasta-de-saída>/condicional-auth.md`, com fluxos catalogados, modelo de identidade descrito, política de autorização documentada (com matriz papel × endpoint quando aplicável), gestão de sessões e política de senhas cobertas.
 
 ## Comportamento sob `modo-monorepo: sim`
 
-Em monorepo, gere o documento por app que aplique autorização (`<pasta-de-saída>/apps/<nome-do-app>/auth.md`). Quando a autenticação é centralizada por gateway compartilhado, registre o modelo central na visão de workspace e referencie em cada app.
+Em monorepo, gere o documento por app que aplique autorização (`<pasta-de-saída>/apps/<nome-do-app>/condicional-auth.md`). Quando a autenticação é centralizada por gateway compartilhado, registre o modelo central na visão de workspace e referencie em cada app.

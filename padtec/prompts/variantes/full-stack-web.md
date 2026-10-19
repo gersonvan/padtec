@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Você é o prompt da variante `full-stack-web` do PADTec v1.0.1. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino apresenta **frontend aplicacional e backend aplicacional no mesmo repositório** — seja em raiz única (ex.: `package.json` declarando `next` e `@nestjs/core` simultaneamente) seja em estrutura `apps/web` + `apps/api` (ou nomes equivalentes).
+Este arquivo orienta o orquestrador quando a variante resolvida é `full-stack-web` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino apresenta **frontend aplicacional e backend aplicacional no mesmo repositório** — seja em raiz única (ex.: `package.json` declarando `next` e `@nestjs/core` simultaneamente) seja em estrutura `apps/web` + `apps/api` (ou nomes equivalentes).
 
 Esta variante orienta a geração das seções do núcleo enfatizando o **fluxo end-to-end** entre as duas pontas (frontend → backend → persistência) e a **fronteira contratual** entre elas.
 
@@ -40,12 +40,12 @@ Estes exemplos são ilustrativos; o sistema real pode usar qualquer combinação
 
 Os templates abaixo são consumidos com ênfase nesta variante. Os caminhos são relativos a `padtec/`.
 
-- `templates/L1-essencial/02-arquitetura.md` — diagrama de camadas (frontend + backend + persistência).
-- `templates/L2-completo/06-fluxos-de-negocio.md` — diagramas de sequência end-to-end por caso de uso.
-- `templates/L2-completo/07-interface-externa.md` — tabela de endpoints (cobertura 100% das rotas do backend).
-- `templates/L2-completo/08-frontend.md` — roteamento, estado, integração com o backend, renderização.
-- `templates/L2-completo/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
-- `templates/L2-completo/10-configuracao-e-ambientes.md` — variáveis de frontend e backend separadas.
+- `templates/<nível-resolvido>/02-arquitetura.md` — diagrama de camadas (frontend + backend + persistência).
+- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — diagramas de sequência end-to-end por caso de uso.
+- `templates/<nível-resolvido>/07-interface-externa.md` — tabela de endpoints (cobertura 100% das rotas do backend).
+- `templates/<nível-resolvido>/08-frontend.md` — roteamento, estado, integração com o backend, renderização.
+- `templates/<nível-resolvido>/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
+- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — variáveis de frontend e backend separadas.
 - `templates/L3-aprofundado/12-quick-start.md` — setup local cobrindo backend + frontend (banco, instalação, comandos de inicialização das duas pontas).
 
 Quando o nível alvo é `L1`, apenas `01-visao-geral.md`, `02-arquitetura.md` e `03-stack-e-dependencias.md` do núcleo são consumidos; mesmo assim, mantenha em `02` a separação explícita das duas pontas.
@@ -60,7 +60,7 @@ Quando o orquestrador detectou monorepo (sinais como `nx.json`, `pnpm-workspace.
 
 ## 6. Regras de qualidade
 
-Aplicam-se integralmente as **seis regras-duras de qualidade** definidas no bloco vii do `prompts/00-mestre.md`. Não as reproduza neste arquivo nem nas saídas: o `00-mestre.md` é a referência autoritativa.
+Aplicam-se integralmente as **sete regras duras de qualidade** definidas no bloco vii do `prompts/00-mestre.md`. Não as reproduza neste arquivo nem nas saídas: o `00-mestre.md` é a referência autoritativa.
 
 ---
 
