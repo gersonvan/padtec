@@ -45,7 +45,7 @@ Documento markdown gravado em `<pasta-de-saída>/05-modelo-de-dominio.md`, com t
 
 ## Comportamento por nível
 
-Existe apenas em `L2` e `L3`. Em `L3`, o template pode pedir desdobramento adicional (por exemplo, diagrama por subdomínio); siga o template. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
+Existe apenas em `L2` e `L3`. Os templates de `L2` e `L3` compartilham o mesmo esqueleto nesta seção. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 

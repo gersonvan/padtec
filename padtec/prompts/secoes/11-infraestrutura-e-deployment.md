@@ -45,7 +45,7 @@ Documento markdown gravado em `<pasta-de-saída>/11-infraestrutura-e-deployment.
 
 ## Comportamento por nível
 
-Existe apenas em `L2` e `L3`. Em `L3`, o template pode pedir detalhamento adicional (matriz pipeline × ambiente, políticas de aprovação, drift detection); siga o template. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
+Existe apenas em `L2` e `L3`. Os templates de `L2` e `L3` compartilham o mesmo esqueleto nesta seção. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 

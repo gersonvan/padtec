@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Você é o prompt da variante `iac` (Infrastructure as Code) do PADTec v1.0.1. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **repositório de infraestrutura como código** — manifestos `*.bicep`, `*.tf`/`*.tfstate`, templates ARM, CloudFormation, ou playbooks Ansible — **sem** código aplicacional acoplado (sem `package.json` aplicacional, sem servidor longo-rodando).
+Este arquivo orienta o orquestrador quando a variante resolvida é `iac` (Infrastructure as Code) do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **repositório de infraestrutura como código** — manifestos `*.bicep`, `*.tf`/`*.tfstate`, templates ARM, CloudFormation, ou playbooks Ansible — **sem** código aplicacional acoplado (sem `package.json` aplicacional, sem servidor longo-rodando).
 
 Esta variante orienta a geração das seções do núcleo enfatizando **recursos provisionados**, **dependências entre recursos**, **parametrização por ambiente** e **pipeline de aplicação**.
 
@@ -46,11 +46,11 @@ Identifique a stack efetiva pelos manifestos presentes no repositório (`.bicep`
 
 Caminhos relativos a `padtec/`.
 
-- `templates/L1-essencial/02-arquitetura.md` — topologia de recursos e dependências entre módulos/stacks.
-- `templates/L1-essencial/03-stack-e-dependencias.md` — linguagem IaC, versões de CLI e providers, registry de módulos.
-- `templates/L2-completo/07-interface-externa.md` — adaptado para inputs/outputs/endpoints expostos pela infraestrutura.
-- `templates/L2-completo/10-configuracao-e-ambientes.md` — parâmetros por ambiente, segredos, convenções de nomenclatura.
-- `templates/L2-completo/11-infraestrutura-e-deployment.md` — backend de estado, pipeline, aprovação, rollback, drift.
+- `templates/<nível-resolvido>/02-arquitetura.md` — topologia de recursos e dependências entre módulos/stacks.
+- `templates/<nível-resolvido>/03-stack-e-dependencias.md` — linguagem IaC, versões de CLI e providers, registry de módulos.
+- `templates/<nível-resolvido>/07-interface-externa.md` — adaptado para inputs/outputs/endpoints expostos pela infraestrutura.
+- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — parâmetros por ambiente, segredos, convenções de nomenclatura.
+- `templates/<nível-resolvido>/11-infraestrutura-e-deployment.md` — backend de estado, pipeline, aprovação, rollback, drift.
 - `templates/L3-aprofundado/12-quick-start.md` — pré-requisitos (CLIs, credenciais), comando de validação local (lint, plan/what-if), comando de aplicação em ambiente de desenvolvimento.
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são gerados; mesmo assim, `02` mostra topologia de recursos e `03` registra a stack IaC.

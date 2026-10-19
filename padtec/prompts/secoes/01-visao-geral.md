@@ -29,7 +29,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 1. Para cada placeholder `<<...>>` no template, substitua pelo conteúdo correspondente extraído na etapa anterior.
 2. Para cada diretiva `<!-- IA: ... -->`, execute a diretiva e remova o comentário do documento final.
-3. Não há diagrama Mermaid obrigatório nesta seção; mantenha a prosa enxuta e objetiva.
+3. Gere o diagrama de contexto `flowchart LR` previsto no template (sistema, atores e sistemas externos); mantenha a prosa enxuta e objetiva.
 4. Quando uma evidência requerida não puder ser localizada, registre o marcador literal `// CARÊNCIA: não identificado no código` no lugar daquela afirmação. Proibido inferir.
 
 ## Regras de qualidade aplicáveis

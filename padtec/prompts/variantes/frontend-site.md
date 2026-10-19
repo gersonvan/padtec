@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Você é o prompt da variante `frontend-site` do PADTec v1.0.1. O orquestrador `00-mestre.md` invocou este prompt após detectar que o projeto destino é um **frontend ou site sem backend aplicacional acoplado** — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro`, sem dependências de framework backend (`@nestjs/core`, `express`, `fastify`, `koa`).
+Este arquivo orienta o orquestrador quando a variante resolvida é `frontend-site` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **frontend ou site sem backend aplicacional acoplado** — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro`, sem dependências de framework backend (`@nestjs/core`, `express`, `fastify`, `koa`).
 
 Esta variante orienta a geração das seções do núcleo enfatizando **roteamento**, **composição de telas**, **gerência de estado**, **integração com APIs externas** e **estratégia de renderização**.
 
@@ -40,11 +40,11 @@ Identifique o framework efetivo pelo `package.json` e pela estrutura de diretór
 
 Caminhos relativos a `padtec/`.
 
-- `templates/L1-essencial/02-arquitetura.md` — diagrama com roteamento, composição, estado, integração, renderização.
-- `templates/L2-completo/06-fluxos-de-negocio.md` — fluxos do usuário com estados de UI.
-- `templates/L2-completo/07-interface-externa.md` — APIs externas consumidas (na tabela de "chamadores externos" use o sistema como **consumidor**; ajuste o cabeçalho conforme necessário sem quebrar a estrutura).
-- `templates/L2-completo/08-frontend.md` — núcleo desta variante: roteamento, estado, integração, renderização.
-- `templates/L2-completo/10-configuracao-e-ambientes.md` — variáveis públicas vs privadas.
+- `templates/<nível-resolvido>/02-arquitetura.md` — diagrama com roteamento, composição, estado, integração, renderização.
+- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — fluxos do usuário com estados de UI.
+- `templates/<nível-resolvido>/07-interface-externa.md` — APIs externas consumidas (na tabela de "chamadores externos" use o sistema como **consumidor**; ajuste o cabeçalho conforme necessário sem quebrar a estrutura).
+- `templates/<nível-resolvido>/08-frontend.md` — núcleo desta variante: roteamento, estado, integração, renderização.
+- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — variáveis públicas vs privadas.
 - `templates/L3-aprofundado/12-quick-start.md` — setup local (instalação, comandos de dev e build, variáveis mínimas para `npm run dev`).
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são consumidos.

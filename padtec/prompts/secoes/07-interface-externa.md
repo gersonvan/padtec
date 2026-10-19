@@ -45,7 +45,7 @@ Documento markdown gravado em `<pasta-de-saída>/07-interface-externa.md`, com t
 
 ## Comportamento por nível
 
-Existe apenas em `L2` e `L3`. Em `L3`, o template pode requerer detalhamento adicional (esquemas, exemplos, códigos de erro tabulados); siga o template. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
+Existe apenas em `L2` e `L3`. Os templates de `L2` e `L3` compartilham o mesmo esqueleto nesta seção. Se invocado com `nível` igual a `L1` (ou fora de `L1|L2|L3`), retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 

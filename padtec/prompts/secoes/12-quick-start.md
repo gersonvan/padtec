@@ -36,7 +36,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `prompts/00-mestre.md` §vii. Para esta seção, atenção especial a:
 
-- **Regra 6 (Sem estimativas):** mesmo que o template do L3 mencione "trinta minutos" como referência, o documento gerado não promete tempo. Apresente a sequência mínima sem estimativa.
+- **Regra 6 (Sem estimativas):** o documento gerado não promete tempo. Apresente a sequência mínima sem estimativa.
 - **Regra 1 (Evidência rastreável):** cada comando, variável e endpoint cita o manifesto/script/arquivo de origem.
 
 ## Saída esperada

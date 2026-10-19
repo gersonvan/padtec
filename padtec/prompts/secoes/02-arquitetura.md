@@ -29,7 +29,7 @@ Execute, em `raiz-do-projeto-destino`:
 
 1. Para cada placeholder `<<...>>` no template, substitua pelo conteúdo correspondente extraído.
 2. Para cada diretiva `<!-- IA: ... -->`, execute a diretiva e remova o comentário do documento final.
-3. Para cada bloco `mermaid` placeholder em `nível` `L2` ou `L3`, gere um diagrama `flowchart` (LR ou TB) representando as camadas identificadas e as dependências entre elas. Diagrama mínimo: dois nós e uma aresta significativa baseada em código real. Em `L1`, diagrama é opcional conforme o template; respeite o template.
+3. Para cada bloco `mermaid` placeholder, em qualquer nível, gere um diagrama `flowchart` (LR ou TB) representando as camadas identificadas e as dependências entre elas. Diagrama mínimo: dois nós e uma aresta significativa baseada em código real. Em `L1`, diagrama é opcional conforme o template; respeite o template.
 4. Quando uma evidência requerida não puder ser localizada, registre o marcador literal `// CARÊNCIA: não identificado no código` no lugar daquela afirmação. Proibido inferir.
 
 ## Regras de qualidade aplicáveis
@@ -41,11 +41,11 @@ Aplicam-se integralmente as **sete regras duras de qualidade** definidas em `pro
 
 ## Saída esperada
 
-Documento markdown gravado em `<pasta-de-saída>/02-arquitetura.md`, com placeholders preenchidos, diretivas executadas, diagrama Mermaid `flowchart` gerado (em L2/L3), evidências citadas e ausências marcadas com `// CARÊNCIA`.
+Documento markdown gravado em `<pasta-de-saída>/02-arquitetura.md`, com placeholders preenchidos, diretivas executadas, diagrama Mermaid `flowchart` gerado, evidências citadas e ausências marcadas com `// CARÊNCIA`.
 
 ## Comportamento por nível
 
-Em `L1` o template é mais enxuto; em `L2` e `L3` o diagrama de camadas é obrigatório. Em `L3` pode haver subdiagrama ou aprofundamento adicional conforme o template L3; siga o que o template pede. Se invocado com `nível` fora de `L1|L2|L3`, retorne sem produzir saída.
+Os templates dos três níveis compartilham o mesmo esqueleto nesta seção; o diagrama de camadas é obrigatório em todos. Se invocado com `nível` fora de `L1|L2|L3`, retorne sem produzir saída.
 
 ## Comportamento sob `modo-monorepo: sim`
 
