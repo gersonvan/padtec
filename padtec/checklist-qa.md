@@ -84,12 +84,13 @@ Todo texto narrativo, título, tabela e legenda é redigido em português do Bra
 
 Cada nível alvo tem um conjunto mínimo de arquivos cuja presença é obrigatória. Os nomes seguem o padrão `NN-slug-em-kebab-case.md`.
 
-**L1 — Essencial** (três seções do núcleo e o glossário):
+**L1 — Essencial** (três seções do núcleo, o glossário e o mapa para agentes):
 
 - [ ] `<pasta-de-saída>/01-visao-geral.md` presente.
 - [ ] `<pasta-de-saída>/02-arquitetura.md` presente.
 - [ ] `<pasta-de-saída>/03-stack-e-dependencias.md` presente.
 - [ ] `<pasta-de-saída>/13-glossario.md` presente (gerado em todos os níveis).
+- [ ] `AGENTS.md` na raiz do projeto destino contém o bloco entre `<!-- PADTec:início -->` e `<!-- PADTec:fim -->` (gerado em todos os níveis), com uma linha na tabela de documentos para cada arquivo gerado.
 
 **L2 — Completo:** além dos arquivos de L1,
 

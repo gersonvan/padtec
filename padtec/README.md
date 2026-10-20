@@ -30,9 +30,9 @@ A geração documental é configurada por três escolhas independentes:
 
 | Nível | Seções geradas | Volume aproximado |
 |---|---|---|
-| L1 — Essencial | `01`, `02`, `03` e `13` | Quatro documentos: visão geral, arquitetura, stack e glossário |
-| L2 — Completo | `01` a `11`, `13` e condicionais | Onze documentos de núcleo (nove quando a variante não tem frontend ou backend), glossário e até nove seções condicionais |
-| L3 — Aprofundado | `01` a `15` e condicionais | Quinze documentos de núcleo e até nove seções condicionais, incluindo quick-start, glossário extenso, FAQ e guia de manutenção da documentação |
+| L1 — Essencial | `01`, `02`, `03`, `13` e `16` | Quatro documentos (visão geral, arquitetura, stack e glossário) e o mapa para agentes em `AGENTS.md` |
+| L2 — Completo | `01` a `11`, `13`, `16` e condicionais | Onze documentos de núcleo (nove quando a variante não tem frontend ou backend), glossário e até nove seções condicionais, mais o mapa para agentes |
+| L3 — Aprofundado | `01` a `16` e condicionais | Quinze documentos de núcleo, o mapa para agentes e até nove seções condicionais, incluindo quick-start, glossário extenso, FAQ e guia de manutenção da documentação |
 
 Relação de inclusão: `L1 ⊂ L2 ⊂ L3`. Todo conteúdo de um nível inferior aparece nos níveis superiores, com amplitude incremental: cada nível acrescenta seções ao anterior.
 
@@ -65,8 +65,9 @@ padtec/
 │   ├── secoes/                        sub-prompts genéricos por seção do núcleo
 │   └── extensoes/                     sub-prompts por capacidade condicional
 ├── templates/
-│   ├── nucleo/                        esqueletos das quinze seções do núcleo
+│   ├── nucleo/                        esqueletos das dezesseis seções do núcleo
 │   └── condicionais/                  esqueletos das nove seções condicionais
+├── adaptadores/                       apontadores finos por agente (opcionais)
 ├── checklist-qa.md                    verificações objetivas de qualidade
 └── glossario-base.md                  vocabulário-semente para estender no destino
 ```
@@ -77,14 +78,15 @@ Resumo dos artefatos raiz:
 - `VERSION`. Versão semântica do pacote, leitura por inspeção rápida ou automação.
 - `guia-humano.md`. Roteiro passo a passo do usuário que vai aplicar o pacote a um projeto. Entrada operacional principal.
 - `prompts/`. Conteúdo executado por um agente com tool-calling nativo no ambiente do projeto destino. O orquestrador é `00-mestre.md`; sub-prompts complementares ficam em `variantes/`, `secoes/` e `extensoes/`.
-- `templates/`. Esqueletos de arquivos por seção, em `nucleo/` (quinze seções) e `condicionais/` (nove capacidades); o nível escolhido seleciona quais são preenchidos. O agente preenche os esqueletos com conteúdo extraído do código-fonte.
+- `templates/`. Esqueletos de arquivos por seção, em `nucleo/` (dezesseis seções) e `condicionais/` (nove capacidades); o nível escolhido seleciona quais são preenchidos. O agente preenche os esqueletos com conteúdo extraído do código-fonte.
 - `checklist-qa.md`. Lista de verificações objetivas a serem executadas sobre a documentação gerada antes de declarar a entrega aceita.
 - `glossario-base.md`. Conjunto inicial de termos recorrentes. O glossário gerado em cada projeto destino estende esta base com termos específicos do domínio do projeto.
+- `adaptadores/`. Apontadores finos por agente (skill do Claude Code, instruções do Copilot) que fazem o agente encontrar o prompt mestre sozinho. Opcionais; a lógica continua no mestre.
 - Ferramental opcional de publicação no Confluence: `ferramentas/confluence-mermaid-package/` no repositório-fonte do PADTec, distribuído à parte da cópia de `padtec/`. Converte arquivos Markdown produzidos pela geração em formato pronto para publicação no Atlassian Confluence, preservando blocos Mermaid.
 
 ## Como começar
 
-A entrada operacional do pacote é o arquivo [guia-humano.md](guia-humano.md). Ele descreve, em sequência executável, as ações que um usuário precisa realizar para aplicar o PADTec a um projeto: copiar o pacote, escolher o nível, invocar o prompt mestre em um ambiente de agente com tool-calling nativo e validar a documentação gerada.
+A entrada operacional do pacote é o arquivo [guia-humano.md](guia-humano.md). Ele descreve, em sequência executável, as ações que um usuário precisa realizar para aplicar o PADTec a um projeto: copiar o pacote, escolher o nível, invocar o prompt mestre em um ambiente de agente com tool-calling nativo e validar a documentação gerada. Para que o agente encontre o mestre sem indicação de caminho, há adaptadores opcionais em [adaptadores/README.md](adaptadores/README.md).
 
 ## Bibliografia e fontes técnicas recomendadas
 
