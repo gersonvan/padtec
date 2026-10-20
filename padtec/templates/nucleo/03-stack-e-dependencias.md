@@ -28,7 +28,7 @@
 
 ## Serviços de plataforma
 
-<!-- IA: liste serviços de plataforma utilizados pelo sistema (armazenamento gerenciado, fila gerenciada, autenticação gerenciada, etc.) sem citar nome de produto comercial — use categoria genérica. O nome específico do produto fica documentado nas seções condicionais correspondentes em `condicional-<slug>.md`. -->
+<!-- IA: liste serviços de plataforma utilizados pelo sistema (armazenamento gerenciado, fila gerenciada, autenticação gerenciada, etc.) com o nome do produto ou serviço em uso ao lado da categoria, com evidência; o detalhamento operacional de cada um fica nas seções condicionais correspondentes em `condicional-<slug>.md`. -->
 
 | Categoria | Função no sistema | Modo de consumo | Evidência |
 |---|---|---|---|

@@ -42,6 +42,14 @@
 
 <<POLITICA_DE_VERSIONAMENTO_DA_DOCUMENTACAO>>
 
+## Auto-manutenção
+
+<!-- IA: tabela com um carimbo de verificação por documento gerado, preenchida nesta execução com a data de hoje e o modo "gerado pelo PADTec". Instrua quem revisar depois a atualizar a linha do documento revisado e a reescrever a seção desatualizada, em vez de acrescentar notas ou avisos ao final. Não registre prazos nem periodicidade como compromisso. -->
+
+| Documento | Verificado em | Como | Observação |
+|---|---|---|---|
+| `<<NN-slug.md>>` | `<<AAAA-MM-DD>>` | `<<GERADO_PELO_PADTEC_OU_REVISAO_MANUAL>>` | `<<OBSERVACAO_OU_VAZIO>>` |
+
 ## Auditoria de gaps documentais
 
 <!-- IA: descreva o procedimento de auditoria periódica que identifica lacunas: rotas sem documentação, entidades sem entrada em glossário, configurações sem descrição. Mantenha o procedimento prescritivo. -->

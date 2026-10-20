@@ -17,6 +17,7 @@ Execute, em `raiz-do-projeto-destino`:
 3. Identifique cenários comuns de setup que falham (variáveis ausentes, portas em conflito, dependências de serviço externo não inicializadas) a partir da seção 12 (quick-start) e da configuração de docker-compose ou scripts de setup.
 4. Para cada cenário, registre: sintoma (mensagem ou comportamento observado), causa provável (com evidência em código), procedimento de diagnóstico (comandos ou pontos a inspecionar), procedimento de correção.
 5. Quando o projeto destino tiver histórico de issues conhecidas em `docs/` ou em um diretório de notas, use-as como fonte. Não invente cenários: prefira menos itens, todos sustentados, do que muitos itens inferidos.
+6. Levante os defeitos e limitações com registro textual no repositório: comentários `TODO`, `FIXME`, `HACK` e `XXX`, testes marcados como ignorados ou pendentes, contornos comentados, referências a chamados ou issues em comentários e nas mensagens de commit recentes, sempre com `arquivo:linha`.
 
 ## Procedimento de preenchimento
 

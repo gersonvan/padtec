@@ -1,6 +1,6 @@
 # Arquitetura
 
-<!-- IA: apresente a arquitetura em três blocos: visão em camadas, fluxo principal de uma requisição e decisões de design relevantes. Use vocabulário genérico (camada de apresentação, camada de aplicação, camada de domínio, camada de infraestrutura). Não cite nomes de framework, biblioteca, runtime ou produto. -->
+<!-- IA: apresente a arquitetura em três blocos: visão em camadas, fluxo principal de uma requisição e decisões de design relevantes. Organize a descrição pelo vocabulário de camadas (apresentação, aplicação, domínio, infraestrutura) e nomeie o framework, o runtime e as bibliotecas reais que materializam cada camada, sempre com evidência — quem mantém o sistema precisa saber o que de fato está em uso. -->
 
 ## Visão em camadas
 
@@ -15,7 +15,7 @@
 
 ## Diagrama de componentes internos
 
-<!-- IA: gere diagrama Mermaid `flowchart TB` mostrando os componentes internos agrupados por camada, com setas indicando dependência (a aponta para b quando a usa b). Mantenha rótulos genéricos (sem nomes de produto). Limite a no máximo doze nós. -->
+<!-- IA: gere diagrama Mermaid `flowchart TB` mostrando os componentes internos agrupados por camada, com setas indicando dependência (a aponta para b quando a usa b). Rotule os nós com o nome real do componente ou produto em uso (o framework da camada, o banco, a fila), não com categorias genéricas. Limite a no máximo doze nós. -->
 
 ```mermaid
 <<DIAGRAMA_MERMAID_COMPONENTES_INTERNOS_POR_CAMADA>>

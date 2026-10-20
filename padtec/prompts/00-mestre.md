@@ -43,7 +43,7 @@ Execute os passos abaixo **em ordem**, lendo os arquivos do projeto destino dire
 
 1. **Listar a raiz e detectar manifestos de projeto.** Procure por: `package.json`, `pom.xml`, `build.gradle` ou `build.gradle.kts`, `requirements.txt` ou `pyproject.toml`, `*.csproj` ou `*.sln`, `go.mod`, `Cargo.toml`, e manifestos de infraestrutura como código (`*.bicep`, `*.tf`, `*.tfstate`, `*.yaml` de CloudFormation, playbooks Ansible).
 2. **Detectar estrutura de diretórios.** Observe presença de `apps/`, `packages/`, `src/`, `pages/` ou `app/` (convenção Next.js), `infra/` ou `bicep/`, `scripts/` ou `bin/` (CLIs/scripts), `cmd/` (Go).
-3. **Detectar pasta de saída.** Procure, nesta ordem, por `docs/`, `documentation/`, `documentacao/` na raiz. Se nenhuma existir, crie `docs/`. A pasta resolvida é a `pasta-de-saída` repassada a cada sub-prompt. Ao reexecutar o PADTec, regenere integralmente os arquivos que pertencem ao conjunto gerado (`NN-<slug>.md` e `condicional-<slug>.md`); não altere nem remova outros arquivos presentes na pasta de saída.
+3. **Detectar pasta de saída.** Procure, nesta ordem, por `docs/`, `documentation/`, `documentacao/` na raiz. Se nenhuma existir, crie `docs/`. A pasta resolvida é a `pasta-de-saída` repassada a cada sub-prompt. Ao reexecutar o PADTec, regenere integralmente os arquivos que pertencem ao conjunto gerado (`NN-<slug>.md` e `condicional-<slug>.md`) e o bloco delimitado do `AGENTS.md` na raiz; não altere nem remova outros arquivos da pasta de saída nem texto fora dos marcadores do `AGENTS.md`.
 4. **Resolver variante por árvore de decisão.** Aplique as regras abaixo em ordem; pare na primeira que casar:
    - Há manifestos `*.bicep`, `*.tf` ou playbooks Ansible **e não há** `package.json` aplicacional nem outro manifesto de aplicação na raiz → **`iac`**.
    - Há `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro` em `dependencies` ou `devDependencies` **sem** dependências de framework backend acopladas (Nest, Express, Fastify, Koa) → **`frontend-site`**.
@@ -95,10 +95,10 @@ Execute na ordem abaixo, do início ao fim:
 
 1. **Carregar variante.** Leia integralmente `prompts/variantes/<slug>.md`, onde `<slug>` é a variante resolvida em iii.4. Esse arquivo descreve ênfases específicas, exemplos de stack típicos e referências cruzadas a templates.
 2. **Resolver conjunto de seções.** O nível alvo (`L1`, `L2`, `L3`) define o subconjunto do núcleo a gerar:
-   - **L1:** seções `01`, `02`, `03` e `13`.
-   - **L2:** seções `01` a `11` e `13`.
-   - **L3:** seções `01` a `15`.
-   Além disso, para cada capacidade ativa detectada em iv, a seção condicional correspondente entra no conjunto. As seções condicionais existem apenas em `L2` e `L3`; em `L1`, as extensões não produzem saída.
+   - **L1:** seções `01`, `02`, `03`, `13` e `16`.
+   - **L2:** seções `01` a `11`, `13` e `16`.
+   - **L3:** seções `01` a `16`.
+   Além disso, para cada capacidade ativa detectada em iv, a seção condicional correspondente entra no conjunto. As seções condicionais existem apenas em `L2` e `L3`; em `L1`, as extensões não produzem saída. A seção `16` é sempre a última: ela grava um bloco delimitado em `AGENTS.md` na raiz do projeto destino — o mapa da documentação para agentes —, não em `pasta-de-saída`.
 3. **Despacho do núcleo.** Para cada seção do núcleo no nível alvo, invoque o sub-prompt de seção em `prompts/secoes/NN-<slug>.md` conforme o **contrato de invocação de sub-prompts** definido abaixo. Sub-prompts de seção são autoritativos para o conteúdo gerado; o mestre apenas despacha e repassa parâmetros.
 4. **Despacho de extensões por capacidade.** Para cada capacidade ativa, invoque o sub-prompt de extensão em `prompts/extensoes/<slug-da-capacidade>.md`, também pelo mesmo contrato. Esses sub-prompts produzem ou enriquecem as seções condicionais correspondentes em `pasta-de-saída/`.
 5. **Pós-execução: QA.** Ao final, execute os itens mecânicos de `checklist-qa.md` (A.2, A.3, A.6 e B.1 — buscas, contagens e presença de arquivos) e reporte o resultado de cada um. Em seguida, aponte explicitamente o usuário para os itens de amostragem e leitura (A.1, A.4, A.5, A.7 e B.2 a B.4), que são gate humano antes de qualquer publicação.
@@ -129,7 +129,15 @@ Regras do contrato:
 - Os sub-prompts executam no mesmo contexto deste mestre: a variante carregada em vi.1 e os parâmetros resolvidos permanecem disponíveis a eles.
 - O significado dos parâmetros e o procedimento comum de preenchimento estão em `prompts/_comum.md`; os sub-prompts contêm apenas o que é específico da sua seção.
 
-Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do próximo. Não dispare múltiplos em paralelo: a ordem numérica satisfaz as dependências existentes (`13-glossario.md` consolida termos de `05-modelo-de-dominio.md`; `14-faq-e-troubleshooting.md` referencia `12-quick-start.md`; `15-manutencao-da-documentacao.md` referencia todos os anteriores).
+Despache os sub-prompts em ordem numérica, aguardando a conclusão de cada um antes do próximo; este é o modo padrão e o único obrigatório. Quando o ambiente de agente oferecer execução paralela confiável, o despacho pode seguir o grafo abaixo, aguardando a conclusão de cada grupo antes do seguinte:
+
+- Grupo 1, sem dependências: `01`, `02`, `03`, `04`, `10`, `11`.
+- Grupo 2, após o grupo 1: `05`, `07`, `08`, `09` e todas as seções condicionais.
+- Grupo 3: `06` após `05`; `12` após o grupo 1.
+- Grupo 4: `13` após todos os anteriores; `14` após `12`.
+- Grupo 5, após tudo: `15` e `16`.
+
+Motivo das dependências: `06` usa as entidades de `05`; `13` consolida termos de todos os documentos; `14` referencia `12`; `15` e `16` referenciam todos os anteriores.
 
 ## vii. Regras de qualidade
 

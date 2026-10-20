@@ -17,6 +17,7 @@ Execute, em `raiz-do-projeto-destino`:
 3. Identifique atores principais lendo a estrutura de domínio (pastas em `src/` ou equivalente, nomes de módulos top-level, papéis citados em `README.md`).
 4. Detecte a proposta de valor e o contexto pelos seguintes sinais: descrição em manifestos, primeiros parágrafos do `README.md`, documentação em `docs/`/`documentation/`/`documentacao/` quando já existir, badges/links da raiz.
 5. Liste as integrações externas e dependências de infraestrutura mais visíveis (pelos manifestos e por configuração) — apenas em alto nível; o detalhamento vive nas seções específicas.
+6. Mapeie onde cada coisa vive: ponto de entrada da aplicação, rotas ou interface externa, modelo de domínio, configuração (sem valores de segredo), testes, pipeline, scripts utilitários e documentação existente — cada item com caminho relativo e evidência.
 
 ## Procedimento de preenchimento
 

@@ -17,6 +17,7 @@ Execute, em `raiz-do-projeto-destino`:
 3. Identifique a governança de revisão: arquivos `CODEOWNERS`, política de PR de documentação, processos descritos em `CONTRIBUTING.md`. Se houver, referencie; se não houver, registre uma governança mínima (ex.: revisão por pelo menos um par antes de merge na pasta de documentação).
 4. Para cada seção do `pasta-de-saída/` produzida pelos demais sub-prompts, defina um **checklist de qualidade de manutenção**: o que conferir em cada revisão (versões ainda batem com lockfile, novos endpoints presentes, novas variáveis presentes, etc.).
 5. Identifique a relação entre este documento e o `checklist-qa.md` do pacote PADTec, usado para validação no momento da geração inicial — esta seção foca em manutenção contínua; o checklist de geração é referenciado, não duplicado.
+6. Prepare a tabela de auto-manutenção com um carimbo por documento gerado nesta execução (data de hoje, modo "gerado pelo PADTec").
 
 ## Procedimento de preenchimento
 

@@ -40,3 +40,4 @@ A entrada segue o formato `- **Termo.** Definição curta.`.
 - **Evidência rastreável.** Citação no formato `arquivo:linha` ou `arquivo` que ancora uma afirmação técnica do conteúdo gerado a um ponto verificável do código.
 - **Marcador de carência.** Texto literal `// CARÊNCIA: não identificado no código`, gravado em seções para as quais o código não fornece evidência suficiente.
 - **Cobertura exaustiva.** Regra de qualidade que exige que todo elemento estrutural do código (rota, controlador, entidade, job) apareça em alguma tabela do conteúdo gerado.
+- **Mapa para agentes.** Bloco delimitado gravado em `AGENTS.md` na raiz do projeto destino pela seção `16`, com o índice da documentação gerada, onde cada coisa vive e as regras para usá-la ou editá-la.

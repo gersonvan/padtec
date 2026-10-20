@@ -67,6 +67,14 @@
 - **Resposta:** `<<RESPOSTA>>`
 - **Referência primária:** `<<ARQUIVO:LINHA_OU_DOCUMENTO>>`
 
+## Defeitos conhecidos registrados no repositório
+
+<!-- IA: liste apenas defeitos e limitações com registro textual no repositório: comentários `TODO`, `FIXME`, `HACK` e `XXX`, testes marcados como ignorados ou pendentes, contornos comentados no código, referências a chamados ou issues em comentários e em mensagens de commit recentes. Não diagnostique nem infira defeitos; quando não houver nenhum registro, escreva o marcador de carência. -->
+
+| Defeito ou limitação | Onde | Tipo de registro | Evidência |
+|---|---|---|---|
+| `<<DESCRICAO_LITERAL_DO_REGISTRO>>` | `<<COMPONENTE_OU_ARQUIVO>>` | `<<TODO_FIXME_TESTE_IGNORADO_OU_CONTORNO>>` | `<<ARQUIVO:LINHA>>` |
+
 ## Quando escalar
 
 <!-- IA: descreva quando o cenário deve ser escalado em vez de resolvido localmente: critérios objetivos, canal de escalação e informações mínimas a anexar. -->

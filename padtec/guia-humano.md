@@ -6,8 +6,8 @@ Este guia descreve, em sequência executável, como aplicar o PADTec a um projet
 
 1. **Copiar** a pasta `padtec/` para a raiz do projeto destino.
 2. **Escolher o nível:** `L1` (essencial), `L2` (completo, padrão) ou `L3` (aprofundado).
-3. **Invocar** no chat do agente de codificação, com o projeto destino aberto, em uma mensagem só: apontar para `padtec/prompts/00-mestre.md` e informar o nível.
-4. **Aguardar** o agente detectar variante e capacidades e gerar os arquivos em `docs/`. Lacunas aparecem como `// CARÊNCIA: não identificado no código`.
+3. **Invocar** no chat do agente de codificação, com o projeto destino aberto, em uma mensagem só: apontar para `padtec/prompts/00-mestre.md` e informar o nível. Com um adaptador instalado (`padtec/adaptadores/`), basta pedir a documentação.
+4. **Aguardar** o agente detectar variante e capacidades e gerar os arquivos em `docs/` e o bloco do PADTec em `AGENTS.md`, na raiz. Lacunas aparecem como `// CARÊNCIA: não identificado no código`.
 5. **Validar** com `padtec/checklist-qa.md`, incluindo a revisão de português do Brasil e acentuação. Pedir correção dos itens reprovados até zerar.
 6. **(Opcional) Publicar** no Confluence com o ferramental `confluence-mermaid-package`, mantido no repositório-fonte do PADTec em `ferramentas/` (não integra a cópia de `padtec/`; copie-o para o projeto quando for publicar).
 
@@ -49,6 +49,15 @@ Exemplos de mensagem aceitos pelo prompt mestre:
 
 Parâmetros opcionais na mesma mensagem: a pasta de saída (padrão: a pasta de documentação existente, ou `docs/`) e a publicação no Confluence (padrão: não).
 
+Por ferramenta:
+
+| Agente | Como invocar |
+|---|---|
+| Qualquer agente com acesso aos arquivos | A mensagem acima, apontando para `padtec/prompts/00-mestre.md` |
+| Claude Code | A mesma mensagem, ou, com a skill de `padtec/adaptadores/claude-code/` instalada, apenas o pedido de documentação (ou `/padtec`) |
+| GitHub Copilot Chat | A mesma mensagem, ou, com `padtec/adaptadores/copilot/copilot-instructions.md` acrescentado às instruções do repositório, apenas o pedido |
+| Codex e outros que leem `AGENTS.md` | A mesma mensagem na primeira vez; depois, o bloco gerado em `AGENTS.md` já diz como regenerar |
+
 O prompt mestre é projetado para um agente com tool-calling nativo — ou seja, o agente lerá os arquivos do projeto e do pacote diretamente. Não cole código nem conteúdo de arquivos na conversa; o agente já tem acesso ao sistema de arquivos.
 
 ## Passo 4 — Aguardar a detecção automática e a geração
@@ -57,7 +66,7 @@ Durante a execução, o agente realiza, em ordem:
 
 1. **Detecção da variante.** Analisa a estrutura do projeto e determina qual das cinco variantes se aplica (`full-stack-web`, `backend-api`, `frontend-site`, `automacao-script`, `iac`).
 2. **Detecção das capacidades.** Inspeciona dependências, configurações e código em busca de sinais técnicos das nove capacidades condicionais (banco de dados, cache, filas, autenticação, integrações externas, armazenamento, notificações, jobs agendados, multi-tenancy). Cada capacidade detectada habilita uma seção condicional adicional na geração (nos níveis L2 e L3).
-3. **Geração da documentação.** Produz os arquivos previstos para o nível escolhido na pasta de saída da raiz do projeto destino: `docs/`, `documentation/` ou `documentacao/`, a que existir (ou a informada na invocação); `docs/` é criada quando nenhuma existe. O agente usa a pasta existente e preserva arquivos já presentes que não façam parte do escopo do PADTec.
+3. **Geração da documentação.** Produz os arquivos previstos para o nível escolhido na pasta de saída da raiz do projeto destino: `docs/`, `documentation/` ou `documentacao/`, a que existir (ou a informada na invocação); `docs/` é criada quando nenhuma existe. O agente usa a pasta existente e preserva arquivos já presentes que não façam parte do escopo do PADTec. Ao final, grava um bloco delimitado em `AGENTS.md`, na raiz do projeto — o mapa da documentação para agentes —, preservando qualquer conteúdo que o arquivo já tenha fora dos marcadores.
 
 Acompanhe a execução pelo chat. O agente exibe progresso seção a seção e pausa quando precisa de decisão humana. Quando uma seção do template requisita conteúdo que o agente não encontra evidência no código-fonte, o conteúdo gerado registra o marcador literal `// CARÊNCIA: não identificado no código` em vez de inventar — esse marcador é parte do contrato anti-alucinação do pacote.
 

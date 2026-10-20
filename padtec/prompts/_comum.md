@@ -23,6 +23,7 @@ Os sub-prompts executam no mesmo contexto do orquestrador; não precisam reler o
 4. Quando uma evidência requerida não puder ser localizada, registre o marcador literal `// CARÊNCIA: não identificado no código` no lugar do conteúdo. Não infira além do código.
 5. Toda afirmação técnica cita `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural), com caminho relativo à raiz do projeto destino.
 6. Grave o documento no caminho indicado na seção "Saída esperada" do sub-prompt. Ao reexecutar o PADTec, regenere-o integralmente.
+7. A documentação gerada nomeia a stack real do projeto (frameworks, runtimes, bibliotecas, serviços), sempre com evidência. A independência de stack é uma regra dos arquivos do pacote, não da documentação de um sistema concreto.
 
 ## Guarda por nível
 

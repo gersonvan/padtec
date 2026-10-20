@@ -44,6 +44,14 @@
 <<DIAGRAMA_MERMAID_CONTEXTO_DE_ATORES>>
 ```
 
+## Onde cada coisa vive
+
+<!-- IA: tabela de orientação rápida para quem (pessoa ou agente) precisa localizar algo no repositório: ponto de entrada da aplicação, rotas ou interface externa, modelo de domínio, configuração e segredos (sem valores), testes, pipeline de integração e entrega, scripts utilitários, documentação existente. Uma linha por item, com o caminho relativo à raiz e a evidência. Inclua só o que existe; o que não existir recebe o marcador de carência. -->
+
+| O que | Onde (caminho) | Evidência |
+|---|---|---|
+| `<<ITEM>>` | `<<CAMINHO_RELATIVO>>` | `<<ARQUIVO:LINHA_OU_DIRETORIO>>` |
+
 ## Como navegar a documentação
 
 <!-- IA: liste os próximos documentos recomendados para leitura na sequência indicada pela ordenação `NN-` do nível corrente. Aponte cada item pelo caminho relativo `./NN-slug.md`. -->
