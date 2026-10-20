@@ -127,12 +127,13 @@ Regras do contrato:
 - Quando `modo-monorepo: sim`, o sub-prompt pode emitir um documento por app; o orquestrador apenas observa a saída.
 - O sub-prompt **não** procura outros sub-prompts: composição é responsabilidade exclusiva do mestre.
 - Os sub-prompts executam no mesmo contexto deste mestre: a variante carregada em vi.1 e os parâmetros resolvidos permanecem disponíveis a eles.
+- O significado dos parâmetros e o procedimento comum de preenchimento estão em `prompts/_comum.md`; os sub-prompts contêm apenas o que é específico da sua seção.
 
 Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do próximo. Não dispare múltiplos em paralelo: a ordem numérica satisfaz as dependências existentes (`13-glossario.md` consolida termos de `05-modelo-de-dominio.md`; `14-faq-e-troubleshooting.md` referencia `12-quick-start.md`; `15-manutencao-da-documentacao.md` referencia todos os anteriores).
 
 ## vii. Regras de qualidade
 
-As sete regras abaixo são o contrato de qualidade do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
+As sete regras abaixo são o contrato de qualidade do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. Os templates não as reproduzem: este bloco é a única fonte. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
 
 1. **Evidência rastreável.** Toda afirmação técnica em conteúdo gerado deve citar `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural e não pontual) do código-fonte do projeto destino. Formato sugerido: nota de rodapé ou citação inline. Caminhos citados são relativos à raiz do projeto destino.
 2. **Anti-alucinação.** Quando o sub-prompt requisita uma seção mas a evidência não é encontrada no código, o conteúdo gerado registra o marcador literal `// CARÊNCIA: não identificado no código` no lugar da afirmação. Proibido inferir além do código.

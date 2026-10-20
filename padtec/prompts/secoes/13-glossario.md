@@ -2,14 +2,7 @@
 
 ## Parâmetros recebidos do orquestrador
 
-Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de invocação de sub-prompts** ali definido. Assume valores resolvidos para:
-
-- `nível` — `L1`, `L2` ou `L3`.
-- `variante` — slug da variante resolvida.
-- `pasta-de-saída` — caminho relativo no projeto destino onde gravar o documento gerado.
-- `capacidades-ativas` — lista de slugs separados por vírgula, ou vazio.
-- `modo-monorepo` — `sim` ou `não`.
-- `raiz-do-projeto-destino` — caminho relativo ao workspace ou `.`.
+Os seis parâmetros (`nível`, `variante`, `pasta-de-saída`, `capacidades-ativas`, `modo-monorepo`, `raiz-do-projeto-destino`) chegam conforme o contrato de invocação de `prompts/00-mestre.md`, detalhado em `prompts/_comum.md`, que também fixa o procedimento comum de preenchimento e a guarda por nível.
 
 ## Template a preencher
 
@@ -29,10 +22,10 @@ Leia primeiro `glossario-base.md`, na raiz do pacote, e separe os termos aplicá
 
 ## Procedimento de preenchimento
 
-1. Para cada placeholder `<<...>>` no template, substitua pelo conteúdo correspondente extraído.
-2. Para cada diretiva `<!-- IA: ... -->`, execute a diretiva e remova o comentário do documento final.
-3. Verifique a quantidade mínima de termos antes de finalizar o documento (ver regras de qualidade abaixo).
-4. Quando um termo for usado no código mas não tenha definição inferível com segurança, inclua-o no glossário com `// CARÊNCIA: não identificado no código` no campo de definição — registrar a presença do termo é mais útil do que omitir.
+Além do procedimento comum de `prompts/_comum.md`:
+
+1. Verifique a quantidade mínima de termos antes de finalizar o documento (ver regras de qualidade abaixo).
+2. Quando um termo for usado no código mas não tenha definição inferível com segurança, inclua-o no glossário com `// CARÊNCIA: não identificado no código` no campo de definição — registrar a presença do termo é mais útil do que omitir.
 
 ## Regras de qualidade aplicáveis
 
