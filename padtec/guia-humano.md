@@ -69,7 +69,7 @@ Quando algum item falha, peça ao agente a correção indicando o item específi
 
 ## Passo 6 — Publicar no Confluence (opcional)
 
-Se a documentação for publicada no Atlassian Confluence, utilize o ferramental `confluence-mermaid-package`, mantido no repositório-fonte do PADTec em `ferramentas/confluence-mermaid-package/` — ele não integra a cópia de `padtec/`; copie-o para o projeto quando for publicar. Esse pacote converte os arquivos Markdown gerados em formato ADF (Atlassian Document Format) preservando blocos Mermaid, e oferece scripts para atualizar páginas existentes ou criar novas. O ponto de entrada operacional é [QUICKSTART.md](../ferramentas/confluence-mermaid-package/QUICKSTART.md); para instalação completa do ferramental, consulte [INSTALL.md](../ferramentas/confluence-mermaid-package/INSTALL.md).
+Se a documentação for publicada no Atlassian Confluence, utilize o ferramental `confluence-mermaid-package`, mantido no repositório-fonte do PADTec em `ferramentas/confluence-mermaid-package/` — ele não integra a cópia de `padtec/`; copie-o para o projeto quando for publicar. Esse pacote converte os arquivos Markdown gerados em formato ADF (Atlassian Document Format) preservando blocos Mermaid, e oferece scripts para atualizar páginas existentes ou criar novas. O ponto de entrada operacional é [QUICKSTART.md](../ferramentas/confluence-mermaid-package/QUICKSTART.md); para instalação, configuração e limitações do ferramental, consulte o [README.md](../ferramentas/confluence-mermaid-package/README.md) dele.
 
 ## Após a primeira geração
 

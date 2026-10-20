@@ -11,3 +11,6 @@ AGENTS.md
 
 # Credenciais do ferramental Confluence (defesa em profundidade; o subpacote também as ignora)
 ferramentas/confluence-mermaid-package/config.js
+
+# Worktrees temporários de agentes
+.claude/worktrees/
