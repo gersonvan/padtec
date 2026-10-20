@@ -27,7 +27,7 @@ O usuário fornece:
 
 - **`nível` (obrigatório):** um de `L1`, `L2`, `L3`. Define o subconjunto de seções do núcleo a gerar. Relação: `L1 ⊂ L2 ⊂ L3`.
 - **`pasta de saída` (opcional):** caminho relativo no projeto destino onde gravar os documentos gerados. Default: detectada pelo procedimento iii.3 (`docs/`, `documentation/` ou `documentacao/`, criando `docs/` se nenhuma existir).
-- **`publicar no Confluence` (opcional):** booleano. Default: `não`. Quando `sim`, ao final do despacho consulte `confluence-mermaid-package/QUICKSTART.md` para o procedimento de publicação.
+- **`publicar no Confluence` (opcional):** booleano. Default: `não`. Quando `sim`, ao final do despacho consulte `confluence-mermaid-package/QUICKSTART.md` se o ferramental estiver presente no projeto (ele é distribuído à parte, em `ferramentas/` no repositório-fonte do PADTec); se não estiver, informe o usuário e não tente publicar.
 
 Formato esperado de invocação (linguagem natural aceita):
 
@@ -102,7 +102,7 @@ Execute na ordem abaixo, do início ao fim:
 3. **Despacho do núcleo.** Para cada seção do núcleo no nível alvo, invoque o sub-prompt de seção em `prompts/secoes/NN-<slug>.md` conforme o **contrato de invocação de sub-prompts** definido abaixo. Sub-prompts de seção são autoritativos para o conteúdo gerado; o mestre apenas despacha e repassa parâmetros.
 4. **Despacho de extensões por capacidade.** Para cada capacidade ativa, invoque o sub-prompt de extensão em `prompts/extensoes/<slug-da-capacidade>.md`, também pelo mesmo contrato. Esses sub-prompts produzem ou enriquecem as seções condicionais correspondentes em `pasta-de-saída/`.
 5. **Pós-execução: QA.** Ao final, execute os itens mecânicos de `checklist-qa.md` (A.2, A.3, A.6 e B.1 — buscas, contagens e presença de arquivos) e reporte o resultado de cada um. Em seguida, aponte explicitamente o usuário para os itens de amostragem e leitura (A.1, A.4, A.5, A.7 e B.2 a B.4), que são gate humano antes de qualquer publicação.
-6. **Publicação no Confluence (condicional).** Se o usuário pediu publicação no Confluence, consulte `confluence-mermaid-package/QUICKSTART.md` para o procedimento; não tente publicar sem o checklist QA aprovado.
+6. **Publicação no Confluence (condicional).** Se o usuário pediu publicação no Confluence, consulte `confluence-mermaid-package/QUICKSTART.md` se o ferramental estiver presente no projeto (distribuído à parte, em `ferramentas/` no repositório-fonte do PADTec); se não estiver, informe o usuário. Não tente publicar sem o checklist QA aprovado.
 
 ### Contrato de invocação de sub-prompts
 

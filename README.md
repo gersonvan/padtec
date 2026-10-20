@@ -10,7 +10,7 @@ O PADTec é um pacote portátil para produzir documentação técnica a partir d
 - [padtec/guia-humano.md](padtec/guia-humano.md): roteiro operacional — por onde começar.
 - [padtec/README.md](padtec/README.md): identidade do pacote, níveis, variantes, capacidades condicionais e estrutura interna.
 - [padtec/checklist-qa.md](padtec/checklist-qa.md): verificações objetivas sobre a documentação gerada.
-- [padtec/confluence-mermaid-package/](padtec/confluence-mermaid-package/): ferramental opcional para publicar a documentação no Confluence, preservando diagramas Mermaid.
+- [ferramentas/confluence-mermaid-package/](ferramentas/confluence-mermaid-package/): ferramental opcional, distribuído à parte do pacote, para publicar a documentação no Confluence, preservando diagramas Mermaid.
 
 ## Princípios
 

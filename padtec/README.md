@@ -69,8 +69,7 @@ padtec/
 │   ├── L2-completo/                   esqueletos de arquivos para nível L2
 │   └── L3-aprofundado/                esqueletos de arquivos para nível L3
 ├── checklist-qa.md                    verificações objetivas de qualidade
-├── glossario-base.md                  vocabulário-semente para estender no destino
-└── confluence-mermaid-package/        ferramental opcional Markdown → Confluence
+└── glossario-base.md                  vocabulário-semente para estender no destino
 ```
 
 Resumo dos artefatos raiz:
@@ -82,7 +81,7 @@ Resumo dos artefatos raiz:
 - `templates/`. Esqueletos de arquivos por nível. O agente preenche estes esqueletos com conteúdo extraído do código-fonte.
 - `checklist-qa.md`. Lista de verificações objetivas a serem executadas sobre a documentação gerada antes de declarar a entrega aceita.
 - `glossario-base.md`. Conjunto inicial de termos recorrentes. O glossário gerado em cada projeto destino estende esta base com termos específicos do domínio do projeto.
-- `confluence-mermaid-package/`. Ferramental opcional que converte arquivos Markdown produzidos pela geração em formato pronto para publicação no Atlassian Confluence, preservando blocos Mermaid.
+- Ferramental opcional de publicação no Confluence: `ferramentas/confluence-mermaid-package/` no repositório-fonte do PADTec, distribuído à parte da cópia de `padtec/`. Converte arquivos Markdown produzidos pela geração em formato pronto para publicação no Atlassian Confluence, preservando blocos Mermaid.
 
 ## Como começar
 

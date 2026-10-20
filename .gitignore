@@ -10,4 +10,4 @@ node_modules/
 AGENTS.md
 
 # Credenciais do ferramental Confluence (defesa em profundidade; o subpacote também as ignora)
-padtec/confluence-mermaid-package/config.js
+ferramentas/confluence-mermaid-package/config.js
