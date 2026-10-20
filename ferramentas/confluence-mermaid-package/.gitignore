@@ -6,7 +6,6 @@ config.js
 
 # Logs
 *.log
-restore-log*.json
 batch-update-log.json
 
 # Node modules (caso adicione dependências)
