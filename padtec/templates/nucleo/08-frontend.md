@@ -1,6 +1,6 @@
 # Frontend
 
-<!-- IA: descreva a camada de apresentação do sistema sem citar nomes de framework ou biblioteca. Use vocabulário genérico (camada de apresentação, roteamento, gerência de estado, integração com a interface externa, renderização). Os nomes específicos pertencem ao bloco de stack em `03-stack-e-dependencias.md`. Quando o sistema não possui frontend autônomo, registrar "Não aplicável" no início e omitir tabelas seguintes. -->
+<!-- IA: descreva a camada de apresentação organizando-a por responsabilidade (roteamento, gerência de estado, integração com a interface externa, renderização) e nomeando o framework e as bibliotecas reais que cumprem cada uma, com evidência; as versões ficam em `03-stack-e-dependencias.md`. Quando o sistema não possui frontend autônomo, registrar "Não aplicável" no início e omitir tabelas seguintes. -->
 
 ## Estratégia de renderização
 
@@ -18,7 +18,7 @@
 
 ## Composição de telas
 
-<!-- IA: para cada tela ou página principal, descreva os componentes que a compõem e o fluxo de carregamento de dados. Mantenha vocabulário genérico (componente, contêiner, formulário). -->
+<!-- IA: para cada tela ou página principal, descreva os componentes que a compõem e o fluxo de carregamento de dados. Use os nomes reais dos componentes no código, classificando-os (componente, contêiner, formulário). -->
 
 | Tela | Componentes principais | Fonte de dados | Evidência |
 |---|---|---|---|

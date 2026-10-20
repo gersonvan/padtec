@@ -129,7 +129,15 @@ Regras do contrato:
 - Os sub-prompts executam no mesmo contexto deste mestre: a variante carregada em vi.1 e os parâmetros resolvidos permanecem disponíveis a eles.
 - O significado dos parâmetros e o procedimento comum de preenchimento estão em `prompts/_comum.md`; os sub-prompts contêm apenas o que é específico da sua seção.
 
-Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do próximo. Não dispare múltiplos em paralelo: a ordem numérica satisfaz as dependências existentes (`13-glossario.md` consolida termos de `05-modelo-de-dominio.md`; `14-faq-e-troubleshooting.md` referencia `12-quick-start.md`; `15-manutencao-da-documentacao.md` referencia todos os anteriores).
+Despache os sub-prompts em ordem numérica, aguardando a conclusão de cada um antes do próximo; este é o modo padrão e o único obrigatório. Quando o ambiente de agente oferecer execução paralela confiável, o despacho pode seguir o grafo abaixo, aguardando a conclusão de cada grupo antes do seguinte:
+
+- Grupo 1, sem dependências: `01`, `02`, `03`, `04`, `10`, `11`.
+- Grupo 2, após o grupo 1: `05`, `07`, `08`, `09` e todas as seções condicionais.
+- Grupo 3: `06` após `05`; `12` após o grupo 1.
+- Grupo 4: `13` após todos os anteriores; `14` após `12`.
+- Grupo 5, após tudo: `15` e `16`.
+
+Motivo das dependências: `06` usa as entidades de `05`; `13` consolida termos de todos os documentos; `14` referencia `12`; `15` e `16` referenciam todos os anteriores.
 
 ## vii. Regras de qualidade
 

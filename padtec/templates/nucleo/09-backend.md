@@ -1,6 +1,6 @@
 # Backend
 
-<!-- IA: descreva a organização interna do backend sem citar nomes de framework, biblioteca, runtime ou produto. Use vocabulário genérico (módulo, camada, controlador, serviço de aplicação, repositório, manipulador). Nomes específicos vivem em `03-stack-e-dependencias.md`. Quando o sistema não possui backend autônomo, registrar "Não aplicável". -->
+<!-- IA: descreva a organização interna do backend pelo vocabulário de camadas (módulo, camada, controlador, serviço de aplicação, repositório, manipulador) e nomeie o framework, o runtime e as bibliotecas reais que materializam cada parte, com evidência; as versões ficam em `03-stack-e-dependencias.md`. Quando o sistema não possui backend autônomo, registrar "Não aplicável". -->
 
 ## Organização interna em módulos
 
