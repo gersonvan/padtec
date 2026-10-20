@@ -40,12 +40,12 @@ Identifique o framework efetivo pelo `package.json` e pela estrutura de diretór
 
 Caminhos relativos a `padtec/`.
 
-- `templates/<nível-resolvido>/02-arquitetura.md` — diagrama com roteamento, composição, estado, integração, renderização.
-- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — fluxos do usuário com estados de UI.
-- `templates/<nível-resolvido>/07-interface-externa.md` — APIs externas consumidas (na tabela de "chamadores externos" use o sistema como **consumidor**; ajuste o cabeçalho conforme necessário sem quebrar a estrutura).
-- `templates/<nível-resolvido>/08-frontend.md` — núcleo desta variante: roteamento, estado, integração, renderização.
-- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — variáveis públicas vs privadas.
-- `templates/L3-aprofundado/12-quick-start.md` — setup local (instalação, comandos de dev e build, variáveis mínimas para `npm run dev`).
+- `templates/nucleo/02-arquitetura.md` — diagrama com roteamento, composição, estado, integração, renderização.
+- `templates/nucleo/06-fluxos-de-negocio.md` — fluxos do usuário com estados de UI.
+- `templates/nucleo/07-interface-externa.md` — APIs externas consumidas (na tabela de "chamadores externos" use o sistema como **consumidor**; ajuste o cabeçalho conforme necessário sem quebrar a estrutura).
+- `templates/nucleo/08-frontend.md` — núcleo desta variante: roteamento, estado, integração, renderização.
+- `templates/nucleo/10-configuracao-e-ambientes.md` — variáveis públicas vs privadas.
+- `templates/nucleo/12-quick-start.md` — setup local (instalação, comandos de dev e build, variáveis mínimas para `npm run dev`).
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são consumidos.
 

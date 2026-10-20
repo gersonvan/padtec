@@ -28,11 +28,11 @@ A geração documental é configurada por três escolhas independentes:
 
 ### Níveis
 
-| Nível | Pasta | Volume aproximado |
+| Nível | Seções geradas | Volume aproximado |
 |---|---|---|
-| L1 — Essencial | `templates/L1-essencial/` | Quatro documentos: visão geral, arquitetura, stack e glossário |
-| L2 — Completo | `templates/L2-completo/` | Onze documentos de núcleo (nove quando a variante não tem frontend ou backend), glossário e até nove seções condicionais |
-| L3 — Aprofundado | `templates/L3-aprofundado/` | Quinze documentos de núcleo e até nove seções condicionais, incluindo quick-start, glossário extenso, FAQ e guia de manutenção da documentação |
+| L1 — Essencial | `01`, `02`, `03` e `13` | Quatro documentos: visão geral, arquitetura, stack e glossário |
+| L2 — Completo | `01` a `11`, `13` e condicionais | Onze documentos de núcleo (nove quando a variante não tem frontend ou backend), glossário e até nove seções condicionais |
+| L3 — Aprofundado | `01` a `15` e condicionais | Quinze documentos de núcleo e até nove seções condicionais, incluindo quick-start, glossário extenso, FAQ e guia de manutenção da documentação |
 
 Relação de inclusão: `L1 ⊂ L2 ⊂ L3`. Todo conteúdo de um nível inferior aparece nos níveis superiores, com amplitude incremental: cada nível acrescenta seções ao anterior.
 
@@ -65,9 +65,8 @@ padtec/
 │   ├── secoes/                        sub-prompts genéricos por seção do núcleo
 │   └── extensoes/                     sub-prompts por capacidade condicional
 ├── templates/
-│   ├── L1-essencial/                  esqueletos de arquivos para nível L1
-│   ├── L2-completo/                   esqueletos de arquivos para nível L2
-│   └── L3-aprofundado/                esqueletos de arquivos para nível L3
+│   ├── nucleo/                        esqueletos das quinze seções do núcleo
+│   └── condicionais/                  esqueletos das nove seções condicionais
 ├── checklist-qa.md                    verificações objetivas de qualidade
 └── glossario-base.md                  vocabulário-semente para estender no destino
 ```
@@ -78,7 +77,7 @@ Resumo dos artefatos raiz:
 - `VERSION`. Versão semântica do pacote, leitura por inspeção rápida ou automação.
 - `guia-humano.md`. Roteiro passo a passo do usuário que vai aplicar o pacote a um projeto. Entrada operacional principal.
 - `prompts/`. Conteúdo executado por um agente com tool-calling nativo no ambiente do projeto destino. O orquestrador é `00-mestre.md`; sub-prompts complementares ficam em `variantes/`, `secoes/` e `extensoes/`.
-- `templates/`. Esqueletos de arquivos por nível. O agente preenche estes esqueletos com conteúdo extraído do código-fonte.
+- `templates/`. Esqueletos de arquivos por seção, em `nucleo/` (quinze seções) e `condicionais/` (nove capacidades); o nível escolhido seleciona quais são preenchidos. O agente preenche os esqueletos com conteúdo extraído do código-fonte.
 - `checklist-qa.md`. Lista de verificações objetivas a serem executadas sobre a documentação gerada antes de declarar a entrega aceita.
 - `glossario-base.md`. Conjunto inicial de termos recorrentes. O glossário gerado em cada projeto destino estende esta base com termos específicos do domínio do projeto.
 - Ferramental opcional de publicação no Confluence: `ferramentas/confluence-mermaid-package/` no repositório-fonte do PADTec, distribuído à parte da cópia de `padtec/`. Converte arquivos Markdown produzidos pela geração em formato pronto para publicação no Atlassian Confluence, preservando blocos Mermaid.

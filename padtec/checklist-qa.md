@@ -119,7 +119,7 @@ Slugs válidos (os mesmos da tabela de capacidades do `README.md`): `banco-de-da
 Documentos do núcleo seguem estrutura mínima de seções definida pelos templates. Discrepância para baixo indica geração incompleta.
 
 - [ ] Para cada documento gerado, contar cabeçalhos de nível dois (`grep -cE "^## " <pasta-de-saída>/<arquivo>`).
-- [ ] Comparar com a contagem mínima esperada do template correspondente (ver template do nível em `padtec/templates/L1-essencial/`, `L2-completo/` ou `L3-aprofundado/`).
+- [ ] Comparar com a contagem mínima esperada do template correspondente (ver o template em `padtec/templates/nucleo/` ou `padtec/templates/condicionais/`).
 - [ ] Aprovado quando a contagem é **maior ou igual** ao mínimo para todo documento. Reprovado caso contrário; listar.
 
 ### B.3 Diagramas obrigatórios

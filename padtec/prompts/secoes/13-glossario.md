@@ -13,7 +13,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/13-glossario.md`, onde `<nível-resolvido>` é `L1-essencial` para `L1`, `L2-completo` para `L2`, `L3-aprofundado` para `L3`. Esta seção é gerada em **todos os níveis**, com mínimos distintos de termos (30 em `L1`, 60 em `L2`, 100 em `L3`); o template é o mesmo nos três níveis.
+Leia integralmente `templates/nucleo/13-glossario.md`. Esta seção é gerada em **todos os níveis**, com mínimos distintos de termos (30 em `L1`, 60 em `L2`, 100 em `L3`); o template é o mesmo nos três níveis.
 
 ## Procedimento de extração de evidências
 

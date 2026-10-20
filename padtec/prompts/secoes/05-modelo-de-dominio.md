@@ -13,7 +13,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/05-modelo-de-dominio.md`, onde `<nível-resolvido>` é `L2-completo` para `L2` ou `L3-aprofundado` para `L3`. Esta seção não existe em `L1`.
+Leia integralmente `templates/nucleo/05-modelo-de-dominio.md`. Esta seção não existe em `L1`.
 
 ## Procedimento de extração de evidências
 

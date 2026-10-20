@@ -41,15 +41,15 @@ Identifique a stack efetiva pelos manifestos do projeto destino antes de gerar c
 
 Os templates abaixo são consumidos com ênfase nesta variante. Caminhos relativos a `padtec/`.
 
-- `templates/<nível-resolvido>/02-arquitetura.md` — diagrama de camadas internas do backend.
-- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — diagramas de sequência por caso de uso.
-- `templates/<nível-resolvido>/07-interface-externa.md` — tabela exaustiva de endpoints e canais de mensageria.
-- `templates/<nível-resolvido>/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
-- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — inventário de variáveis e perfis.
-- `templates/<nível-resolvido>/11-infraestrutura-e-deployment.md` — topologia, pipeline, observabilidade.
-- `templates/<nível-resolvido>/condicionais/condicional-banco-de-dados.md` — quando capacidade `banco-de-dados` ativa.
-- `templates/<nível-resolvido>/condicionais/condicional-auth.md` — quando capacidade `auth` ativa.
-- `templates/<nível-resolvido>/condicionais/condicional-filas-async.md` — quando capacidade `filas-async` ativa.
+- `templates/nucleo/02-arquitetura.md` — diagrama de camadas internas do backend.
+- `templates/nucleo/06-fluxos-de-negocio.md` — diagramas de sequência por caso de uso.
+- `templates/nucleo/07-interface-externa.md` — tabela exaustiva de endpoints e canais de mensageria.
+- `templates/nucleo/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
+- `templates/nucleo/10-configuracao-e-ambientes.md` — inventário de variáveis e perfis.
+- `templates/nucleo/11-infraestrutura-e-deployment.md` — topologia, pipeline, observabilidade.
+- `templates/condicionais/condicional-banco-de-dados.md` — quando capacidade `banco-de-dados` ativa.
+- `templates/condicionais/condicional-auth.md` — quando capacidade `auth` ativa.
+- `templates/condicionais/condicional-filas-async.md` — quando capacidade `filas-async` ativa.
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são consumidos; mantenha em `02` a separação explícita das camadas internas.
 

@@ -15,7 +15,7 @@ Este sub-prompt é despachado apenas quando o slug `cache` está em `capacidades
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-cache.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
+Leia integralmente `templates/condicionais/condicional-cache.md`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
 
 ## Procedimento de extração de evidências
 

@@ -13,7 +13,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/04-estrutura-do-projeto.md`, onde `<nível-resolvido>` é `L2-completo` para `L2` ou `L3-aprofundado` para `L3`. Esta seção não existe em `L1`.
+Leia integralmente `templates/nucleo/04-estrutura-do-projeto.md`. Esta seção não existe em `L1`.
 
 ## Procedimento de extração de evidências
 

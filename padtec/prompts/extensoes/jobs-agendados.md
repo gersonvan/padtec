@@ -15,7 +15,7 @@ Este sub-prompt é despachado apenas quando o slug `jobs-agendados` está em `ca
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-jobs-agendados.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
+Leia integralmente `templates/condicionais/condicional-jobs-agendados.md`. Capacidades condicionais não existem em `L1`; se `nível` for `L1`, retorne sem produzir saída.
 
 ## Procedimento de extração de evidências
 

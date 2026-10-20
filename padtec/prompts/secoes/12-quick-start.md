@@ -13,7 +13,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 
 ## Template a preencher
 
-Leia integralmente `templates/L3-aprofundado/12-quick-start.md`. Esta seção existe **apenas em `L3`**.
+Leia integralmente `templates/nucleo/12-quick-start.md`. Esta seção existe **apenas em `L3`**.
 
 ## Procedimento de extração de evidências
 

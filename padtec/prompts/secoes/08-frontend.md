@@ -13,7 +13,7 @@ Este sub-prompt é invocado por `prompts/00-mestre.md` conforme o **Contrato de 
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/08-frontend.md`, onde `<nível-resolvido>` é `L2-completo` para `L2` ou `L3-aprofundado` para `L3`. Esta seção não existe em `L1`.
+Leia integralmente `templates/nucleo/08-frontend.md`. Esta seção não existe em `L1`.
 
 Quando a `variante` for `backend-api`, `automacao-script` ou `iac`, o frontend é geralmente inexistente — preencha a seção registrando `// CARÊNCIA: não aplicável a esta variante` nas subseções que pressupõem frontend, conforme a regra 2 (anti-alucinação).
 

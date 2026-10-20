@@ -44,14 +44,14 @@ Identifique a stack efetiva pela estrutura de diretórios, pelos shebangs nos ar
 
 Caminhos relativos a `padtec/`.
 
-- `templates/<nível-resolvido>/02-arquitetura.md` — fluxo de processamento (entrada → transformação → saída).
-- `templates/<nível-resolvido>/03-stack-e-dependencias.md` — runtime, gerenciador de pacotes, dependências usadas.
-- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — passo a passo por script/tarefa, com parâmetros e códigos de saída.
-- `templates/<nível-resolvido>/07-interface-externa.md` — adaptado para tabela de comandos CLI e fontes/destinos.
-- `templates/<nível-resolvido>/09-backend.md` — organização interna do código de processamento.
-- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — variáveis e arquivos de configuração.
-- `templates/L3-aprofundado/12-quick-start.md` — instalação de dependências e exemplo de invocação representativa.
-- `templates/<nível-resolvido>/condicionais/condicional-jobs-agendados.md` — quando capacidade `jobs-agendados` ativa (cron, agendador externo).
+- `templates/nucleo/02-arquitetura.md` — fluxo de processamento (entrada → transformação → saída).
+- `templates/nucleo/03-stack-e-dependencias.md` — runtime, gerenciador de pacotes, dependências usadas.
+- `templates/nucleo/06-fluxos-de-negocio.md` — passo a passo por script/tarefa, com parâmetros e códigos de saída.
+- `templates/nucleo/07-interface-externa.md` — adaptado para tabela de comandos CLI e fontes/destinos.
+- `templates/nucleo/09-backend.md` — organização interna do código de processamento.
+- `templates/nucleo/10-configuracao-e-ambientes.md` — variáveis e arquivos de configuração.
+- `templates/nucleo/12-quick-start.md` — instalação de dependências e exemplo de invocação representativa.
+- `templates/condicionais/condicional-jobs-agendados.md` — quando capacidade `jobs-agendados` ativa (cron, agendador externo).
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` são gerados.
 

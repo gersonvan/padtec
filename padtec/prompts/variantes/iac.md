@@ -46,12 +46,12 @@ Identifique a stack efetiva pelos manifestos presentes no repositório (`.bicep`
 
 Caminhos relativos a `padtec/`.
 
-- `templates/<nível-resolvido>/02-arquitetura.md` — topologia de recursos e dependências entre módulos/stacks.
-- `templates/<nível-resolvido>/03-stack-e-dependencias.md` — linguagem IaC, versões de CLI e providers, registry de módulos.
-- `templates/<nível-resolvido>/07-interface-externa.md` — adaptado para inputs/outputs/endpoints expostos pela infraestrutura.
-- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — parâmetros por ambiente, segredos, convenções de nomenclatura.
-- `templates/<nível-resolvido>/11-infraestrutura-e-deployment.md` — backend de estado, pipeline, aprovação, rollback, drift.
-- `templates/L3-aprofundado/12-quick-start.md` — pré-requisitos (CLIs, credenciais), comando de validação local (lint, plan/what-if), comando de aplicação em ambiente de desenvolvimento.
+- `templates/nucleo/02-arquitetura.md` — topologia de recursos e dependências entre módulos/stacks.
+- `templates/nucleo/03-stack-e-dependencias.md` — linguagem IaC, versões de CLI e providers, registry de módulos.
+- `templates/nucleo/07-interface-externa.md` — adaptado para inputs/outputs/endpoints expostos pela infraestrutura.
+- `templates/nucleo/10-configuracao-e-ambientes.md` — parâmetros por ambiente, segredos, convenções de nomenclatura.
+- `templates/nucleo/11-infraestrutura-e-deployment.md` — backend de estado, pipeline, aprovação, rollback, drift.
+- `templates/nucleo/12-quick-start.md` — pré-requisitos (CLIs, credenciais), comando de validação local (lint, plan/what-if), comando de aplicação em ambiente de desenvolvimento.
 
 Quando o nível alvo é `L1`, apenas `01`, `02` e `03` do núcleo são gerados; mesmo assim, `02` mostra topologia de recursos e `03` registra a stack IaC.
 

@@ -5,7 +5,7 @@ Este arquivo é a porta de entrada do pacote PADTec. Não é "núcleo" no sentid
 estrito do esqueleto de seções, portanto pode citar nomes de produto, framework
 e biblioteca quando isso representa sinal técnico de detecção. Ainda assim, a
 especificidade pesada de stack vive em `prompts/variantes/`, `prompts/extensoes/`
-e `templates/<nível>/condicionais/`.
+e `templates/condicionais/`.
 -->
 
 # PADTec v1.0.1 — Prompt mestre

@@ -15,7 +15,7 @@ Este sub-prompt é despachado apenas quando o slug `banco-de-dados` está em `ca
 
 ## Template a preencher
 
-Leia integralmente `templates/<nível-resolvido>/condicionais/condicional-banco-de-dados.md`, onde `<nível-resolvido>` é `L2-completo` ou `L3-aprofundado`. Capacidades condicionais não existem em `L1-essencial`; se `nível` for `L1`, retorne sem produzir saída.
+Leia integralmente `templates/condicionais/condicional-banco-de-dados.md`. Capacidades condicionais não existem em `L1-essencial`; se `nível` for `L1`, retorne sem produzir saída.
 
 ## Procedimento de extração de evidências
 
