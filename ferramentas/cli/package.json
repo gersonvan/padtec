@@ -1,0 +1,25 @@
+{
+  "name": "padtec-cli",
+  "version": "0.1.0",
+  "description": "CLI do PADTec: detecção de variante, capacidades, padrão estrutural e pasta de saída do projeto destino",
+  "main": "lib/padtec-detect.js",
+  "bin": {
+    "padtec": "padtec.js"
+  },
+  "scripts": {
+    "test": "node --check padtec.js && node --check lib/padtec-detect.js && node --check lib/structural-pattern-detection.js && node lib/structural-pattern-detection.test.js && node lib/padtec-detect.test.js"
+  },
+  "keywords": [
+    "padtec",
+    "documentation",
+    "detection",
+    "cli"
+  ],
+  "author": "Gerson Albuquerque",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
