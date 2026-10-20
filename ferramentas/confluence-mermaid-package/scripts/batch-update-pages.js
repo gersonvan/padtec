@@ -1,257 +1,196 @@
 #!/usr/bin/env node
+'use strict';
 
 /**
- * Atualização em lote de páginas do Confluence
- * 
- * Configure o mapeamento PAGE_MAPPING abaixo e execute:
- *   node batch-update-pages.js <pasta-dos-arquivos-adf>
+ * Atualização em lote de páginas do Confluence a partir de arquivos ADF.
+ *
+ * Uso:
+ *   node batch-update-pages.js <pasta-dos-adf> [mapeamento.json]
+ *
+ * O mapeamento (ID da página -> nome do arquivo ADF sem extensão) vem, nesta
+ * ordem, de: arquivo JSON passado como segundo argumento; variável de
+ * ambiente CONFLUENCE_PAGE_MAPPING (caminho de um JSON); options.pageMapping
+ * em config.js (objeto ou caminho de um JSON); constante PAGE_MAPPING abaixo.
+ *
+ * A pasta dos arquivos ADF vem do primeiro argumento; na ausência dele, de
+ * options.adfDirectory (config.js ou CONFLUENCE_ADF_DIRECTORY); por fim, de
+ * adf-files/ ao lado do pacote.
+ *
+ * Credenciais: config.js ou variáveis de ambiente CONFLUENCE_EMAIL,
+ * CONFLUENCE_TOKEN e CONFLUENCE_CLOUD_ID (ver README.md).
  */
 
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const { loadConfig, updatePage: updatePageOnConfluence, sleep } = require('./lib/confluence-client');
 
-// Carregar configuração
-let config;
-try {
-  config = require('../config.js');
-} catch (e) {
-  console.error('❌ Erro: Arquivo config.js não encontrado!');
-  console.error('   Execute: cp config.template.js config.js');
-  process.exit(1);
-}
+const PACKAGE_ROOT = path.join(__dirname, '..');
+const SEPARATOR = '='.repeat(63);
 
-// ═══════════════════════════════════════════════════════════════
-// CONFIGURAÇÃO: Mapeie Page IDs → arquivos ADF (sem extensão)
-// ═══════════════════════════════════════════════════════════════
-
+// Mapeamento padrão: ID da página -> nome do arquivo ADF (sem .adf.json).
+// Prefira um arquivo JSON externo; esta constante serve para uso pontual.
 const PAGE_MAPPING = {
-  // Exemplo:
-  // '123456': 'meu-documento',       // Procura meu-documento.adf.json
+  // '123456': 'meu-documento',       // procura meu-documento.adf.json
   // '789012': 'outro-documento',
-  // '345678': 'diagrama-arquitetura',
 };
-
-// Diretório dos arquivos ADF: primeiro argumento da linha de comando, options.adfDirectory do config.js ou adf-files/ ao lado do pacote
-const ADF_DIRECTORY = path.resolve(process.argv[2] || config.options?.adfDirectory || path.join(__dirname, '..', 'adf-files'));
-
-// ═══════════════════════════════════════════════════════════════
 
 const stats = {
   success: [],
   errors: [],
-  skipped: []
+  skipped: [],
 };
 
-/**
- * Faz requisição HTTP
- */
-function makeRequest(options, postData = null, timeout = 180000) {
-  return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      req.destroy();
-      reject(new Error('Request timeout'));
-    }, timeout);
-
-    const req = https.request(options, (res) => {
-      let data = '';
-      
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-      
-      res.on('end', () => {
-        clearTimeout(timeoutId);
-        resolve({
-          statusCode: res.statusCode,
-          data: data
-        });
-      });
-    });
-
-    req.on('error', (error) => {
-      clearTimeout(timeoutId);
-      reject(error);
-    });
-
-    if (postData) {
-      req.write(postData);
-    }
-    req.end();
-  });
-}
-
-/**
- * Obtém versão atual da página
- */
-async function getCurrentVersion(pageId) {
-  const auth = Buffer.from(`${config.email}:${config.token}`).toString('base64');
-  
-  const options = {
-    hostname: 'api.atlassian.com',
-    path: `/ex/confluence/${config.cloudId}/wiki/api/v2/pages/${pageId}`,
-    method: 'GET',
-    headers: {
-      'Authorization': `Basic ${auth}`,
-      'Accept': 'application/json'
-    }
-  };
-
-  const response = await makeRequest(options, null, 30000);
-  
-  if (response.statusCode === 200) {
-    const pageData = JSON.parse(response.data);
-    return {
-      version: pageData.version.number,
-      title: pageData.title
-    };
+function readMappingFile(filePath, origin) {
+  const resolved = path.resolve(filePath);
+  if (!fs.existsSync(resolved)) {
+    throw new Error(`Arquivo de mapeamento não encontrado (${origin}): ${resolved}`);
   }
-  
-  throw new Error(`Failed to get page version: ${response.statusCode}`);
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(resolved, 'utf8'));
+  } catch (error) {
+    throw new Error(`Arquivo de mapeamento inválido (${origin}): ${resolved}: ${error.message}`);
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error(`Arquivo de mapeamento deve conter um objeto { "pageId": "nome-do-arquivo" }: ${resolved}`);
+  }
+  return { mapping: parsed, origin: `${origin}: ${resolved}` };
 }
 
 /**
- * Atualiza uma página
+ * Resolve o mapeamento de páginas conforme a ordem de precedência documentada.
  */
-async function updatePage(pageId, adfFileName) {
+function resolveMapping(config, argv) {
+  if (argv[1]) {
+    return readMappingFile(argv[1], 'argumento');
+  }
+  // options.pageMapping já reflete config.js ou CONFLUENCE_PAGE_MAPPING (ver loadConfig).
+  const fromOptions = config.options.pageMapping;
+  if (fromOptions && typeof fromOptions === 'object') {
+    return { mapping: fromOptions, origin: 'config.js (options.pageMapping)' };
+  }
+  if (typeof fromOptions === 'string' && fromOptions.trim() !== '') {
+    return readMappingFile(fromOptions, 'options.pageMapping ou CONFLUENCE_PAGE_MAPPING');
+  }
+  return { mapping: PAGE_MAPPING, origin: 'constante PAGE_MAPPING do script' };
+}
+
+function resolveAdfDirectory(config, argv) {
+  const candidate = argv[0] || config.options.adfDirectory || path.join(PACKAGE_ROOT, 'adf-files');
+  return path.resolve(candidate);
+}
+
+/**
+ * Atualiza uma página e registra o resultado em stats.
+ */
+async function updatePage(config, adfDirectory, pageId, adfFileName) {
   try {
-    // 1. Carregar ADF
-    const adfPath = path.join(ADF_DIRECTORY, `${adfFileName}.adf.json`);
-    
+    const adfPath = path.join(adfDirectory, `${adfFileName}.adf.json`);
     if (!fs.existsSync(adfPath)) {
       throw new Error(`Arquivo ADF não encontrado: ${adfPath}`);
     }
-    
-    const adfContent = JSON.parse(fs.readFileSync(adfPath, 'utf-8'));
-    
-    // 2. Obter info da página
-    const pageInfo = await getCurrentVersion(pageId);
-    const newVersion = pageInfo.version + 1;
-    
-    // 3. Preparar payload
-    const payload = {
-      id: pageId,
-      status: 'current',
-      title: pageInfo.title,
-      spaceId: config.spaceId,
-      body: {
-        representation: 'atlas_doc_format',
-        value: JSON.stringify(adfContent)
-      },
-      version: {
-        number: newVersion,
-        message: config.options?.defaultVersionMessage || 'Atualização em lote via conversor'
-      }
-    };
+    const adfContent = JSON.parse(fs.readFileSync(adfPath, 'utf8'));
 
-    const payloadString = JSON.stringify(payload);
-    const auth = Buffer.from(`${config.email}:${config.token}`).toString('base64');
+    const result = await updatePageOnConfluence(config, pageId, adfContent, {
+      onRetry: (message) => console.log(`   ${message}`),
+    });
 
-    // 4. Enviar atualização
-    const options = {
-      hostname: 'api.atlassian.com',
-      path: `/ex/confluence/${config.cloudId}/wiki/api/v2/pages/${pageId}`,
-      method: 'PUT',
-      headers: {
-        'Authorization': `Basic ${auth}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Content-Length': Buffer.byteLength(payloadString)
-      }
-    };
-
-    const timeout = config.options?.httpTimeout || 180000;
-    const response = await makeRequest(options, payloadString, timeout);
-
-    if (response.statusCode === 200) {
-      const result = JSON.parse(response.data);
-      console.log(`   ✅ ${result.title} (versão ${result.version.number})`);
-      stats.success.push({
-        pageId,
-        title: result.title,
-        version: result.version.number
-      });
-    } else {
-      throw new Error(`HTTP ${response.statusCode}: ${response.data}`);
-    }
-    
+    console.log(`   Sucesso: ${result.title} (versão ${result.version.number})`);
+    stats.success.push({
+      pageId,
+      title: result.title,
+      version: result.version.number,
+    });
   } catch (error) {
-    console.error(`   ❌ Erro: ${error.message}`);
+    console.error(`   Erro: ${error.message}`);
     stats.errors.push({
       pageId,
       adfFileName,
-      error: error.message
+      error: error.message,
     });
   }
 }
 
-/**
- * Main
- */
 async function main() {
-  console.log('═══════════════════════════════════════════════════════════════');
-  console.log('🔄 ATUALIZAÇÃO EM LOTE - CONFLUENCE');
-  console.log('═══════════════════════════════════════════════════════════════');
-  
-  const pages = Object.entries(PAGE_MAPPING);
-  
+  console.log(SEPARATOR);
+  console.log('ATUALIZAÇÃO EM LOTE NO CONFLUENCE');
+  console.log(SEPARATOR);
+
+  const argv = process.argv.slice(2);
+  const config = loadConfig();
+  const adfDirectory = resolveAdfDirectory(config, argv);
+  const { mapping, origin } = resolveMapping(config, argv);
+  const pages = Object.entries(mapping);
+
   if (pages.length === 0) {
-    console.log('\n⚠️  Nenhuma página mapeada!');
-    console.log('   Edite o arquivo e configure PAGE_MAPPING');
+    console.log('\nNenhuma página mapeada.');
+    console.log('   Informe um arquivo JSON como segundo argumento, defina options.pageMapping em config.js');
+    console.log('   ou preencha a constante PAGE_MAPPING no script.');
     return;
   }
-  
-  console.log(`\n📊 Total de páginas: ${pages.length}`);
-  console.log(`📁 Diretório ADF: ${ADF_DIRECTORY}\n`);
 
-  // Atualizar páginas sequencialmente com delay
+  if (!fs.existsSync(adfDirectory) || !fs.statSync(adfDirectory).isDirectory()) {
+    throw new Error(`Pasta de arquivos ADF não encontrada: ${adfDirectory}`);
+  }
+
+  console.log(`\nCredenciais: ${config.source}`);
+  console.log(`Mapeamento: ${origin}`);
+  console.log(`Total de páginas: ${pages.length}`);
+  console.log(`Pasta ADF: ${adfDirectory}\n`);
+
   let index = 1;
   for (const [pageId, adfFileName] of pages) {
-    console.log(`\n[${index}/${pages.length}] Atualizando página ${pageId}...`);
-    await updatePage(pageId, adfFileName);
-    
-    // Delay entre requisições
-    if (index < pages.length) {
-      const delay = config.options?.batchDelay || 1000;
-      await new Promise(resolve => setTimeout(resolve, delay));
+    console.log(`\n[${index}/${pages.length}] Atualizando página ${pageId} (${adfFileName}.adf.json)...`);
+    await updatePage(config, adfDirectory, pageId, adfFileName);
+
+    if (index < pages.length && config.options.batchDelay > 0) {
+      await sleep(config.options.batchDelay);
     }
     index++;
   }
 
-  // Relatório final
-  console.log('\n═══════════════════════════════════════════════════════════════');
-  console.log('📊 RELATÓRIO FINAL');
-  console.log('═══════════════════════════════════════════════════════════════');
-  console.log(`✅ Sucesso: ${stats.success.length} páginas`);
-  console.log(`❌ Falhas: ${stats.errors.length} páginas`);
-  console.log(`⚠️  Ignoradas: ${stats.skipped.length} páginas`);
-  
+  console.log(`\n${SEPARATOR}`);
+  console.log('RELATÓRIO FINAL');
+  console.log(SEPARATOR);
+  console.log(`Sucesso: ${stats.success.length} página(s)`);
+  console.log(`Falhas: ${stats.errors.length} página(s)`);
+  console.log(`Ignoradas: ${stats.skipped.length} página(s)`);
+
   if (stats.errors.length > 0) {
-    console.log('\n❌ Erros:');
-    stats.errors.forEach(err => {
+    console.log('\nErros:');
+    stats.errors.forEach((err) => {
       console.log(`   - ${err.pageId}: ${err.error}`);
     });
   }
 
-  // Salvar log
-  const logPath = path.join(__dirname, '..', 'batch-update-log.json');
-  fs.writeFileSync(logPath, JSON.stringify({
-    timestamp: new Date().toISOString(),
-    stats,
-    details: {
-      success: stats.success,
-      errors: stats.errors,
-      skipped: stats.skipped
-    }
-  }, null, 2));
-  
-  console.log(`\n📝 Log salvo em: batch-update-log.json`);
-  console.log('═══════════════════════════════════════════════════════════════');
+  const logPath = path.join(PACKAGE_ROOT, 'batch-update-log.json');
+  fs.writeFileSync(
+    logPath,
+    JSON.stringify(
+      {
+        timestamp: new Date().toISOString(),
+        adfDirectory,
+        mappingOrigin: origin,
+        stats,
+      },
+      null,
+      2
+    )
+  );
+
+  console.log(`\nLog salvo em: ${logPath}`);
+  console.log(SEPARATOR);
 }
 
-// Executar
 if (require.main === module) {
   main()
-    .then(() => { process.exitCode = stats.errors.length > 0 ? 1 : 0; })
-    .catch((error) => { console.error(error); process.exitCode = 1; });
+    .then(() => {
+      process.exitCode = stats.errors.length > 0 ? 1 : 0;
+    })
+    .catch((error) => {
+      console.error(`\nErro: ${error.message}`);
+      process.exitCode = 1;
+    });
 }
+
+module.exports = { resolveMapping, resolveAdfDirectory };

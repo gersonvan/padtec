@@ -1,236 +1,117 @@
 #!/usr/bin/env node
+'use strict';
 
 /**
- * Atualiza uma página única do Confluence com arquivo ADF
- * 
+ * Atualiza uma única página do Confluence com um arquivo ADF.
+ *
  * Uso:
  *   node update-confluence-page.js --pageId 123456 --adf arquivo.adf.json
- *   node update-confluence-page.js -p 123456 -a arquivo.adf.json
+ *   node update-confluence-page.js -p 123456 -a arquivo.adf.json -t "Novo título"
+ *
+ * Credenciais: config.js ou variáveis de ambiente CONFLUENCE_EMAIL,
+ * CONFLUENCE_TOKEN e CONFLUENCE_CLOUD_ID (ver README.md).
  */
 
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const { loadConfig, updatePage: updatePageOnConfluence, getCurrentVersion } = require('./lib/confluence-client');
 
-// Carregar configuração
-let config;
-try {
-  config = require('../config.js');
-} catch (e) {
-  console.error('❌ Erro: Arquivo config.js não encontrado!');
-  console.error('   Execute: cp config.template.js config.js');
-  console.error('   E preencha suas credenciais.');
-  process.exit(1);
-}
+const SEPARATOR = '='.repeat(63);
 
 /**
- * Faz requisição HTTP
+ * Atualiza uma página e registra o progresso no console.
  */
-function makeRequest(options, postData = null, timeout = 180000) {
-  return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      req.destroy();
-      reject(new Error('Request timeout'));
-    }, timeout);
+async function updatePage(config, pageId, adfContent, title = null) {
+  console.log(`\nAtualizando página ${pageId}...`);
 
-    const req = https.request(options, (res) => {
-      let data = '';
-      
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-      
-      res.on('end', () => {
-        clearTimeout(timeoutId);
-        resolve({
-          statusCode: res.statusCode,
-          data: data
-        });
-      });
-    });
-
-    req.on('error', (error) => {
-      clearTimeout(timeoutId);
-      reject(error);
-    });
-
-    if (postData) {
-      req.write(postData);
-    }
-    req.end();
-  });
-}
-
-/**
- * Obtém versão atual da página
- */
-async function getCurrentVersion(pageId) {
-  const auth = Buffer.from(`${config.email}:${config.token}`).toString('base64');
-  
-  const options = {
-    hostname: 'api.atlassian.com',
-    path: `/ex/confluence/${config.cloudId}/wiki/api/v2/pages/${pageId}`,
-    method: 'GET',
-    headers: {
-      'Authorization': `Basic ${auth}`,
-      'Accept': 'application/json'
-    }
-  };
-
-  const response = await makeRequest(options, null, 30000);
-  
-  if (response.statusCode === 200) {
-    const pageData = JSON.parse(response.data);
-    return {
-      version: pageData.version.number,
-      title: pageData.title,
-      spaceId: pageData.spaceId
-    };
-  }
-  
-  throw new Error(`Failed to get page info: HTTP ${response.statusCode}`);
-}
-
-/**
- * Atualiza página no Confluence
- */
-async function updatePage(pageId, adfContent, title = null) {
-  console.log(`\n🔄 Atualizando página ${pageId}...`);
-  
-  // 1. Obter info atual da página
-  const pageInfo = await getCurrentVersion(pageId);
-  const newVersion = pageInfo.version + 1;
-  const pageTitle = title || pageInfo.title;
-  
-  console.log(`   📄 Título: ${pageTitle}`);
-  console.log(`   📋 Versão atual: ${pageInfo.version} → ${newVersion}`);
-  
-  // 2. Preparar payload
-  const payload = {
-    id: pageId,
-    status: 'current',
-    title: pageTitle,
-    spaceId: pageInfo.spaceId,
-    body: {
-      representation: 'atlas_doc_format',
-      value: JSON.stringify(adfContent)
+  const result = await updatePageOnConfluence(config, pageId, adfContent, {
+    title,
+    onPageInfo: (info) => {
+      console.log(`   Título: ${info.newTitle}`);
+      console.log(`   Versão: ${info.version} -> ${info.newVersion}`);
+      console.log(`   Payload: ${(info.payloadBytes / 1024).toFixed(2)} KB`);
     },
-    version: {
-      number: newVersion,
-      message: config.options?.defaultVersionMessage || 'Atualização via conversor Markdown → ADF'
-    }
-  };
+    onRetry: (message) => console.log(`   ${message}`),
+  });
 
-  const payloadString = JSON.stringify(payload);
-  const payloadSizeKB = (Buffer.byteLength(payloadString) / 1024).toFixed(2);
-  console.log(`   📦 Payload: ${payloadSizeKB} KB`);
-
-  const auth = Buffer.from(`${config.email}:${config.token}`).toString('base64');
-
-  // 3. Enviar atualização
-  const options = {
-    hostname: 'api.atlassian.com',
-    path: `/ex/confluence/${config.cloudId}/wiki/api/v2/pages/${pageId}`,
-    method: 'PUT',
-    headers: {
-      'Authorization': `Basic ${auth}`,
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Content-Length': Buffer.byteLength(payloadString)
-    }
-  };
-
-  const timeout = config.options?.httpTimeout || 180000;
-  const response = await makeRequest(options, payloadString, timeout);
-
-  if (response.statusCode === 200) {
-    const result = JSON.parse(response.data);
-    console.log(`   ✅ Sucesso! Versão ${result.version.number}`);
-    const links = result._links || {};
-    if (links.base && links.webui) {
-      console.log(`   🔗 URL: ${links.base}${links.webui}`);
-    }
-    return result;
-  } else {
-    throw new Error(`HTTP ${response.statusCode}: ${response.data}`);
+  console.log(`   Sucesso. Versão publicada: ${result.version.number}`);
+  const links = result._links || {};
+  if (links.base && links.webui) {
+    console.log(`   URL: ${links.base}${links.webui}`);
   }
+  return result;
 }
 
-/**
- * Parse argumentos da linha de comando
- */
-function parseArgs() {
-  const args = process.argv.slice(2);
+function parseArgs(argv) {
   const parsed = {};
-  
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--pageId' || args[i] === '-p') {
-      parsed.pageId = args[++i];
-    } else if (args[i] === '--adf' || args[i] === '-a') {
-      parsed.adfPath = args[++i];
-    } else if (args[i] === '--title' || args[i] === '-t') {
-      parsed.title = args[++i];
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg === '--pageId' || arg === '-p') {
+      parsed.pageId = argv[++i];
+    } else if (arg === '--adf' || arg === '-a') {
+      parsed.adfPath = argv[++i];
+    } else if (arg === '--title' || arg === '-t') {
+      parsed.title = argv[++i];
+    } else if (arg === '--help' || arg === '-h') {
+      parsed.help = true;
     }
   }
-  
   return parsed;
 }
 
-/**
- * Main
- */
-async function main() {
-  const args = parseArgs();
-  
-  if (!args.pageId || !args.adfPath) {
-    console.log(`
+function printUsage() {
+  console.log(`
 Uso: node update-confluence-page.js --pageId <ID> --adf <arquivo.adf.json>
 
 Argumentos:
   --pageId, -p    ID da página do Confluence
-  --adf, -a       Caminho para arquivo ADF
-  --title, -t     Título da página (opcional, mantém o atual se omitido)
+  --adf, -a       Caminho do arquivo ADF
+  --title, -t     Título da página (opcional; mantém o atual se omitido)
 
 Exemplos:
   node update-confluence-page.js -p 123456 -a documento.adf.json
-  node update-confluence-page.js -p 123456 -a documento.adf.json -t "Novo Título"
-    `);
-    process.exit(1);
-  }
-  
-  try {
-    // Carregar ADF
-    const adfPath = path.resolve(args.adfPath);
-    if (!fs.existsSync(adfPath)) {
-      console.error(`❌ Erro: Arquivo ADF não encontrado: ${adfPath}`);
-      process.exit(1);
-    }
-    
-    const adfContent = JSON.parse(fs.readFileSync(adfPath, 'utf-8'));
-    const adfSizeKB = (fs.statSync(adfPath).size / 1024).toFixed(2);
-    
-    console.log('═══════════════════════════════════════════════════════════════');
-    console.log('🚀 ATUALIZAÇÃO DE PÁGINA CONFLUENCE');
-    console.log('═══════════════════════════════════════════════════════════════');
-    console.log(`\n📂 Arquivo ADF: ${path.basename(adfPath)} (${adfSizeKB} KB)`);
-    console.log(`📊 Elementos: ${adfContent.content?.length || 0}`);
-    
-    // Atualizar página
-    await updatePage(args.pageId, adfContent, args.title);
-    
-    console.log('\n═══════════════════════════════════════════════════════════════');
-    console.log('✅ Atualização concluída com sucesso!');
-    console.log('═══════════════════════════════════════════════════════════════');
-    
-  } catch (error) {
-    console.error(`\n❌ Erro: ${error.message}`);
-    process.exit(1);
-  }
+  node update-confluence-page.js -p 123456 -a documento.adf.json -t "Novo título"
+`);
 }
 
-// Executar
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (args.help || !args.pageId || !args.adfPath) {
+    printUsage();
+    process.exitCode = args.help ? 0 : 1;
+    return;
+  }
+
+  const config = loadConfig();
+
+  const adfPath = path.resolve(args.adfPath);
+  if (!fs.existsSync(adfPath)) {
+    throw new Error(`Arquivo ADF não encontrado: ${adfPath}`);
+  }
+
+  const adfContent = JSON.parse(fs.readFileSync(adfPath, 'utf8'));
+  const adfSizeKB = (fs.statSync(adfPath).size / 1024).toFixed(2);
+
+  console.log(SEPARATOR);
+  console.log('ATUALIZAÇÃO DE PÁGINA NO CONFLUENCE');
+  console.log(SEPARATOR);
+  console.log(`\nCredenciais: ${config.source}`);
+  console.log(`Arquivo ADF: ${path.basename(adfPath)} (${adfSizeKB} KB)`);
+  console.log(`Elementos: ${adfContent.content?.length || 0}`);
+
+  await updatePage(config, args.pageId, adfContent, args.title);
+
+  console.log(`\n${SEPARATOR}`);
+  console.log('Atualização concluída com sucesso.');
+  console.log(SEPARATOR);
+}
+
 if (require.main === module) {
-  main();
+  main().catch((error) => {
+    console.error(`\nErro: ${error.message}`);
+    process.exitCode = 1;
+  });
 }
 
 module.exports = { updatePage, getCurrentVersion };
