@@ -48,6 +48,14 @@ Resultado esperado: `<<DESCRICAO_DO_RESULTADO_ESPERADO>>`
 |---|---|---|---|
 | `<<NOME_DA_VERIFICACAO>>` | `<<COMANDO_OU_URL>>` | `<<RESULTADO_ESPERADO>>` | `<<ARQUIVO:LINHA>>` |
 
+## Ritos
+
+<!-- IA: comandos literais, copiados do manifesto, de `Makefile`/`justfile`, de scripts ou do pipeline, para os ritos recorrentes de quem trabalha no projeto: instalar dependências, executar localmente, executar os testes, gerar o build, implantar. Uma linha por rito, só com comandos que existem no repositório; rito sem comando declarado recebe o marcador de carência. -->
+
+| Rito | Comando | Onde está declarado |
+|---|---|---|
+| `<<RITO>>` | `<<COMANDO>>` | `<<ARQUIVO:LINHA>>` |
+
 ## Mapa do guia de início rápido
 
 <!-- IA: gere diagrama Mermaid `flowchart TB` representando a sequência completa: pré-requisitos → instalação → inicialização → verificação. Use os nomes dos passos como rótulos dos nós. -->

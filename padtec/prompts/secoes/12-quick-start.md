@@ -17,6 +17,7 @@ Execute, em `raiz-do-projeto-destino`:
 3. Identifique a sequência de comandos de inicialização: scripts de start declarados no manifesto, comandos de seed/migração quando necessários para o sistema responder.
 4. Identifique a verificação de que o sistema responde: endpoint de health-check exposto, página inicial servida em porta declarada, comando de teste smoke. Cite `arquivo:linha` da configuração de porta/rota.
 5. Identifique variáveis de ambiente mínimas para subir localmente (subconjunto do inventário da seção 10): aquelas sem as quais o sistema não inicia. Cite o `.env.example` correspondente.
+6. Catalogue os ritos recorrentes com os comandos literais declarados no repositório (scripts do manifesto, `Makefile`/`justfile`, scripts em `scripts/`, passos do pipeline): instalar, executar localmente, testar, gerar build, implantar.
 
 ## Procedimento de preenchimento
 
