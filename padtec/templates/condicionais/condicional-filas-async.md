@@ -12,15 +12,15 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Sistema | Versão | Biblioteca cliente | Versão da biblioteca | Evidência |
 |---|---|---|---|---|
-| `<<SISTEMA>>` | `<<VERSAO>>` | `<<BIBLIOTECA>>` | `<<VERSAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<SISTEMA>>` | `<<VERSAO_DO_MOTOR>>` | `<<BIBLIOTECA>>` | `<<VERSAO_DA_BIBLIOTECA>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Inventário de filas e tópicos
 
 <!-- IA: liste todas as filas e tópicos com nome, finalidade, esquema da mensagem e direção (produção, consumo, ambos). Cobertura 100%. -->
 
-| Nome | Finalidade | Esquema da mensagem | Direção | Evidência |
+| Nome | Propósito | Esquema da mensagem | Direção | Evidência |
 |---|---|---|---|---|
-| `<<NOME>>` | `<<FINALIDADE>>` | `<<ESQUEMA>>` | `<<PRODUTOR_OU_CONSUMIDOR>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<PROPOSITO>>` | `<<ESQUEMA>>` | `<<PRODUTOR_OU_CONSUMIDOR>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Produtores
 

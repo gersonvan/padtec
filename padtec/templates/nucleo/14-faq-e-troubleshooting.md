@@ -1,6 +1,6 @@
 # Perguntas frequentes e diagnóstico
 
-<!-- IA: agrupe perguntas frequentes e cenários de diagnóstico por área (instalação, execução local, conexão com dependências, falha em produção, dúvidas de domínio). Cada entrada tem sintoma → causa provável → diagnóstico → correção. Não inventar cenários sem evidência: apenas cenários observados (issues registradas, logs de erro recorrentes, comentários no código, decisões de design documentadas). -->
+<!-- IA: agrupe perguntas frequentes e cenários de diagnóstico por área (instalação, execução local, conexão com dependências, falha em produção, dúvidas de domínio). Cada entrada tem sintoma → causa provável → diagnóstico → correção. Não inventar cenários sem evidência: apenas cenários observados (comentários TODO e FIXME, testes marcados como ignorados, tratamento de erro explícito e documentação existente no repositório). -->
 
 ## Fluxo geral de triagem
 

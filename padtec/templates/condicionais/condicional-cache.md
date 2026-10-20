@@ -12,7 +12,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Camada | Produto | Versão | Biblioteca cliente | Versão da biblioteca | Evidência |
 |---|---|---|---|---|---|
-| `<<CAMADA>>` | `<<PRODUTO>>` | `<<VERSAO>>` | `<<BIBLIOTECA>>` | `<<VERSAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<CAMADA>>` | `<<PRODUTO>>` | `<<VERSAO_DO_MOTOR>>` | `<<BIBLIOTECA>>` | `<<VERSAO_DA_BIBLIOTECA>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Esquema de chaves
 
@@ -28,7 +28,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Categoria | Tempo de vida padrão | Gatilho de invalidação | Evidência |
 |---|---|---|---|
-| `<<CATEGORIA>>` | `<<DURACAO>>` | `<<GATILHO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<CATEGORIA>>` | `<<TEMPO_DE_VIDA>>` | `<<GATILHO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Métricas de acerto e perda
 
@@ -36,7 +36,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Métrica | Significado | Destino | Evidência |
 |---|---|---|---|
-| `<<METRICA>>` | `<<SIGNIFICADO>>` | `<<COLETOR>>` | `<<ARQUIVO:LINHA>>` |
+| `<<METRICA>>` | `<<SIGNIFICADO>>` | `<<DESTINO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Estratégia diante de inconsistência transitória
 

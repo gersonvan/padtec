@@ -4,7 +4,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 # Autenticação e autorização
 
-<!-- IA: documente o modelo de identidade, fluxos de autenticação suportados e política de autorização. Esta é uma seção condicional — referências a bibliotecas e protocolos específicos (Passport, JWT, OAuth2, OpenID Connect, SAML) são permitidas quando refletem o uso real no projeto. Inspire-se na profundidade observada em documentações com fluxo de login detalhado passo a passo. -->
+<!-- IA: documente o modelo de identidade, fluxos de autenticação suportados e política de autorização. Esta é uma seção condicional — referências a bibliotecas e protocolos específicos (Passport, JWT, OAuth2, OpenID Connect, SAML) são permitidas quando refletem o uso real no projeto. -->
 
 ## Modelo de identidade
 
@@ -24,7 +24,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 ## Fluxo de autenticação principal — passo a passo
 
-<!-- IA: documente o fluxo de autenticação principal como sequência numerada de passos detalhada (referência: cobertura passo a passo de 15 a 25 passos quando o fluxo justificar). Cite componentes por `arquivo:linha`. -->
+<!-- IA: documente o fluxo de autenticação principal como sequência numerada de passos detalhada. Cite componentes por `arquivo:linha`. -->
 
 1. `<<PASSO_1>>` — `<<ARQUIVO:LINHA>>`
 2. `<<PASSO_2>>` — `<<ARQUIVO:LINHA>>`
@@ -52,8 +52,8 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Item | Valor | Evidência |
 |---|---|---|
-| Duração da credencial de acesso | `<<DURACAO>>` | `<<ARQUIVO:LINHA>>` |
-| Duração da credencial de renovação | `<<DURACAO>>` | `<<ARQUIVO:LINHA>>` |
+| Duração da credencial de acesso | `<<DURACAO_DA_CREDENCIAL>>` | `<<ARQUIVO:LINHA>>` |
+| Duração da credencial de renovação | `<<DURACAO_DA_CREDENCIAL>>` | `<<ARQUIVO:LINHA>>` |
 | Estratégia de renovação | `<<ESTRATEGIA>>` | `<<ARQUIVO:LINHA>>` |
 | Mecanismo de revogação | `<<MECANISMO>>` | `<<ARQUIVO:LINHA>>` |
 

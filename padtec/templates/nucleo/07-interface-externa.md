@@ -6,9 +6,9 @@
 
 <!-- IA: liste todos os endpoints expostos pelo sistema (independente do tipo de transporte). Para cada um, registre método, caminho, exigência de autenticação, formato de requisição e resposta, classes de erro. Cobertura 100%. -->
 
-| Método | Caminho | Autenticação | Formato de requisição | Formato de resposta | Erros documentados | Evidência |
+| Método | Rota | Autenticação | Formato de requisição | Formato de resposta | Erros documentados | Evidência |
 |---|---|---|---|---|---|---|
-| `<<METODO>>` | `<<CAMINHO>>` | `<<SIM_OU_NAO_E_TIPO>>` | `<<FORMATO>>` | `<<FORMATO>>` | `<<LISTA_DE_ERROS>>` | `<<ARQUIVO:LINHA>>` |
+| `<<METODO>>` | `<<ROTA>>` | `<<SIM_OU_NAO_E_TIPO>>` | `<<FORMATO>>` | `<<FORMATO>>` | `<<LISTA_DE_ERROS>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Inventário de mensagens consumidas e publicadas
 

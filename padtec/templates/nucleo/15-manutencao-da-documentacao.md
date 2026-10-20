@@ -4,7 +4,7 @@
 
 ## Convenções de escrita
 
-<!-- IA: enumere as convenções de escrita adotadas: idioma, tom, ortografia, formatação, uso de emojis funcionais, links internos, citação de evidências. -->
+<!-- IA: enumere as convenções de escrita adotadas: idioma, tom, ortografia, formatação, proibição de emojis decorativos, links internos, citação de evidências. -->
 
 | Convenção | Regra | Exemplo |
 |---|---|---|
@@ -14,9 +14,11 @@
 
 <!-- IA: liste as mudanças no código que disparam atualização obrigatória de seções específicas. Cada gatilho deve identificar o tipo de alteração no código, as seções afetadas e o responsável funcional pela atualização. -->
 
+<!-- IA: registre o responsável apenas quando constar no código ou em arquivo de propriedade do repositório (por exemplo, CODEOWNERS); caso contrário, use o marcador de carência. Não registre prazos. -->
+
 | Tipo de mudança no código | Seções afetadas | Responsável funcional | Evidência da regra |
 |---|---|---|---|
-| `<<TIPO_DE_MUDANCA>>` | `<<LISTA_DE_SECOES>>` | `<<RESPONSAVEL>>` | `<<ARQUIVO:LINHA_OU_POLITICA>>` |
+| `<<TIPO_DE_MUDANCA>>` | `<<LISTA_DE_SECOES>>` | `<<RESPONSAVEL_OU_CARENCIA>>` | `<<ARQUIVO:LINHA_OU_POLITICA>>` |
 
 ## Checklist de qualidade por seção
 
@@ -44,6 +46,8 @@
 
 <!-- IA: descreva o procedimento de auditoria periódica que identifica lacunas: rotas sem documentação, entidades sem entrada em glossário, configurações sem descrição. Mantenha o procedimento prescritivo. -->
 
+<!-- IA: registre o responsável apenas quando constar no código ou em arquivo de propriedade do repositório (por exemplo, CODEOWNERS); caso contrário, use o marcador de carência. Não registre prazos. -->
+
 | Categoria de gap | Detecção | Encaminhamento |
 |---|---|---|
-| `<<CATEGORIA>>` | `<<COMANDO_OU_CONSULTA>>` | `<<RESPONSAVEL_E_PRAZO_DE_TRATAMENTO>>` |
+| `<<CATEGORIA>>` | `<<COMANDO_OU_CONSULTA>>` | `<<RESPONSAVEL_OU_CARENCIA>>` |

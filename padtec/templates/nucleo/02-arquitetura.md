@@ -4,7 +4,7 @@
 
 ## Visão em camadas
 
-<!-- IA: descreva, em uma a duas linhas por camada, a responsabilidade de cada uma e o que cada camada não faz. Cite o diretório raiz que materializa cada camada no formato `arquivo:linha`. -->
+<!-- IA: descreva, em uma a duas linhas por camada, a responsabilidade de cada uma e o que cada camada não faz. Cite o diretório raiz que materializa cada camada, como caminho relativo à raiz do projeto. -->
 
 | Camada | Responsabilidade | Fronteira (o que não faz) | Diretório-raiz |
 |---|---|---|---|
@@ -30,6 +30,8 @@
 3. `<<PASSO_3>>` — `<<ARQUIVO:LINHA>>`
 
 ## Decisões de design
+
+<!-- IA: antes de inferir decisões a partir do código, procure um diretório de registro de decisões na raiz do projeto ou em pastas de documentação (nomes como decisions, decisoes ou adr). Quando existir, cite o arquivo da decisão como evidência do motivo e da consequência aceita, em vez de reconstruí-los por inferência; use inferência só para decisões sem registro, e o marcador de carência quando nem registro nem código indicarem o motivo. -->
 
 <!-- IA: liste as decisões arquiteturais relevantes que foram tomadas, no formato decisão / motivo / consequência aceita. Cada linha precisa de evidência (`arquivo:linha`) ou de marcador `// CARÊNCIA: não identificado no código` quando a motivação não estiver registrada. -->
 

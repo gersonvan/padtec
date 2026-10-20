@@ -1,5 +1,5 @@
 <!--
-Esta seção é condicional. Inclua-a na documentação do projeto somente se a capacidade `integracoes-externas` for detectada. Sinais típicos: clientes HTTP nomeados para sistemas externos, SDKs de terceiros (provedores de e-mail, sistemas acadêmicos, gateways de pagamento), configurações de timeout, disjuntor (circuit breaker) ou retentativa específicas para chamadas externas.
+Esta seção é condicional. Inclua-a na documentação do projeto somente se a capacidade `integracoes-externas` for detectada. Sinais típicos: clientes HTTP nomeados para sistemas externos, SDKs de terceiros (provedores de e-mail, sistemas de terceiros, gateways de pagamento), configurações de timeout, disjuntor (circuit breaker) ou retentativa específicas para chamadas externas.
 -->
 
 # Integrações externas
@@ -12,7 +12,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Integração | Propósito | Criticidade | Ambiente onde existe | Evidência |
 |---|---|---|---|---|
-| `<<NOME>>` | `<<PROPOSITO>>` | `<<ALTA_MEDIA_BAIXA>>` | `<<DESENV_HOMOLOG_PROD>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<PROPOSITO>>` | `<<ALTA_MEDIA_BAIXA>>` | `<<AMBIENTE>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Contratos consumidos
 
@@ -28,15 +28,17 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Integração | Timeout | Política de retentativa | Disjuntor (limiar, janela, recuperação) | Evidência |
 |---|---|---|---|---|
-| `<<NOME>>` | `<<DURACAO>>` | `<<POLITICA>>` | `<<CONFIGURACAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<TIMEOUT>>` | `<<POLITICA>>` | `<<CONFIGURACAO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Plano de contingência por integração
 
 <!-- IA: para cada integração crítica, descreva o plano de contingência: fallback degradado, fila de armazenamento temporário, alerta operacional, procedimento manual. -->
 
+<!-- IA: registre o responsável apenas quando constar no código ou em arquivo de propriedade do repositório (por exemplo, CODEOWNERS); caso contrário, use o marcador de carência. Não registre prazos. -->
+
 | Integração | Cenário de falha | Plano de contingência | Responsável | Evidência |
 |---|---|---|---|---|
-| `<<NOME>>` | `<<CENARIO>>` | `<<PLANO>>` | `<<EQUIPE_RESPONSAVEL>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<CENARIO>>` | `<<PLANO>>` | `<<RESPONSAVEL_OU_CARENCIA>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Mapa visual das integrações
 

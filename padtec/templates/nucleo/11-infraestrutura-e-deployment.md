@@ -38,7 +38,7 @@
 
 | Sinal | Conteúdo | Destino | Evidência |
 |---|---|---|---|
-| `<<TIPO_DE_SINAL>>` | `<<O_QUE_CARREGA>>` | `<<COLETOR>>` | `<<ARQUIVO:LINHA>>` |
+| `<<TIPO_DE_SINAL>>` | `<<O_QUE_CARREGA>>` | `<<DESTINO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Retorno seguro a versão anterior
 

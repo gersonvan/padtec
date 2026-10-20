@@ -12,9 +12,9 @@
 
 <!-- IA: liste as rotas públicas da camada de apresentação, com caminho, tela ou página associada, exigência de autenticação e ponto de carregamento. Cobertura exaustiva. -->
 
-| Caminho | Tela ou página | Autenticação | Evidência |
+| Rota | Tela ou página | Autenticação | Evidência |
 |---|---|---|---|
-| `<<CAMINHO>>` | `<<TELA>>` | `<<SIM_OU_NAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<ROTA>>` | `<<TELA>>` | `<<SIM_OU_NAO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Composição de telas
 

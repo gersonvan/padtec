@@ -60,6 +60,6 @@ Resultado esperado: `<<DESCRICAO_DO_RESULTADO_ESPERADO>>`
 
 <!-- IA: liste erros comuns que aparecem no setup local, com sintoma exato (mensagem ou comportamento) e procedimento de correção. Quando o erro estiver coberto em detalhe em `14-faq-e-troubleshooting.md`, manter o item curto e referenciar a entrada lá. -->
 
-| Sintoma | Causa provável | Correção | Referência detalhada |
-|---|---|---|---|
-| `<<SINTOMA>>` | `<<CAUSA>>` | `<<CORRECAO>>` | `<<14-faq-e-troubleshooting.md#ANCORA>>` |
+| Sintoma | Causa provável | Correção | Referência detalhada | Evidência |
+|---|---|---|---|---|
+| `<<SINTOMA>>` | `<<CAUSA>>` | `<<CORRECAO>>` | `<<14-faq-e-troubleshooting.md#ANCORA>>` | `<<ARQUIVO:LINHA>>` |

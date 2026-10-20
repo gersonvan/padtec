@@ -12,7 +12,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Mecanismo | Versão | Biblioteca de acesso | Versão da biblioteca | Evidência |
 |---|---|---|---|---|
-| `<<MOTOR>>` | `<<VERSAO>>` | `<<BIBLIOTECA>>` | `<<VERSAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<MOTOR>>` | `<<VERSAO_DO_MOTOR>>` | `<<BIBLIOTECA>>` | `<<VERSAO_DA_BIBLIOTECA>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Conexões nomeadas
 
@@ -31,6 +31,10 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 ```
 
 ## Inventário de entidades persistidas
+
+<!-- IA: antes de preencher a tabela, verifique se existe um arquivo de schema declarativo (por exemplo, schema.prisma) ou um diretório de migrações versionado. Quando existir, preencha a linha "Fonte primária" abaixo com o caminho e faça cada linha da tabela apontar para a definição no schema ou na migração, em vez de redigir a estrutura de campos por extenso; a tabela continua exaustiva. Quando não houver schema centralizado, remova a linha "Fonte primária" e preencha a tabela a partir das classes de entidade. -->
+
+Fonte primária do modelo de dados: `<<CAMINHO_DO_SCHEMA_OU_DAS_MIGRACOES>>`
 
 <!-- IA: liste todas as entidades persistidas (mapeamento objeto-relacional, esquemas de coleção, modelos). Cite `arquivo:linha` da definição. -->
 

@@ -1,6 +1,6 @@
 # Stack tecnológico e dependências
 
-<!-- IA: produza um inventário completo das tecnologias em uso, organizado por camada. Toda linha deve declarar versão exata resolvida no arquivo de bloqueio de dependências (lockfile); quando o manifesto contiver range, registrar o literal do manifesto entre parênteses ao lado da versão resolvida. Nunca substituir versão por estimativa. -->
+<!-- IA: produza um inventário completo das tecnologias em uso, organizado por camada. Toda linha deve declarar versão exata resolvida no arquivo de bloqueio de dependências (lockfile); quando o manifesto contiver range, registrar o literal do manifesto na coluna própria ao lado da versão resolvida. Nunca substituir versão por estimativa. -->
 
 ## Inventário por camada
 
@@ -14,17 +14,17 @@
 
 <!-- IA: a partir do manifesto de dependências, liste apenas as dependências carregadas em tempo de execução. Exclua dependências de desenvolvimento. Versões exatas obrigatórias. -->
 
-| Nome | Versão resolvida | Propósito | Evidência |
-|---|---|---|---|
-| `<<NOME>>` | `<<VERSAO_RESOLVIDA>>` | `<<PROPOSITO_FUNCIONAL>>` | `<<ARQUIVO:LINHA>>` |
+| Nome | Versão resolvida | Literal no manifesto | Propósito | Evidência |
+|---|---|---|---|---|
+| `<<NOME>>` | `<<VERSAO_RESOLVIDA>>` | `<<LITERAL_NO_MANIFESTO>>` | `<<PROPOSITO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Dependências de desenvolvimento
 
 <!-- IA: liste as dependências usadas apenas em ambiente de desenvolvimento, teste ou build. Versões exatas obrigatórias. -->
 
-| Nome | Versão resolvida | Propósito | Evidência |
-|---|---|---|---|
-| `<<NOME>>` | `<<VERSAO_RESOLVIDA>>` | `<<PROPOSITO>>` | `<<ARQUIVO:LINHA>>` |
+| Nome | Versão resolvida | Literal no manifesto | Propósito | Evidência |
+|---|---|---|---|---|
+| `<<NOME>>` | `<<VERSAO_RESOLVIDA>>` | `<<LITERAL_NO_MANIFESTO>>` | `<<PROPOSITO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Serviços de plataforma
 

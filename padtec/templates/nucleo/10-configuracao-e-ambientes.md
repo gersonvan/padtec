@@ -8,7 +8,7 @@
 
 | Variável | Propósito | Valor padrão | Obrigatória | Ambientes aplicáveis | Evidência |
 |---|---|---|---|---|---|
-| `<<NOME>>` | `<<PROPOSITO>>` | `<<VALOR_OU_VAZIO>>` | `<<SIM_OU_NAO>>` | `<<DESENV_HOMOLOG_PROD>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<PROPOSITO>>` | `<<VALOR_OU_VAZIO>>` | `<<SIM_OU_NAO>>` | `<<AMBIENTE>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Perfis de execução
 

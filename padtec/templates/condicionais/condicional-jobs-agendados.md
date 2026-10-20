@@ -18,9 +18,11 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 <!-- IA: liste todas as tarefas agendadas com nome, calendário de execução (expressão cron ou descrição), propósito e duração típica. Cobertura 100%. -->
 
-| Tarefa | Calendário (expressão ou descrição) | Propósito | Duração típica observada | Evidência |
+<!-- IA: a coluna "Limite de tempo" vem de configuração presente no código (timeout, janela de execução); sem evidência, registre o marcador de carência. Não registre durações observadas em execução. -->
+
+| Tarefa | Calendário (expressão ou descrição) | Propósito | Limite de tempo configurado | Evidência |
 |---|---|---|---|---|
-| `<<NOME>>` | `<<CRON_OU_DESCRICAO>>` | `<<PROPOSITO>>` | `<<DURACAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<CRON_OU_DESCRICAO>>` | `<<PROPOSITO>>` | `<<LIMITE_DE_TEMPO_OU_CARENCIA>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Gatilhos de disparo
 
@@ -36,7 +38,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Tarefa | Sinal | Destino | Evidência |
 |---|---|---|---|
-| `<<NOME>>` | `<<TIPO_DE_SINAL>>` | `<<COLETOR>>` | `<<ARQUIVO:LINHA>>` |
+| `<<NOME>>` | `<<TIPO_DE_SINAL>>` | `<<DESTINO>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Tolerância a falhas
 

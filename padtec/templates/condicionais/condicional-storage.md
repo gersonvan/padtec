@@ -12,7 +12,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Serviço | SDK | Versão do SDK | Ambiente | Evidência |
 |---|---|---|---|---|
-| `<<SERVICO>>` | `<<SDK>>` | `<<VERSAO>>` | `<<DESENV_HOMOLOG_PROD>>` | `<<ARQUIVO:LINHA>>` |
+| `<<SERVICO>>` | `<<SDK>>` | `<<VERSAO>>` | `<<AMBIENTE>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Organização lógica
 
@@ -37,7 +37,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 | Tipo de credencial | Operações permitidas | Tempo de vida | Evidência |
 |---|---|---|---|
-| `<<TIPO>>` | `<<OPERACOES>>` | `<<DURACAO>>` | `<<ARQUIVO:LINHA>>` |
+| `<<TIPO>>` | `<<OPERACOES>>` | `<<TEMPO_DE_VIDA>>` | `<<ARQUIVO:LINHA>>` |
 
 ## Ciclo de vida e retenção
 

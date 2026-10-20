@@ -4,7 +4,7 @@ Esta seção é condicional. Inclua-a na documentação do projeto somente se a 
 
 # Multi-tenancy
 
-<!-- IA: documente o modelo de isolamento por tenant adotado pelo sistema. Esta é uma seção condicional — citar produtos, padrões e identificadores reais (por exemplo, `organizationId`, `tenantId`) é permitido. Inspire-se em sistemas que isolam por identificador de organização e demonstram fluxo end-to-end de resolução do tenant. -->
+<!-- IA: documente o modelo de isolamento por tenant adotado pelo sistema. Esta é uma seção condicional — citar produtos, padrões e identificadores reais (por exemplo, `organizationId`, `tenantId`) é permitido. -->
 
 ## Modelo de isolamento
 
