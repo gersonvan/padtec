@@ -371,13 +371,13 @@ gantt
 
 ## Próximos Passos
 
-1. ✅ Implementar Auth Service
-2. ✅ Implementar User Service
-3. 🔄 Implementar Product Service
-4. ⏳ Implementar Order Service
-5. ⏳ Implementar Payment Service
-6. ⏳ Setup monitoring
-7. ⏳ Testes de carga
+1. Implementar Auth Service (concluído)
+2. Implementar User Service (concluído)
+3. Implementar Product Service (em andamento)
+4. Implementar Order Service (pendente)
+5. Implementar Payment Service (pendente)
+6. Configurar monitoramento (pendente)
+7. Testes de carga (pendente)
 
 ---
 
