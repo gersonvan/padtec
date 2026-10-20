@@ -5,7 +5,7 @@ Este arquivo é a porta de entrada do pacote PADTec. Não é "núcleo" no sentid
 estrito do esqueleto de seções, portanto pode citar nomes de produto, framework
 e biblioteca quando isso representa sinal técnico de detecção. Ainda assim, a
 especificidade pesada de stack vive em `prompts/variantes/`, `prompts/extensoes/`
-e `templates/<nível>/condicionais/`.
+e `templates/condicionais/`.
 -->
 
 # PADTec v1.0.1 — Prompt mestre
@@ -27,7 +27,7 @@ O usuário fornece:
 
 - **`nível` (obrigatório):** um de `L1`, `L2`, `L3`. Define o subconjunto de seções do núcleo a gerar. Relação: `L1 ⊂ L2 ⊂ L3`.
 - **`pasta de saída` (opcional):** caminho relativo no projeto destino onde gravar os documentos gerados. Default: detectada pelo procedimento iii.3 (`docs/`, `documentation/` ou `documentacao/`, criando `docs/` se nenhuma existir).
-- **`publicar no Confluence` (opcional):** booleano. Default: `não`. Quando `sim`, ao final do despacho consulte `confluence-mermaid-package/QUICKSTART.md` para o procedimento de publicação.
+- **`publicar no Confluence` (opcional):** booleano. Default: `não`. Quando `sim`, ao final do despacho consulte `confluence-mermaid-package/QUICKSTART.md` se o ferramental estiver presente no projeto (ele é distribuído à parte, em `ferramentas/` no repositório-fonte do PADTec); se não estiver, informe o usuário e não tente publicar.
 
 Formato esperado de invocação (linguagem natural aceita):
 
@@ -102,7 +102,7 @@ Execute na ordem abaixo, do início ao fim:
 3. **Despacho do núcleo.** Para cada seção do núcleo no nível alvo, invoque o sub-prompt de seção em `prompts/secoes/NN-<slug>.md` conforme o **contrato de invocação de sub-prompts** definido abaixo. Sub-prompts de seção são autoritativos para o conteúdo gerado; o mestre apenas despacha e repassa parâmetros.
 4. **Despacho de extensões por capacidade.** Para cada capacidade ativa, invoque o sub-prompt de extensão em `prompts/extensoes/<slug-da-capacidade>.md`, também pelo mesmo contrato. Esses sub-prompts produzem ou enriquecem as seções condicionais correspondentes em `pasta-de-saída/`.
 5. **Pós-execução: QA.** Ao final, execute os itens mecânicos de `checklist-qa.md` (A.2, A.3, A.6 e B.1 — buscas, contagens e presença de arquivos) e reporte o resultado de cada um. Em seguida, aponte explicitamente o usuário para os itens de amostragem e leitura (A.1, A.4, A.5, A.7 e B.2 a B.4), que são gate humano antes de qualquer publicação.
-6. **Publicação no Confluence (condicional).** Se o usuário pediu publicação no Confluence, consulte `confluence-mermaid-package/QUICKSTART.md` para o procedimento; não tente publicar sem o checklist QA aprovado.
+6. **Publicação no Confluence (condicional).** Se o usuário pediu publicação no Confluence, consulte `confluence-mermaid-package/QUICKSTART.md` se o ferramental estiver presente no projeto (distribuído à parte, em `ferramentas/` no repositório-fonte do PADTec); se não estiver, informe o usuário. Não tente publicar sem o checklist QA aprovado.
 
 ### Contrato de invocação de sub-prompts
 
@@ -127,12 +127,13 @@ Regras do contrato:
 - Quando `modo-monorepo: sim`, o sub-prompt pode emitir um documento por app; o orquestrador apenas observa a saída.
 - O sub-prompt **não** procura outros sub-prompts: composição é responsabilidade exclusiva do mestre.
 - Os sub-prompts executam no mesmo contexto deste mestre: a variante carregada em vi.1 e os parâmetros resolvidos permanecem disponíveis a eles.
+- O significado dos parâmetros e o procedimento comum de preenchimento estão em `prompts/_comum.md`; os sub-prompts contêm apenas o que é específico da sua seção.
 
 Despache os sub-prompts **um a um**, aguardando a conclusão de cada um antes do próximo. Não dispare múltiplos em paralelo: a ordem numérica satisfaz as dependências existentes (`13-glossario.md` consolida termos de `05-modelo-de-dominio.md`; `14-faq-e-troubleshooting.md` referencia `12-quick-start.md`; `15-manutencao-da-documentacao.md` referencia todos os anteriores).
 
 ## vii. Regras de qualidade
 
-As sete regras abaixo são o contrato de qualidade do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
+As sete regras abaixo são o contrato de qualidade do pacote e se aplicam a **todo conteúdo gerado** por qualquer sub-prompt. Os templates não as reproduzem: este bloco é a única fonte. São inegociáveis e devem ser respeitadas no momento da geração, e validadas no `checklist-qa.md` ao final.
 
 1. **Evidência rastreável.** Toda afirmação técnica em conteúdo gerado deve citar `arquivo:linha` (ou `arquivo`, quando a evidência é estrutural e não pontual) do código-fonte do projeto destino. Formato sugerido: nota de rodapé ou citação inline. Caminhos citados são relativos à raiz do projeto destino.
 2. **Anti-alucinação.** Quando o sub-prompt requisita uma seção mas a evidência não é encontrada no código, o conteúdo gerado registra o marcador literal `// CARÊNCIA: não identificado no código` no lugar da afirmação. Proibido inferir além do código.

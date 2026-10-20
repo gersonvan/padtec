@@ -1,0 +1,74 @@
+<!--
+Esta seção é condicional. Inclua-a na documentação do projeto somente se a capacidade `banco-de-dados` for detectada. Sinais típicos: entidades mapeadas por bibliotecas de objeto-relacional (TypeORM, Prisma, Sequelize, SQLAlchemy, Hibernate), arquivos `.sql`, migrações versionadas, conexões nomeadas em arquivos de configuração.
+-->
+
+# Banco de dados
+
+<!-- IA: documente a estratégia de persistência adotada. Esta é uma seção condicional — exemplos de produto e biblioteca específicos são permitidos quando refletem o uso real no projeto. -->
+
+## Mecanismo de persistência
+
+<!-- IA: identifique o(s) sistema(s) de banco em uso (relacional, documento, chave-valor, grafo) com versão exata e a biblioteca de acesso (por exemplo, TypeORM, Prisma, Sequelize, SQLAlchemy, Hibernate). Cite `arquivo:linha` do manifesto e do bootstrap da conexão. -->
+
+| Mecanismo | Versão | Biblioteca de acesso | Versão da biblioteca | Evidência |
+|---|---|---|---|---|
+| `<<MOTOR>>` | `<<VERSAO_DO_MOTOR>>` | `<<BIBLIOTECA>>` | `<<VERSAO_DA_BIBLIOTECA>>` | `<<ARQUIVO:LINHA>>` |
+
+## Conexões nomeadas
+
+<!-- IA: liste todas as conexões nomeadas configuradas no sistema (em projetos multi-conexão é comum haver várias). Inclua alias, host, banco, modo (leitura, escrita, ambos) e estratégia de pool. -->
+
+| Alias | Host | Banco | Modo | Pool máximo | Evidência |
+|---|---|---|---|---|---|
+| `<<ALIAS>>` | `<<HOST>>` | `<<BANCO>>` | `<<LEITURA_OU_ESCRITA>>` | `<<NUMERO>>` | `<<ARQUIVO:LINHA>>` |
+
+## Modelo físico
+
+<!-- IA: gere diagrama Mermaid `erDiagram` cobrindo as entidades persistidas, com chaves primárias e cardinalidades. Quando o número de entidades for elevado, agrupe por subdomínio em diagramas separados. -->
+
+```mermaid
+<<DIAGRAMA_MERMAID_ERDIAGRAM_MODELO_FISICO>>
+```
+
+## Inventário de entidades persistidas
+
+<!-- IA: antes de preencher a tabela, verifique se existe um arquivo de schema declarativo (por exemplo, schema.prisma) ou um diretório de migrações versionado. Quando existir, preencha a linha "Fonte primária" abaixo com o caminho e faça cada linha da tabela apontar para a definição no schema ou na migração, em vez de redigir a estrutura de campos por extenso; a tabela continua exaustiva. Quando não houver schema centralizado, remova a linha "Fonte primária" e preencha a tabela a partir das classes de entidade. -->
+
+Fonte primária do modelo de dados: `<<CAMINHO_DO_SCHEMA_OU_DAS_MIGRACOES>>`
+
+<!-- IA: liste todas as entidades persistidas (mapeamento objeto-relacional, esquemas de coleção, modelos). Cite `arquivo:linha` da definição. -->
+
+| Entidade | Tabela ou coleção | Chave primária | Evidência |
+|---|---|---|---|
+| `<<ENTIDADE>>` | `<<TABELA>>` | `<<CHAVE>>` | `<<ARQUIVO:LINHA>>` |
+
+## Padrão de migrações
+
+<!-- IA: descreva a ferramenta de migração adotada (por exemplo, TypeORM migrations, Prisma migrate, Flyway, Liquibase, Alembic), o diretório de migrações, a convenção de nomenclatura e a política de geração e aplicação. -->
+
+| Item | Descrição | Evidência |
+|---|---|---|
+| Ferramenta de migração | `<<NOME_E_VERSAO>>` | `<<ARQUIVO:LINHA>>` |
+| Diretório de migrações | `<<CAMINHO>>` | `<<ARQUIVO:LINHA>>` |
+| Convenção de nomenclatura | `<<PADRAO>>` | `<<ARQUIVO:LINHA>>` |
+| Política de aplicação | `<<MANUAL_OU_AUTOMATICA_NO_BOOT>>` | `<<ARQUIVO:LINHA>>` |
+
+## Política de transações
+
+<!-- IA: descreva onde transações são abertas, nível de isolamento padrão e tratamento de falhas. -->
+
+<<POLITICA_DE_TRANSACOES>>
+
+## Padrões de acesso a dados
+
+<!-- IA: descreva padrões aplicados na camada de dados (repositório, fonte de dados ativa, unidade de trabalho, consultas declarativas) e quando consultas SQL nativas são permitidas. -->
+
+<<PADROES_DE_ACESSO_A_DADOS>>
+
+## Otimizações estruturais
+
+<!-- IA: liste índices, views materializadas, particionamento, replicação de leitura e outras otimizações estruturais aplicadas. Cite `arquivo:linha` da migração ou do script que cria cada otimização. -->
+
+| Otimização | Objeto | Motivo | Evidência |
+|---|---|---|---|
+| `<<TIPO>>` | `<<TABELA_OU_VIEW>>` | `<<MOTIVO>>` | `<<ARQUIVO:LINHA>>` |

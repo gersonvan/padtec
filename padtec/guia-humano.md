@@ -9,7 +9,7 @@ Este guia descreve, em sequência executável, como aplicar o PADTec a um projet
 3. **Invocar** no chat do agente de codificação, com o projeto destino aberto, em uma mensagem só: apontar para `padtec/prompts/00-mestre.md` e informar o nível.
 4. **Aguardar** o agente detectar variante e capacidades e gerar os arquivos em `docs/`. Lacunas aparecem como `// CARÊNCIA: não identificado no código`.
 5. **Validar** com `padtec/checklist-qa.md`, incluindo a revisão de português do Brasil e acentuação. Pedir correção dos itens reprovados até zerar.
-6. **(Opcional) Publicar** no Confluence via `padtec/confluence-mermaid-package/QUICKSTART.md`.
+6. **(Opcional) Publicar** no Confluence com o ferramental `confluence-mermaid-package`, mantido no repositório-fonte do PADTec em `ferramentas/` (não integra a cópia de `padtec/`; copie-o para o projeto quando for publicar).
 
 Detalhes de cada passo nas seções abaixo.
 
@@ -69,7 +69,7 @@ Quando algum item falha, peça ao agente a correção indicando o item específi
 
 ## Passo 6 — Publicar no Confluence (opcional)
 
-Se a documentação for publicada no Atlassian Confluence, utilize o ferramental incluído em `padtec/confluence-mermaid-package/`. Esse pacote converte os arquivos Markdown gerados em formato ADF (Atlassian Document Format) preservando blocos Mermaid, e oferece scripts para atualizar páginas existentes ou criar novas. O ponto de entrada operacional é [confluence-mermaid-package/QUICKSTART.md](confluence-mermaid-package/QUICKSTART.md); para instalação completa do ferramental, consulte [confluence-mermaid-package/INSTALL.md](confluence-mermaid-package/INSTALL.md).
+Se a documentação for publicada no Atlassian Confluence, utilize o ferramental `confluence-mermaid-package`, mantido no repositório-fonte do PADTec em `ferramentas/confluence-mermaid-package/` — ele não integra a cópia de `padtec/`; copie-o para o projeto quando for publicar. Esse pacote converte os arquivos Markdown gerados em formato ADF (Atlassian Document Format) preservando blocos Mermaid, e oferece scripts para atualizar páginas existentes ou criar novas. O ponto de entrada operacional é [QUICKSTART.md](../ferramentas/confluence-mermaid-package/QUICKSTART.md); para instalação, configuração e limitações do ferramental, consulte o [README.md](../ferramentas/confluence-mermaid-package/README.md) dele.
 
 ## Após a primeira geração
 

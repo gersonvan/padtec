@@ -40,13 +40,13 @@ Estes exemplos são ilustrativos; o sistema real pode usar qualquer combinação
 
 Os templates abaixo são consumidos com ênfase nesta variante. Os caminhos são relativos a `padtec/`.
 
-- `templates/<nível-resolvido>/02-arquitetura.md` — diagrama de camadas (frontend + backend + persistência).
-- `templates/<nível-resolvido>/06-fluxos-de-negocio.md` — diagramas de sequência end-to-end por caso de uso.
-- `templates/<nível-resolvido>/07-interface-externa.md` — tabela de endpoints (cobertura 100% das rotas do backend).
-- `templates/<nível-resolvido>/08-frontend.md` — roteamento, estado, integração com o backend, renderização.
-- `templates/<nível-resolvido>/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
-- `templates/<nível-resolvido>/10-configuracao-e-ambientes.md` — variáveis de frontend e backend separadas.
-- `templates/L3-aprofundado/12-quick-start.md` — setup local cobrindo backend + frontend (banco, instalação, comandos de inicialização das duas pontas).
+- `templates/nucleo/02-arquitetura.md` — diagrama de camadas (frontend + backend + persistência).
+- `templates/nucleo/06-fluxos-de-negocio.md` — diagramas de sequência end-to-end por caso de uso.
+- `templates/nucleo/07-interface-externa.md` — tabela de endpoints (cobertura 100% das rotas do backend).
+- `templates/nucleo/08-frontend.md` — roteamento, estado, integração com o backend, renderização.
+- `templates/nucleo/09-backend.md` — camadas, ciclo de requisição, tratamento de erro.
+- `templates/nucleo/10-configuracao-e-ambientes.md` — variáveis de frontend e backend separadas.
+- `templates/nucleo/12-quick-start.md` — setup local cobrindo backend + frontend (banco, instalação, comandos de inicialização das duas pontas).
 
 Quando o nível alvo é `L1`, apenas `01-visao-geral.md`, `02-arquitetura.md` e `03-stack-e-dependencias.md` do núcleo são consumidos; mesmo assim, mantenha em `02` a separação explícita das duas pontas.
 
