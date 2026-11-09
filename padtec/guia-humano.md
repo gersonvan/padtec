@@ -56,6 +56,7 @@ Por ferramenta:
 | Qualquer agente com acesso aos arquivos | A mensagem acima, apontando para `padtec/prompts/00-mestre.md` |
 | Claude Code | A mesma mensagem, ou, com a skill de `padtec/adaptadores/claude-code/` instalada, apenas o pedido de documentação (ou `/padtec`) |
 | GitHub Copilot Chat | A mesma mensagem, ou, com `padtec/adaptadores/copilot/copilot-instructions.md` acrescentado às instruções do repositório, apenas o pedido |
+| Antigravity, Gemini CLI e Gemini Code Assist | A mesma mensagem, ou, com o adaptador de `padtec/adaptadores/gemini/` instalado, apenas o pedido (ou `/padtec` no Antigravity CLI e no Gemini CLI) |
 | Codex e outros que leem `AGENTS.md` | A mesma mensagem na primeira vez; depois, o bloco gerado em `AGENTS.md` já diz como regenerar |
 
 O prompt mestre é projetado para um agente com tool-calling nativo — ou seja, o agente lerá os arquivos do projeto e do pacote diretamente. Não cole código nem conteúdo de arquivos na conversa; o agente já tem acesso ao sistema de arquivos.

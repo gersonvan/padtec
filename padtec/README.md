@@ -81,7 +81,7 @@ Resumo dos artefatos raiz:
 - `templates/`. Esqueletos de arquivos por seção, em `nucleo/` (dezesseis seções) e `condicionais/` (nove capacidades); o nível escolhido seleciona quais são preenchidos. O agente preenche os esqueletos com conteúdo extraído do código-fonte.
 - `checklist-qa.md`. Lista de verificações objetivas a serem executadas sobre a documentação gerada antes de declarar a entrega aceita.
 - `glossario-base.md`. Conjunto inicial de termos recorrentes. O glossário gerado em cada projeto destino estende esta base com termos específicos do domínio do projeto.
-- `adaptadores/`. Apontadores finos por agente (skill do Claude Code, instruções do Copilot) que fazem o agente encontrar o prompt mestre sozinho. Opcionais; a lógica continua no mestre.
+- `adaptadores/`. Apontadores finos por agente (skill do Claude Code, instruções do Copilot, skill e comando para os agentes do Google) que fazem o agente encontrar o prompt mestre sozinho. Opcionais; a lógica continua no mestre.
 - Ferramental opcional de publicação no Confluence: `ferramentas/confluence-mermaid-package/` no repositório-fonte do PADTec, distribuído à parte da cópia de `padtec/`. Converte arquivos Markdown produzidos pela geração em formato pronto para publicação no Atlassian Confluence, preservando blocos Mermaid.
 
 ## Como começar

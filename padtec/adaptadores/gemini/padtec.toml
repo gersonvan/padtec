@@ -1,0 +1,20 @@
+# PADTec: comando customizado do Gemini CLI.
+# Copie este arquivo para <raiz-do-projeto>/.gemini/commands/padtec.toml (vale só para o projeto)
+# ou para ~/.gemini/commands/padtec.toml (vale para todos os projetos). Ele passa a ser /padtec.
+
+description = "Gera ou atualiza a documentação técnica do projeto a partir do código-fonte com o PADTec (níveis L1, L2 ou L3)."
+
+prompt = """
+Execute o PADTec neste projeto.
+
+Parâmetros informados pelo usuário (podem estar vazios): {{args}}
+
+1. Confirme que a pasta `padtec/` existe na raiz do projeto; se não existir, informe e não prossiga.
+2. Resolva com o usuário, se não estiver nos parâmetros: o nível (`L1`, `L2` ou `L3`; padrão `L2`), a pasta de saída (padrão: a pasta de documentação existente, ou `docs/`) e se há publicação no Confluence (padrão: não).
+3. Leia integralmente `padtec/prompts/00-mestre.md` e execute-o do início ao fim com esses parâmetros. Ele detecta variante e capacidades, despacha os sub-prompts de seção e de extensão, preenche os templates e gera o bloco de `AGENTS.md`. Não resuma nem pule etapas do mestre; não leia os sub-prompts fora da ordem que ele determina.
+4. Execute os itens mecânicos de `padtec/checklist-qa.md` (A.2, A.3, A.6 e B.1) e reporte o resultado de cada um.
+5. Garanta que `GEMINI.md` na raiz do projeto contenha a linha `@./AGENTS.md` (crie o arquivo com essa única linha se não existir; acrescente a linha se ele existir sem ela), para que o bloco gerado em `AGENTS.md` seja lido automaticamente nas próximas sessões.
+6. Entregue ao usuário: lista dos documentos gerados, variante e capacidades detectadas, contagem de marcadores `// CARÊNCIA: não identificado no código`, resultado do QA mecânico e os itens do checklist que dependem de leitura humana.
+
+Regras que valem acima de qualquer atalho: toda afirmação técnica cita `arquivo:linha` e, sem evidência, grava-se `// CARÊNCIA: não identificado no código`; sem estimativas de tempo, custo ou esforço; português do Brasil revisado; nenhuma alteração no código do projeto, só na pasta de documentação e no bloco delimitado de `AGENTS.md`. A lógica inteira está em `padtec/prompts/00-mestre.md`; se este comando e o mestre divergirem, o mestre prevalece.
+"""
