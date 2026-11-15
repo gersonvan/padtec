@@ -149,9 +149,13 @@ parando na primeira que casa:
    CloudFormation, e nenhum manifesto de aplicação. Um `package.json` só
    com `devDependencies` de ferramentas (sem dependência de runtime nem
    framework) não conta como aplicação.
-2. `frontend-site` — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou
-   `astro` em `dependencies` ou `devDependencies`, sem sinal de backend e
-   sem código de servidor próprio. Conta como código de servidor próprio,
+2. `frontend-site` — frontend sem sinal de backend e sem código de servidor
+   próprio. É frontend: `package.json` com `next`, `nuxt`, `vite`, `svelte`,
+   `astro`, `@angular/core`, `react-scripts`, `gatsby` ou `@remix-run/react`
+   em `dependencies` ou `devDependencies`; ou, na falta de framework, uma
+   página HTML de entrada (`index.html` na raiz, em `public/`, `static/`,
+   `www/` e pastas equivalentes, ou em uma pasta de frontend de primeiro
+   nível). Conta como código de servidor próprio,
    dentro da pasta desse `package.json`: arquivo de rota de servidor do
    framework declarado (`app/**/route.*` e `pages/api/**` para `next`, com
    ou sem `src/`; `server/api/**` e `server/routes/**` para `nuxt`;
@@ -163,26 +167,46 @@ parando na primeira que casa:
    ignoradas. Esses sinais ficam em `evidence.variant.signals.serverCode`,
    com no máximo cinco arquivos de rota por `package.json`, e entram
    também em `signals.backend`.
-3. `backend-api` — `package.json` com `@nestjs/core`, `express`, `fastify`
-   ou `koa`, ou manifesto backend não-JS (`pom.xml`, `build.gradle`,
-   `*.csproj`/`*.sln`, `requirements.txt`/`pyproject.toml` com Django,
-   FastAPI ou Flask, `go.mod` com framework HTTP ou uso de `net/http`,
-   `composer.json` com framework PHP, `Cargo.toml` com framework web), sem
-   sinal de frontend.
+3. `backend-api` — backend sem sinal de frontend. É backend: `package.json`
+   com `@nestjs/core`, `express`, `fastify`, `koa`, `hono`, `@hapi/hapi`,
+   `restify`, `elysia` ou `@adonisjs/core`; manifesto backend não-JS
+   (`pom.xml`, `build.gradle`, `*.csproj`/`*.sln`,
+   `requirements.txt`/`pyproject.toml` com Django, FastAPI, Flask,
+   Starlette, aiohttp, Tornado, Sanic, Bottle, Falcon, Pyramid ou Litestar,
+   `go.mod` com framework HTTP ou uso de `net/http`, `composer.json` com
+   framework PHP, `Cargo.toml` com framework web); ou backend sem
+   framework, por busca textual no código-fonte: servidor HTTP da biblioteca
+   padrão (`createServer` com importação de `http`/`https`/`http2`,
+   `Bun.serve`, `Deno.serve`, `HTTPServer` do Python e equivalentes) ou
+   função serverless com handler exportado (`export default function
+   handler`, `exports.handler =`, `def handler(event`, `export default {
+   fetch(`). Arquivos de teste, a documentação e a cópia do pacote não
+   contam.
 4. `full-stack-web` — frontend e backend no mesmo repositório, seja na mesma
    raiz, seja em apps distintos (`apps/web` + `apps/api`), seja em um único
-   framework de frontend com código de servidor próprio (regra 2). Nomes de app
+   framework de frontend com código de servidor próprio (regra 2), seja em
+   página estática ao lado de um backend sem framework. Nomes de app
    típicos (`web`, `frontend`, `api`, `backend`) contam como sinal
-   estrutural.
-5. `automacao-script` — nenhum manifesto de aplicação nem de IaC, mas há
-   arquivos em `scripts/`, `bin/` ou `cmd/`, ou um único arquivo executável
-   de entrada na raiz.
+   estrutural, tanto em `apps/` quanto em pastas de primeiro nível com
+   manifesto próprio.
+5. `automacao-script` — não há frontend, backend nem IaC, e: sem manifesto
+   de aplicação, há arquivos em `scripts/`, `bin/` ou `cmd/`, ou um único
+   arquivo executável de entrada na raiz; ou o manifesto de aplicação
+   declara um executável de linha de comando (`bin` em `package.json`,
+   `[project.scripts]` ou `[tool.poetry.scripts]` em `pyproject.toml`,
+   `[[bin]]` em `Cargo.toml`).
 
 Quando nenhuma regra casa, `variant` é `null`, `variantCandidates` traz as
 cinco opções e o relatório pede que o agente pergunte ao usuário, como o
 mestre determina. Os manifestos considerados são os da raiz, os de cada app
-devolvido pelo detector estrutural e os das subpastas imediatas de `apps/`
-e `packages/`; `*.csproj` e `*.sln` são aceitos até três níveis.
+devolvido pelo detector estrutural, os das subpastas imediatas de `apps/`
+e `packages/` e os das pastas de primeiro nível cujo nome indica uma
+unidade de aplicação (`server/`, `backend/`, `api/`, `functions/`, `web/`,
+`frontend/`, `client/`, `ui/` e equivalentes); `*.csproj` e `*.sln` são
+aceitos até três níveis. Manifestos em outras subpastas (`tools/`,
+`examples/`) não são lidos. As dependências desses manifestos também
+contam para a detecção de capacidades, e ler um manifesto em subpasta não
+ativa o modo monorepo.
 
 ### Como as capacidades são decididas
 
@@ -259,9 +283,13 @@ sub-prompts, não pelo comando.
 - Tudo é heurístico. O `context.json` é uma proposta: o agente confirma
   variante, capacidades e pasta de saída ao executar o prompt mestre, que
   continua sendo a fonte de verdade.
-- A árvore de decisão é literal ao mestre: um `package.json` com
-  dependências de runtime mas sem framework reconhecido (uma CLI Node, por
-  exemplo) resulta em `variant: null`, não em `automacao-script`.
+- A árvore de decisão é literal ao mestre: um manifesto de aplicação sem
+  frontend, sem backend e sem executável declarado (uma biblioteca, por
+  exemplo) resulta em `variant: null`, e o agente pergunta ao usuário.
+- Os sinais de backend sem framework e de site estático são amplos de
+  propósito: um script de desenvolvimento que sobe um servidor com o módulo
+  `http`, ou uma API que entrega um `public/index.html`, leva o projeto a
+  `full-stack-web`. O agente confirma ao ler o código.
 - Sinais citados pelo mestre por nome de produto foram mapeados para nomes
   de pacote; produtos fora da tabela podem passar despercebidos.
 - Busca textual por expressão regular gera falsos positivos (um comentário
