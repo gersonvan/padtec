@@ -76,6 +76,7 @@ Resumo dos artefatos raiz:
 
 - `README.md`. Este arquivo. Apresenta o pacote e seus eixos. Primeira leitura para qualquer leitor.
 - `VERSION`. Versão semântica do pacote, leitura por inspeção rápida ou automação.
+- `CHANGELOG.md`. O que mudou em cada versão, o que exige atenção ao atualizar e como atualizar uma cópia antiga.
 - `guia-humano.md`. Roteiro passo a passo do usuário que vai aplicar o pacote a um projeto. Entrada operacional principal.
 - `prompts/`. Conteúdo executado por um agente com tool-calling nativo no ambiente do projeto destino. O orquestrador é `00-mestre.md`; sub-prompts complementares ficam em `variantes/`, `secoes/` e `extensoes/`.
 - `templates/`. Esqueletos de arquivos por seção, em `nucleo/` (dezesseis seções) e `condicionais/` (nove capacidades); o nível escolhido seleciona quais são preenchidos. O agente preenche os esqueletos com conteúdo extraído do código-fonte.

@@ -60,14 +60,14 @@ diretório; `1` erro inesperado. Mensagens de erro vão para `stderr`.
 | `sections`             | string[]     | Arquivos do núcleo previstos para o nível (nomes reais de `padtec/templates/nucleo/`); vazio sem nível       |
 | `conditionalSections`  | string[]     | `condicional-<slug>.md` por capacidade ativa, apenas em L2 e L3                                             |
 | `evidence`             | objeto       | `variant` (regras testadas e sinais), `capabilities` (sinais por capacidade) e `outputDir` (o que foi verificado) |
-| `warnings`             | objeto[]     | Avisos do próprio comando (`{ code, path, message }`): manifesto inválido, limites da varredura, variante indeterminada |
+| `warnings`             | objeto[]     | Avisos do próprio comando (`{ code, path, message }`): manifesto inválido, limites da varredura, variante indeterminada, documento com nome de versão anterior na pasta de saída |
 
 Exemplo abreviado para um serviço NestJS com TypeORM e Redis, nível L2:
 
 ```json
 {
   "schemaVersion": "1.0",
-  "padtecVersion": "v1.0.1",
+  "padtecVersion": "v2.0.0",
   "generatedAt": "2026-10-20T12:00:00.000Z",
   "projectRoot": ".",
   "projectRootResolved": "/caminho/do/servico",
@@ -258,6 +258,17 @@ pastas de cache/saída usuais; desce até dez níveis; lê só extensões de
 código e configuração comuns; pula arquivos acima de 512 KiB, lockfiles e
 minificados; e para após 5.000 arquivos ou 64 MiB lidos, registrando aviso.
 Cada sinal guarda no máximo cinco ocorrências.
+
+Documentos com nome de versão anterior do pacote, encontrados na pasta de
+saída, geram o aviso `DOCUMENTO_DE_VERSAO_ANTERIOR` com o nome atual
+correspondente: `condicional-autenticacao-e-autorizacao.md`,
+`condicional-armazenamento-de-arquivos.md` e os `<slug>.md` sem prefixo
+(estes só quando o conteúdo tem a forma de documento gerado: marcador de
+carência ou citação `arquivo:linha`). O comando não altera nem remove esses
+arquivos; na reexecução, o mestre (passo vi.5) os lista como órfãos e só os
+remove com confirmação do usuário. Os outros dois tipos de órfão do mestre,
+capacidade que deixou de estar ativa e seção fora do nível, dependem da
+detecção heurística e ficam a cargo do agente.
 
 Arquivos que não descrevem o sistema não servem de evidência textual de
 capacidade nem de evidência por nome de arquivo de código: testes e

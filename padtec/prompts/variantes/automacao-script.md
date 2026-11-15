@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Este arquivo orienta o orquestrador quando a variante resolvida é `automacao-script` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é uma **coleção de scripts ou utilitário de automação** sem servidor longo-rodando e sem frontend — tipicamente sem manifestos aplicacionais de framework, com diretórios `scripts/`, `bin/`, `cmd/` ou um único arquivo executável de entrada, ou com manifesto que declara um executável de linha de comando (`bin` em `package.json`, `[project.scripts]` em `pyproject.toml`, `[[bin]]` em `Cargo.toml`).
+Este arquivo orienta o orquestrador quando a variante resolvida é `automacao-script` do PADTec v2.0.0. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é uma **coleção de scripts ou utilitário de automação** sem servidor longo-rodando e sem frontend — tipicamente sem manifestos aplicacionais de framework, com diretórios `scripts/`, `bin/`, `cmd/` ou um único arquivo executável de entrada, ou com manifesto que declara um executável de linha de comando (`bin` em `package.json`, `[project.scripts]` em `pyproject.toml`, `[[bin]]` em `Cargo.toml`).
 
 Esta variante orienta a geração das seções do núcleo enfatizando **entrada de execução**, **fluxo de processamento** e **configuração**, em substituição a "API exposta" e "frontend".
 

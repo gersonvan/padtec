@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Este arquivo orienta o orquestrador quando a variante resolvida é `iac` (Infrastructure as Code) do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **repositório de infraestrutura como código** — manifestos `*.bicep`, `*.tf`/`*.tfstate`, templates ARM, CloudFormation, ou playbooks Ansible — **sem** código aplicacional acoplado (sem `package.json` aplicacional, sem servidor longo-rodando).
+Este arquivo orienta o orquestrador quando a variante resolvida é `iac` (Infrastructure as Code) do PADTec v2.0.0. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **repositório de infraestrutura como código** — manifestos `*.bicep`, `*.tf`/`*.tfstate`, templates ARM, CloudFormation, ou playbooks Ansible — **sem** código aplicacional acoplado (sem `package.json` aplicacional, sem servidor longo-rodando).
 
 Esta variante orienta a geração das seções do núcleo enfatizando **recursos provisionados**, **dependências entre recursos**, **parametrização por ambiente** e **pipeline de aplicação**.
 
