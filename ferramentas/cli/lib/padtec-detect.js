@@ -982,6 +982,47 @@ function runTextSearch(scan, warnings) {
 // Pasta de saída (mestre, iii.3)
 // ---------------------------------------------------------------------------
 
+/**
+ * Nomes de documento gravados por versões anteriores do pacote e o nome
+ * atual de cada um (mestre vi.5). Os nove `<slug>.md` sem prefixo são
+ * acrescentados em `findLegacyOutputFiles`.
+ */
+const LEGACY_OUTPUT_NAMES = Object.freeze({
+  "condicional-autenticacao-e-autorizacao.md": "condicional-auth.md",
+  "condicional-armazenamento-de-arquivos.md": "condicional-storage.md",
+});
+
+/** Forma de documento gerado: marcador de carência ou citação `arquivo:linha`. */
+const GENERATED_DOC_RE = /\/\/ CARÊNCIA: não identificado no código|`[\w@./\[\]()-]+\.\w+:\d+`/;
+
+/**
+ * Procura, na pasta de saída, documentos com nome de versão anterior do
+ * pacote. Um `<slug>.md` sem prefixo só conta quando o conteúdo tem a forma
+ * de um documento gerado; um documento da equipe com esse nome é ignorado.
+ * Devolve avisos; nada é alterado.
+ */
+function findLegacyOutputFiles(scan, outputDir, warnings) {
+  const dir = String(outputDir || "").replace(/^\.\//, "").replace(/\/+$/, "");
+  const found = [];
+  for (const file of scan.files) {
+    if (file.dir !== dir) continue;
+    let current = LEGACY_OUTPUT_NAMES[file.name] || null;
+    if (!current) {
+      const slug = file.name.replace(/\.md$/, "");
+      if (!file.name.endsWith(".md") || !CAPABILITIES.includes(slug)) continue;
+      const content = readTextSafe(file.abs, warnings, file.rel);
+      if (content === null || !GENERATED_DOC_RE.test(content)) continue;
+      current = `condicional-${slug}.md`;
+    }
+    found.push({
+      code: "DOCUMENTO_DE_VERSAO_ANTERIOR",
+      path: file.rel,
+      message: `Documento com nome de versão anterior do pacote; o nome atual é ${current}. Na reexecução ele fica órfão: o mestre (vi.5) o lista para o usuário e só o remove com confirmação.`,
+    });
+  }
+  return found;
+}
+
 function detectOutputDir(rootPath, override) {
   const checked = [];
   let found = null;
@@ -1524,6 +1565,7 @@ function detect(projectRootInput, options = {}) {
   const textHits = runTextSearch(scan, warnings);
 
   const output = detectOutputDir(rootPath, options.outputDir || null);
+  warnings.push(...findLegacyOutputFiles(scan, output.outputDir, warnings));
   const variantSignals = collectVariantSignals(scan, manifests, structural, textHits, unitDirs);
   const variantDecision = decideVariant(variantSignals);
   const capabilityResult = detectCapabilities(scan, manifests, textHits);

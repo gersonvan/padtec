@@ -926,6 +926,45 @@ function buildCases() {
       },
     },
 
+    {
+      label: "órfãos — nomes de versão anterior na pasta de saída viram aviso, sem alterar arquivos",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "docs/01-visao-geral.md": "# Visão geral\n",
+          "docs/condicional-autenticacao-e-autorizacao.md": "# Autenticação\n",
+          "docs/condicional-armazenamento-de-arquivos.md": "# Armazenamento\n",
+          "docs/condicional-auth.md": "# Autenticação\n",
+          "docs/notificacoes.md": "# Notificações\n\nO envio ocorre em `server/src/emailService.js:96`.\n",
+          "docs/cache.md": "# Anotações da equipe sobre cache\n\nTexto livre, sem evidência.\n",
+        });
+        const ctx = detect(root);
+        const avisos = ctx.warnings.filter((w) => w.code === "DOCUMENTO_DE_VERSAO_ANTERIOR");
+        assert.deepStrictEqual(avisos.map((w) => w.path).sort(), [
+          "docs/condicional-armazenamento-de-arquivos.md",
+          "docs/condicional-autenticacao-e-autorizacao.md",
+          "docs/notificacoes.md",
+        ]);
+        assert.match(avisos.find((w) => w.path === "docs/notificacoes.md").message, /condicional-notificacoes\.md/);
+        assert.match(avisos.find((w) => w.path.endsWith("autorizacao.md")).message, /condicional-auth\.md/);
+        assert.ok(fs.existsSync(path.join(root, "docs/condicional-autenticacao-e-autorizacao.md")));
+      },
+    },
+    {
+      label: "órfãos — só a pasta de saída resolvida é examinada, inclusive com --saida",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "documentacao/condicional-armazenamento-de-arquivos.md": "# Armazenamento\n",
+          "outra/condicional-autenticacao-e-autorizacao.md": "# Autenticação\n",
+        });
+        const padrao = detect(root).warnings.filter((w) => w.code === "DOCUMENTO_DE_VERSAO_ANTERIOR");
+        assert.deepStrictEqual(padrao.map((w) => w.path), ["documentacao/condicional-armazenamento-de-arquivos.md"]);
+        const informada = detect(root, { outputDir: "outra/" }).warnings.filter((w) => w.code === "DOCUMENTO_DE_VERSAO_ANTERIOR");
+        assert.deepStrictEqual(informada.map((w) => w.path), ["outra/condicional-autenticacao-e-autorizacao.md"]);
+      },
+    },
+
     // ----- Seções por nível (mestre vi.2) -----
     {
       label: "seções — nível nulo: sections e conditionalSections vazios",
