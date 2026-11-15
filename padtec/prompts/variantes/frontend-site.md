@@ -7,7 +7,7 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Este arquivo orienta o orquestrador quando a variante resolvida é `frontend-site` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **frontend ou site sem backend aplicacional acoplado** — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro`, sem dependências de framework backend (`@nestjs/core`, `express`, `fastify`, `koa`).
+Este arquivo orienta o orquestrador quando a variante resolvida é `frontend-site` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino é um **frontend ou site sem backend aplicacional acoplado** — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou `astro`, sem dependências de framework backend (`@nestjs/core`, `express`, `fastify`, `koa`) e sem código de servidor próprio (rotas de servidor do framework, módulos com a diretiva `"use server"` ou driver de banco de dados em `dependencies`). Um projeto Next.js, Nuxt, SvelteKit ou Astro que tenha qualquer um desses sinais é resolvido como `full-stack-web`, não como esta variante.
 
 Esta variante orienta a geração das seções do núcleo enfatizando **roteamento**, **composição de telas**, **gerência de estado**, **integração com APIs externas** e **estratégia de renderização**.
 
@@ -17,7 +17,7 @@ Esta variante orienta a geração das seções do núcleo enfatizando **roteamen
 
 - `02-arquitetura.md` — o diagrama de arquitetura mostra: camada de roteamento, camada de composição de componentes, camada de estado, camada de integração (clientes HTTP/SDK), camada de renderização (SSR/SSG/CSR/RSC quando aplicável). Quando consome APIs externas, representar as APIs como dependências externas com nome e modo de consumo.
 - `06-fluxos-de-negocio.md` — para cada fluxo principal do usuário (ex.: cadastro, checkout, busca), descrever o caminho `interação do usuário → componente → estado → chamada à API externa → atualização de UI`, incluindo estados de carregamento e erro.
-- `07-interface-externa.md` — neste tipo de projeto, a "interface externa" é **consumida** mais do que exposta. Documente as APIs externas consumidas (origem, método, caminho, contrato esperado, evidência no código do cliente HTTP). Quando o frontend expõe endpoints próprios (ex.: API routes em Next.js, server endpoints em SvelteKit), liste-os à parte.
+- `07-interface-externa.md` — neste tipo de projeto, a "interface externa" é **consumida** mais do que exposta. Documente as APIs externas consumidas (origem, método, caminho, contrato esperado, evidência no código do cliente HTTP). Se, ao ler o código, você encontrar endpoints próprios (rotas de servidor do framework) ou acesso direto a banco de dados, a variante foi resolvida incorretamente: interrompa, informe o usuário e retome a partir do passo iii.4 do mestre com `full-stack-web`.
 - `08-frontend.md` — descreva detalhadamente: estratégia de roteamento (file-based ou code-based), padrão de gerência de estado (local, global, server-state), padrão de composição (atômico, feature-based), estratégia de renderização escolhida e por quê, política de cache de dados, otimizações de performance.
 - `10-configuracao-e-ambientes.md` — separe variáveis expostas ao cliente (prefixos típicos como `NEXT_PUBLIC_`, `VITE_`, `PUBLIC_`) das variáveis usadas apenas em build ou SSR.
 
