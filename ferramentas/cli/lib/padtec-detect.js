@@ -189,13 +189,22 @@ const TEXT_EXCLUDED_FILES = /(^|\/)(package-lock\.json|npm-shrinkwrap\.json|pnpm
 // ---------------------------------------------------------------------------
 
 /** Regra iii.4, item 2: frameworks de frontend em package.json. */
-const FRONTEND_DEPS = Object.freeze(["next", "nuxt", "vite", "svelte", "astro"]);
+const FRONTEND_DEPS = Object.freeze([
+  "next", "nuxt", "vite", "svelte", "astro",
+  "@angular/core", "react-scripts", "gatsby", "@remix-run/react",
+]);
 
 /** Regras iii.4, itens 2 e 3: frameworks de backend em package.json. */
-const BACKEND_JS_DEPS = Object.freeze(["@nestjs/core", "express", "fastify", "koa"]);
+const BACKEND_JS_DEPS = Object.freeze([
+  "@nestjs/core", "express", "fastify", "koa",
+  "hono", "@hapi/hapi", "restify", "elysia", "@adonisjs/core",
+]);
 
 /** Regra iii.4, item 3: `requirements.txt`/`pyproject.toml` com Django/FastAPI/Flask. */
-const PYTHON_BACKEND_DEPS = Object.freeze(["django", "fastapi", "flask"]);
+const PYTHON_BACKEND_DEPS = Object.freeze([
+  "django", "fastapi", "flask",
+  "starlette", "aiohttp", "tornado", "sanic", "bottle", "falcon", "pyramid", "litestar",
+]);
 
 /** Regra iii.4, item 3: `go.mod` com servidor HTTP (frameworks usuais). */
 const GO_HTTP_DEPS = Object.freeze([
@@ -228,9 +237,19 @@ const PHP_BACKEND_DEPS = Object.freeze([
 ]);
 const RUST_BACKEND_DEPS = Object.freeze(["actix-web", "axum", "rocket", "warp", "tide", "poem"]);
 
-/** Nomes de app (último segmento de `apps[].path`) que indicam frontend ou backend. */
-const FRONTEND_APP_NAMES = new Set(["web", "frontend", "front", "client", "site", "www", "app"]);
-const BACKEND_APP_NAMES = new Set(["api", "backend", "back", "server", "servidor", "service", "services"]);
+/**
+ * Nomes de unidade de aplicação que indicam frontend ou backend: o último
+ * segmento de `apps[].path` e as pastas de primeiro nível com manifesto
+ * próprio (mestre iii.1).
+ */
+const FRONTEND_APP_NAMES = new Set(["web", "frontend", "front", "client", "site", "www", "app", "ui", "webapp"]);
+const BACKEND_APP_NAMES = new Set(["api", "backend", "back", "server", "servidor", "service", "services", "functions"]);
+
+/**
+ * Página HTML de entrada de um site estático (mestre iii.4, regra 2): na
+ * raiz, em uma pasta pública ou em uma pasta de frontend de primeiro nível.
+ */
+const STATIC_ENTRY_RE = /^((public|static|www|site|web|html|htdocs|public_html|frontend|front|client|webapp|ui)\/)?(public\/)?index\.html?$/i;
 
 /** Regra iii.4, item 5: pastas de scripts. */
 const SCRIPT_DIRS = Object.freeze(["scripts", "bin", "cmd"]);
@@ -463,6 +482,9 @@ const VARIANT_TEXT_RULES = Object.freeze([
   { id: "go-net-http", label: "servidor HTTP da biblioteca padrão Go", ext: [".go"], all: [/"net\/http"/] },
   { id: "ansible-playbook", label: "playbook Ansible", ext: [".yml", ".yaml"], all: [/^\s*-?\s*hosts:\s*\S/m, /^\s*(tasks|roles|pre_tasks|post_tasks):\s*$/m] },
   { id: "cloudformation", label: "template CloudFormation", ext: [".yml", ".yaml", ".json"], all: [/AWSTemplateFormatVersion/] },
+  { id: "stdlib-http-node", label: "servidor HTTP da biblioteca padrão", ext: CODE_EXTENSIONS, sourceOnly: true, all: [/\bcreate(Secure)?Server\s*\(/, /["'](node:)?(https?|http2)["']/] },
+  { id: "stdlib-http-outros", label: "servidor HTTP da biblioteca padrão", ext: CODE_EXTENSIONS, sourceOnly: true, all: [/\bBun\.serve\s*\(|\bDeno\.serve\s*\(|\b(Threading)?HTTPServer\s*\(|\bBaseHTTPRequestHandler\s*\)|WEBrick::HTTPServer\.new|\bHttpListener\s*\(|\bHttpServer\.create\s*\(/] },
+  { id: "serverless-handler", label: "função serverless (handler exportado)", ext: CODE_EXTENSIONS, sourceOnly: true, all: [/export\s+default\s+(async\s+)?function\s+handler\s*\(|\bexports\.handler\s*=|export\s+(const|async\s+function|function)\s+handler\b|^\s*def\s+(lambda_)?handler\s*\(\s*event\b|export\s+default\s*\{\s*(async\s+)?fetch\s*\(|addEventListener\s*\(\s*["']fetch["']/m] },
   { id: "use-server", label: 'diretiva "use server"', ext: [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"], all: [/^\s*["']use server["'];?\s*$/m] },
 ]);
 
@@ -795,11 +817,31 @@ function parseComposerJson(content, deps, warnings, relPath) {
   }
 }
 
+/**
+ * Verdadeiro quando o manifesto declara um executável de linha de comando
+ * (mestre iii.4, regra 5): `bin` em package.json, `[project.scripts]` ou
+ * `[tool.poetry.scripts]` em pyproject.toml, `[[bin]]` em Cargo.toml.
+ */
+function declaresExecutable(kind, content) {
+  if (kind === "package.json") {
+    try {
+      const bin = JSON.parse(content).bin;
+      return typeof bin === "string" ? bin.length > 0 : Boolean(bin) && Object.keys(bin).length > 0;
+    } catch {
+      return false;
+    }
+  }
+  if (kind === "pyproject.toml") return /^\[(project\.scripts|tool\.poetry\.scripts)\]/m.test(content);
+  if (kind === "Cargo.toml") return /^\[\[bin\]\]/m.test(content);
+  return false;
+}
+
 function parseManifest(file, kind, warnings) {
-  const manifest = { kind, file: file.rel, unit: file.dir, deps: [] };
+  const manifest = { kind, file: file.rel, unit: file.dir, deps: [], declaresExecutable: false };
   if (kind === "sln") return manifest;
   const content = readTextSafe(file.abs, warnings, file.rel);
   if (content === null) return manifest;
+  manifest.declaresExecutable = declaresExecutable(kind, content);
   switch (kind) {
     case "package.json":
       parsePackageJson(content, manifest.deps, warnings, file.rel);
@@ -1007,7 +1049,7 @@ function manifestEvidence(manifest, dep, label) {
  * ferramentas de desenvolvimento (lint, formatação) não torna um repositório
  * de IaC uma aplicação.
  */
-function collectVariantSignals(scan, manifests, structural, textHits) {
+function collectVariantSignals(scan, manifests, structural, textHits, unitDirs = []) {
   const iac = [];
   for (const file of scan.files) {
     if (/\.(bicep|tf|tfstate)$/i.test(file.name)) {
@@ -1038,6 +1080,7 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
           signal: "package.json",
           file: manifest.file,
           aplicacional,
+          declaresExecutable: manifest.declaresExecutable,
           detail: aplicacional
             ? `${runtime.length} dependência(s) de runtime`
             : "sem dependências de runtime nem framework reconhecido (não aplicacional)",
@@ -1055,7 +1098,7 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
         break;
       case "requirements.txt":
       case "pyproject.toml": {
-        applicationManifests.push({ kind: "manifesto", signal: manifest.kind, file: manifest.file, aplicacional: true, detail: `${names.length} dependência(s)` });
+        applicationManifests.push({ kind: "manifesto", signal: manifest.kind, file: manifest.file, aplicacional: true, declaresExecutable: manifest.declaresExecutable, detail: `${names.length} dependência(s)` });
         manifest.deps
           .filter((d) => PYTHON_BACKEND_DEPS.includes(d.name))
           .forEach((d) => backend.push(manifestEvidence(manifest, d)));
@@ -1076,7 +1119,7 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
         break;
       }
       case "Cargo.toml": {
-        applicationManifests.push({ kind: "manifesto", signal: manifest.kind, file: manifest.file, aplicacional: true, detail: `${names.length} dependência(s)` });
+        applicationManifests.push({ kind: "manifesto", signal: manifest.kind, file: manifest.file, aplicacional: true, declaresExecutable: manifest.declaresExecutable, detail: `${names.length} dependência(s)` });
         manifest.deps
           .filter((d) => RUST_BACKEND_DEPS.includes(d.name))
           .forEach((d) => backend.push(manifestEvidence(manifest, d)));
@@ -1130,6 +1173,25 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
   }
   serverCode.forEach((e) => backend.push(e));
 
+  // Backend sem framework reconhecido (mestre iii.4, regra 3): servidor HTTP
+  // da biblioteca padrão ou função serverless com handler exportado.
+  for (const id of ["stdlib-http-node", "stdlib-http-outros", "serverless-handler"]) {
+    const rule = VARIANT_TEXT_RULES.find((r) => r.id === id);
+    for (const hit of textHits.get(id) || []) {
+      backend.push({ kind: "texto", signal: rule.label, file: hit.file, line: hit.line, excerpt: hit.excerpt });
+    }
+  }
+
+  // Site estático (mestre iii.4, regra 2): página HTML de entrada, quando
+  // nenhum framework de frontend foi declarado em manifesto.
+  if (frontend.length === 0) {
+    for (const file of scan.files) {
+      if (STATIC_ENTRY_RE.test(file.rel)) {
+        frontend.push({ kind: "arquivo", signal: "página HTML de entrada", file: file.rel });
+      }
+    }
+  }
+
   const goHttp = VARIANT_TEXT_RULES.find((r) => r.id === "go-net-http");
   if (manifests.some((m) => m.kind === "go.mod")) {
     for (const hit of textHits.get("go-net-http") || []) {
@@ -1145,6 +1207,18 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
     }
     if (BACKEND_APP_NAMES.has(name)) {
       backend.push({ kind: "estrutura", signal: `app ${name}`, file: appPath, detail: "nome de app típico de backend (mestre iii.4, item 4)" });
+    }
+  }
+
+  // Pastas de primeiro nível com manifesto próprio e nome de unidade de
+  // aplicação (mestre iii.1): `server/`, `backend/`, `frontend/` e afins.
+  for (const dir of unitDirs) {
+    const name = dir.toLowerCase();
+    if (FRONTEND_APP_NAMES.has(name)) {
+      frontend.push({ kind: "estrutura", signal: `pasta ${name}`, file: dir, detail: "pasta de primeiro nível com manifesto próprio e nome típico de frontend (mestre iii.1)" });
+    }
+    if (BACKEND_APP_NAMES.has(name)) {
+      backend.push({ kind: "estrutura", signal: `pasta ${name}`, file: dir, detail: "pasta de primeiro nível com manifesto próprio e nome típico de backend (mestre iii.1)" });
     }
   }
 
@@ -1196,6 +1270,9 @@ function decideVariant(signals) {
   const hasIac = signals.iac.length > 0;
   const hasApp = appManifests.length > 0;
   const hasFrontendDeps = signals.frontend.some((e) => e.kind === "manifesto");
+  const hasStaticSite = signals.frontend.some((e) => e.kind === "arquivo");
+  const hasFrontendApp = hasFrontendDeps || hasStaticSite;
+  const executables = appManifests.filter((m) => m.declaresExecutable);
   const hasFrontend = signals.frontend.length > 0;
   const hasBackend = signals.backend.length > 0;
   const hasServerCode = signals.serverCode.length > 0;
@@ -1215,9 +1292,9 @@ function decideVariant(signals) {
     {
       order: 2,
       variant: "frontend-site",
-      matched: hasFrontendDeps && !hasBackend,
-      reason: !hasFrontendDeps
-        ? "nenhum package.json com next, nuxt, vite, svelte ou astro"
+      matched: hasFrontendApp && !hasBackend,
+      reason: !hasFrontendApp
+        ? "nenhum framework de frontend em package.json nem página HTML de entrada"
         : hasServerCode
           ? `frontend (${summarize(signals.frontend)}) com código de servidor próprio (${summarize(signals.serverCode)})`
           : hasBackend
@@ -1229,7 +1306,7 @@ function decideVariant(signals) {
       variant: "backend-api",
       matched: hasBackend && !hasFrontend,
       reason: !hasBackend
-        ? "nenhum framework backend em package.json, manifesto backend não-JS nem código de servidor em meta-framework"
+        ? "nenhum framework backend, manifesto backend não-JS, servidor HTTP da biblioteca padrão, função serverless nem código de servidor em meta-framework"
         : hasFrontend
           ? `backend (${summarize(signals.backend)}) com frontend acoplado (${summarize(signals.frontend)})`
           : `backend (${summarize(signals.backend)}) sem frontend acoplado`,
@@ -1247,10 +1324,16 @@ function decideVariant(signals) {
     {
       order: 5,
       variant: "automacao-script",
-      matched: !hasApp && !hasIac && hasScripts,
-      reason: hasApp || hasIac
-        ? "há manifesto de aplicação ou de IaC"
-        : hasScripts
+      matched: !hasIac && !hasFrontend && !hasBackend && (hasApp ? executables.length > 0 : hasScripts),
+      reason: hasIac
+        ? "há manifesto de IaC"
+        : hasFrontend || hasBackend
+          ? "há sinal de frontend ou de backend"
+          : hasApp
+            ? executables.length > 0
+              ? `manifesto declara executável de linha de comando (${summarize(executables)}) e não há frontend nem backend`
+              : "há manifesto de aplicação que não declara executável de linha de comando"
+            : hasScripts
           ? `sem manifestos; scripts em ${summarize(signals.scripts)}`
           : signals.entryFileCount > 1
             ? `sem manifestos nem scripts/, bin/, cmd/; ${signals.entryFileCount} arquivos executáveis na raiz (o mestre exige um único)`
@@ -1429,11 +1512,19 @@ function detect(projectRootInput, options = {}) {
   const structural = detectStructuralPattern(rootPath);
   const scan = scanFiles(rootPath, warnings);
   const appRoots = Array.isArray(structural.apps) ? structural.apps.map((a) => a.path) : [];
-  const manifests = collectManifests(scan, ["", ...appRoots], warnings);
+  const unitNames = new Set([...FRONTEND_APP_NAMES, ...BACKEND_APP_NAMES]);
+  const unitDirs = [
+    ...new Set(
+      scan.files
+        .filter((f) => f.dir !== "" && !f.dir.includes("/") && manifestKind(f.name) && unitNames.has(f.dir.toLowerCase()))
+        .map((f) => f.dir)
+    ),
+  ].filter((dir) => !appRoots.includes(dir));
+  const manifests = collectManifests(scan, ["", ...appRoots, ...unitDirs], warnings);
   const textHits = runTextSearch(scan, warnings);
 
   const output = detectOutputDir(rootPath, options.outputDir || null);
-  const variantSignals = collectVariantSignals(scan, manifests, structural, textHits);
+  const variantSignals = collectVariantSignals(scan, manifests, structural, textHits, unitDirs);
   const variantDecision = decideVariant(variantSignals);
   const capabilityResult = detectCapabilities(scan, manifests, textHits);
   const sectionFiles = resolveSectionFiles(rootPath);
