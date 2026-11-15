@@ -253,6 +253,147 @@ function buildCases() {
       },
     },
     {
+      label: "variante — full-stack-web: next com rota de servidor em app/api (meta-framework é frontend e backend)",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ next: "^16.0.0", react: "^19.0.0" }),
+          "app/page.tsx": "export default function Home() { return null; }\n",
+          "app/api/health/route.ts": "export async function GET() { return Response.json({ ok: true }); }\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        assert.strictEqual(ctx.evidence.variant.matchedRule, 4);
+        assert.strictEqual(ctx.evidence.variant.rules[1].matched, false);
+        assert.match(ctx.evidence.variant.rules[1].reason, /código de servidor próprio/);
+        assert.match(ctx.evidence.variant.rules[3].reason, /frontend e backend/);
+        assert.deepStrictEqual(ctx.evidence.variant.signals.serverCode, [
+          {
+            kind: "arquivo",
+            signal: "rota de servidor (app/**/route.*)",
+            file: "app/api/health/route.ts",
+          },
+        ]);
+      },
+    },
+    {
+      label: "variante — full-stack-web: next com src/app/**/route e pages/api, evidência limitada a cinco arquivos",
+      run() {
+        const files = { "package.json": pkg({ next: "^16.0.0" }) };
+        for (let i = 0; i < 7; i += 1) files[`src/app/api/r${i}/route.ts`] = "export async function GET() {}\n";
+        files["src/pages/api/legado.ts"] = "export default function handler() {}\n";
+        const ctx = detect(makeTree(files));
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        const routes = ctx.evidence.variant.signals.serverCode.filter((e) => e.kind === "arquivo");
+        assert.strictEqual(routes.length, 5);
+      },
+    },
+    {
+      label: "variante — full-stack-web: next com driver de banco em dependencies, sem rotas",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ next: "^16.0.0", postgres: "^3.4.8" }),
+          "app/page.tsx": "export default function Home() { return null; }\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        const [evidence] = ctx.evidence.variant.signals.serverCode;
+        assert.strictEqual(evidence.kind, "manifesto");
+        assert.strictEqual(evidence.signal, "postgres");
+        assert.match(evidence.detail, /driver de banco ou ORM em dependencies: postgres \^3\.4\.8/);
+        assert.ok(ctx.capabilities.includes("banco-de-dados"));
+      },
+    },
+    {
+      label: "variante — frontend-site: ORM só em devDependencies e sem rotas não conta como servidor",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ next: "^16.0.0" }, { prisma: "^7.0.0" }),
+          "app/page.tsx": "export default function Home() { return null; }\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "frontend-site");
+        assert.deepStrictEqual(ctx.evidence.variant.signals.serverCode, []);
+        assert.match(ctx.evidence.variant.rules[1].reason, /sem backend acoplado nem código de servidor próprio/);
+      },
+    },
+    {
+      label: 'variante — full-stack-web: next com diretiva "use server"',
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ next: "^16.0.0" }),
+          "lib/actions.ts": '"use server";\n\nexport async function salvar() {}\n',
+          "app/page.tsx": "// o texto use server em comentário não é diretiva\nexport default function Home() { return null; }\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        const [evidence] = ctx.evidence.variant.signals.serverCode;
+        assert.strictEqual(evidence.kind, "texto");
+        assert.strictEqual(evidence.file, "lib/actions.ts");
+        assert.strictEqual(evidence.line, 1);
+        assert.strictEqual(ctx.evidence.variant.signals.serverCode.length, 1);
+      },
+    },
+    {
+      label: "variante — full-stack-web: nuxt com server/api e sveltekit com +server",
+      run() {
+        const nuxt = detect(makeTree({
+          "package.json": pkg({ nuxt: "^4.0.0" }),
+          "server/api/usuarios.get.ts": "export default defineEventHandler(() => []);\n",
+        }));
+        assert.strictEqual(nuxt.variant, "full-stack-web");
+        const kit = detect(makeTree({
+          "package.json": pkg({}, { svelte: "^5.0.0", "@sveltejs/kit": "^2.0.0", vite: "^7.0.0" }),
+          "src/routes/api/itens/+server.ts": "export function GET() { return new Response('[]'); }\n",
+        }));
+        assert.strictEqual(kit.variant, "full-stack-web");
+        assert.strictEqual(kit.evidence.variant.signals.serverCode[0].signal, "rota de servidor (src/routes/**/+server.*)");
+      },
+    },
+    {
+      label: "variante — frontend-site: convenção de rota de outro framework não conta (vite com app/route.ts)",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ react: "^19.0.0" }, { vite: "^7.0.0" }),
+          "src/app/route.ts": "export const rota = '/';\n",
+          "server/api/mock.ts": "export const mock = {};\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "frontend-site");
+        assert.deepStrictEqual(ctx.evidence.variant.signals.serverCode, []);
+      },
+    },
+    {
+      label: "variante — frontend-site: rotas compiladas em .next/ e rotas na pasta de outro app são ignoradas",
+      run() {
+        const root = makeTree({
+          "package.json": { name: "workspace", workspaces: ["apps/*"] },
+          "apps/web/package.json": pkg({ next: "^16.0.0" }),
+          "apps/web/app/page.tsx": "export default function Home() { return null; }\n",
+          "apps/web/.next/server/app/api/ping/route.js": "module.exports = {};\n",
+          "apps/painel/package.json": pkg({ react: "^19.0.0" }, { vite: "^7.0.0" }),
+          "apps/painel/app/api/ping/route.ts": "export const rota = '/ping';\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "frontend-site");
+        assert.deepStrictEqual(ctx.evidence.variant.signals.serverCode, []);
+      },
+    },
+    {
+      label: "variante — full-stack-web: monorepo só com apps/web, next com rota de servidor",
+      run() {
+        const root = makeTree({
+          "package.json": { name: "workspace", workspaces: ["apps/*"] },
+          "apps/web/package.json": pkg({ next: "^16.0.0" }),
+          "apps/web/src/app/api/pedidos/route.ts": "export async function GET() {}\n",
+          "apps/site/package.json": pkg({ astro: "^5.0.0" }),
+          "apps/site/src/pages/index.astro": "",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        assert.strictEqual(ctx.evidence.variant.signals.serverCode[0].file, "apps/web/src/app/api/pedidos/route.ts");
+      },
+    },
+    {
       label: "variante — automacao-script: scripts/ sem manifestos",
       run() {
         const root = makeTree({

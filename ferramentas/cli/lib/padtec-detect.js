@@ -112,6 +112,9 @@ const SCAN_IGNORE_DIRS = new Set([
   ".next",
   ".nuxt",
   ".svelte-kit",
+  ".output",
+  ".vercel",
+  ".astro",
   ".turbo",
   ".cache",
   ".terraform",
@@ -219,7 +222,7 @@ const CAPABILITY_RULES = Object.freeze({
   "banco-de-dados": {
     deps: [
       "typeorm", "@prisma/client", "prisma", "sequelize", "sequelize-typescript", "mongoose",
-      "knex", "drizzle-orm", "@mikro-orm/core", "objection", "kysely", "pg", "mysql", "mysql2",
+      "knex", "drizzle-orm", "@mikro-orm/core", "objection", "kysely", "pg", "postgres", "mysql", "mysql2",
       "sqlite3", "better-sqlite3", "mongodb", "mssql", "oracledb",
       "sqlalchemy", "django", "psycopg2", "psycopg2-binary", "psycopg", "pymongo", "motor",
       "alembic", "peewee", "tortoise-orm", "asyncpg", "aiomysql", "pymysql", "mysqlclient",
@@ -416,6 +419,19 @@ const VARIANT_TEXT_RULES = Object.freeze([
   { id: "go-net-http", label: "servidor HTTP da biblioteca padrão Go", ext: [".go"], all: [/"net\/http"/] },
   { id: "ansible-playbook", label: "playbook Ansible", ext: [".yml", ".yaml"], all: [/^\s*-?\s*hosts:\s*\S/m, /^\s*(tasks|roles|pre_tasks|post_tasks):\s*$/m] },
   { id: "cloudformation", label: "template CloudFormation", ext: [".yml", ".yaml", ".json"], all: [/AWSTemplateFormatVersion/] },
+  { id: "use-server", label: 'diretiva "use server"', ext: [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"], all: [/^\s*["']use server["'];?\s*$/m] },
+]);
+
+/**
+ * Arquivos de rota de servidor dos meta-frameworks de frontend (mestre iii.4,
+ * regra 2). Os caminhos são relativos à pasta do `package.json` que declara o
+ * framework, e cada convenção só vale para o framework que a define.
+ */
+const SERVER_ROUTE_PATTERNS = Object.freeze([
+  { frameworks: ["next"], re: /^(src\/)?app\/(.+\/)?route\.(ts|tsx|js|jsx|mjs|cjs)$/, label: "rota de servidor (app/**/route.*)" },
+  { frameworks: ["next", "astro"], re: /^(src\/)?pages\/api\/.+\.(ts|tsx|js|jsx|mjs|cjs)$/, label: "rota de servidor (pages/api/**)" },
+  { frameworks: ["nuxt"], re: /^server\/(api|routes)\/.+\.(ts|js|mjs|cjs)$/, label: "rota de servidor (server/api/** ou server/routes/**)" },
+  { frameworks: ["svelte"], re: /^src\/routes\/(.+\/)?\+server\.(ts|js)$/, label: "rota de servidor (src/routes/**/+server.*)" },
 ]);
 
 // ---------------------------------------------------------------------------
@@ -1023,6 +1039,49 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
     }
   }
 
+  // Código de servidor próprio em meta-framework de frontend (mestre iii.4,
+  // regra 2): rotas de servidor, diretiva "use server" ou driver de banco/ORM
+  // em `dependencies` do mesmo `package.json` que declara o framework. Cada
+  // sinal conta como backend e leva a `full-stack-web`.
+  const serverCode = [];
+  const useServerRule = VARIANT_TEXT_RULES.find((r) => r.id === "use-server");
+  const databaseDeps = CAPABILITY_RULES["banco-de-dados"].deps;
+  for (const manifest of manifests) {
+    if (manifest.kind !== "package.json") continue;
+    const frameworks = manifest.deps.filter((d) => FRONTEND_DEPS.includes(d.name)).map((d) => d.name);
+    if (frameworks.length === 0) continue;
+    const routePatterns = SERVER_ROUTE_PATTERNS.filter((p) => p.frameworks.some((f) => frameworks.includes(f)));
+    const slash = manifest.file.lastIndexOf("/");
+    const base = slash === -1 ? "" : manifest.file.slice(0, slash + 1);
+    const inside = (rel) => rel.startsWith(base);
+
+    let routes = 0;
+    for (const file of scan.files) {
+      if (!inside(file.rel)) continue;
+      const pattern = routePatterns.find((p) => p.re.test(file.rel.slice(base.length)));
+      if (!pattern) continue;
+      routes += 1;
+      if (routes <= MAX_EVIDENCE_PER_SIGNAL) {
+        serverCode.push({ kind: "arquivo", signal: pattern.label, file: file.rel });
+      }
+    }
+    for (const hit of textHits.get("use-server") || []) {
+      if (!inside(hit.file)) continue;
+      serverCode.push({ kind: "texto", signal: useServerRule.label, file: hit.file, line: hit.line, excerpt: hit.excerpt });
+    }
+    manifest.deps
+      .filter((d) => d.scope === "dependencies" && anyDepPattern(d.name, databaseDeps))
+      .forEach((d) => {
+        serverCode.push({
+          kind: "manifesto",
+          signal: d.name,
+          file: manifest.file,
+          detail: `driver de banco ou ORM em dependencies: ${d.name}${d.version ? ` ${d.version}` : ""}`,
+        });
+      });
+  }
+  serverCode.forEach((e) => backend.push(e));
+
   const goHttp = VARIANT_TEXT_RULES.find((r) => r.id === "go-net-http");
   if (manifests.some((m) => m.kind === "go.mod")) {
     for (const hit of textHits.get("go-net-http") || []) {
@@ -1066,6 +1125,7 @@ function collectVariantSignals(scan, manifests, structural, textHits) {
     applicationManifests,
     frontend,
     backend,
+    serverCode,
     scripts,
     entryFileCount: entryFiles.length,
     directories,
@@ -1090,6 +1150,7 @@ function decideVariant(signals) {
   const hasFrontendDeps = signals.frontend.some((e) => e.kind === "manifesto");
   const hasFrontend = signals.frontend.length > 0;
   const hasBackend = signals.backend.length > 0;
+  const hasServerCode = signals.serverCode.length > 0;
   const hasScripts = signals.scripts.some((e) => e.kind === "diretorio") || signals.entryFileCount === 1;
 
   const rules = [
@@ -1109,16 +1170,18 @@ function decideVariant(signals) {
       matched: hasFrontendDeps && !hasBackend,
       reason: !hasFrontendDeps
         ? "nenhum package.json com next, nuxt, vite, svelte ou astro"
-        : hasBackend
-          ? `frontend (${summarize(signals.frontend)}) com backend acoplado (${summarize(signals.backend)})`
-          : `frontend (${summarize(signals.frontend)}) sem backend acoplado`,
+        : hasServerCode
+          ? `frontend (${summarize(signals.frontend)}) com código de servidor próprio (${summarize(signals.serverCode)})`
+          : hasBackend
+            ? `frontend (${summarize(signals.frontend)}) com backend acoplado (${summarize(signals.backend)})`
+            : `frontend (${summarize(signals.frontend)}) sem backend acoplado nem código de servidor próprio`,
     },
     {
       order: 3,
       variant: "backend-api",
       matched: hasBackend && !hasFrontend,
       reason: !hasBackend
-        ? "nenhum framework backend em package.json nem manifesto backend não-JS"
+        ? "nenhum framework backend em package.json, manifesto backend não-JS nem código de servidor em meta-framework"
         : hasFrontend
           ? `backend (${summarize(signals.backend)}) com frontend acoplado (${summarize(signals.frontend)})`
           : `backend (${summarize(signals.backend)}) sem frontend acoplado`,
@@ -1128,7 +1191,9 @@ function decideVariant(signals) {
       variant: "full-stack-web",
       matched: hasFrontend && hasBackend,
       reason: hasFrontend && hasBackend
-        ? `frontend (${summarize(signals.frontend)}) e backend (${summarize(signals.backend)}) no mesmo repositório`
+        ? hasServerCode
+          ? `frontend (${summarize(signals.frontend)}) com código de servidor próprio (${summarize(signals.serverCode)}): o meta-framework é frontend e backend`
+          : `frontend (${summarize(signals.frontend)}) e backend (${summarize(signals.backend)}) no mesmo repositório`
         : "não há frontend e backend simultaneamente",
     },
     {
@@ -1157,6 +1222,7 @@ function decideVariant(signals) {
         applicationManifests: signals.applicationManifests,
         frontend: signals.frontend,
         backend: signals.backend,
+        serverCode: signals.serverCode,
         scripts: signals.scripts,
         directories: signals.directories,
       },

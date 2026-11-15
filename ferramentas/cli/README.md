@@ -104,6 +104,7 @@ Exemplo abreviado para um serviço NestJS com TypeORM e Redis, nível L2:
         "applicationManifests": [{ "kind": "manifesto", "signal": "package.json", "file": "package.json", "aplicacional": true, "detail": "6 dependência(s) de runtime" }],
         "frontend": [],
         "backend": [{ "kind": "manifesto", "signal": "@nestjs/core", "file": "package.json", "detail": "dependencies: @nestjs/core ^10.0.0" }],
+        "serverCode": [],
         "scripts": [],
         "directories": ["src/"]
       }
@@ -149,7 +150,19 @@ parando na primeira que casa:
    com `devDependencies` de ferramentas (sem dependência de runtime nem
    framework) não conta como aplicação.
 2. `frontend-site` — `package.json` com `next`, `nuxt`, `vite`, `svelte` ou
-   `astro` em `dependencies` ou `devDependencies`, sem sinal de backend.
+   `astro` em `dependencies` ou `devDependencies`, sem sinal de backend e
+   sem código de servidor próprio. Conta como código de servidor próprio,
+   dentro da pasta desse `package.json`: arquivo de rota de servidor do
+   framework declarado (`app/**/route.*` e `pages/api/**` para `next`, com
+   ou sem `src/`; `server/api/**` e `server/routes/**` para `nuxt`;
+   `src/routes/**/+server.*` para `svelte`; `src/pages/api/**` para
+   `astro`); arquivo com a diretiva `"use server"`; driver de banco ou ORM
+   em `dependencies` (em `devDependencies` não conta). Cada convenção de
+   rota só vale para o framework que a define, e pastas de build
+   (`.next/`, `.nuxt/`, `.output/`, `.svelte-kit/`, `.vercel/`) são
+   ignoradas. Esses sinais ficam em `evidence.variant.signals.serverCode`,
+   com no máximo cinco arquivos de rota por `package.json`, e entram
+   também em `signals.backend`.
 3. `backend-api` — `package.json` com `@nestjs/core`, `express`, `fastify`
    ou `koa`, ou manifesto backend não-JS (`pom.xml`, `build.gradle`,
    `*.csproj`/`*.sln`, `requirements.txt`/`pyproject.toml` com Django,
@@ -157,7 +170,8 @@ parando na primeira que casa:
    `composer.json` com framework PHP, `Cargo.toml` com framework web), sem
    sinal de frontend.
 4. `full-stack-web` — frontend e backend no mesmo repositório, seja na mesma
-   raiz, seja em apps distintos (`apps/web` + `apps/api`). Nomes de app
+   raiz, seja em apps distintos (`apps/web` + `apps/api`), seja em um único
+   framework de frontend com código de servidor próprio (regra 2). Nomes de app
    típicos (`web`, `frontend`, `api`, `backend`) contam como sinal
    estrutural.
 5. `automacao-script` — nenhum manifesto de aplicação nem de IaC, mas há

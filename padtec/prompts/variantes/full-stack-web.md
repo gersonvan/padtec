@@ -7,7 +7,9 @@ Arquivos de variante NÃO são núcleo: podem citar exemplos de framework/biblio
 
 ## 1. Identidade
 
-Este arquivo orienta o orquestrador quando a variante resolvida é `full-stack-web` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino apresenta **frontend aplicacional e backend aplicacional no mesmo repositório** — seja em raiz única (ex.: `package.json` declarando `next` e `@nestjs/core` simultaneamente) seja em estrutura `apps/web` + `apps/api` (ou nomes equivalentes).
+Este arquivo orienta o orquestrador quando a variante resolvida é `full-stack-web` do PADTec v1.0.1. O orquestrador `00-mestre.md` carregou este arquivo após detectar que o projeto destino apresenta **frontend aplicacional e backend aplicacional no mesmo repositório** — seja em raiz única (ex.: `package.json` declarando `next` e `@nestjs/core` simultaneamente), seja em estrutura `apps/web` + `apps/api` (ou nomes equivalentes), seja em um único framework de frontend que também executa código de servidor próprio (rotas de servidor, módulos com a diretiva `"use server"` ou acesso direto a banco de dados).
+
+Quando as duas pontas vivem no mesmo framework, a separação é lógica, não de pasta nem de pacote: trate como **frontend** o que é renderizado e executado para a interface (páginas, componentes, estado) e como **backend** o que só executa no servidor (rotas de servidor, ações de servidor, acesso a dados, autenticação, integrações). As ênfases da seção 2 valem com essa leitura; em `09-backend.md`, descreva as camadas que o código efetivamente tem, sem supor controlador, serviço e repositório onde eles não existem.
 
 Esta variante orienta a geração das seções do núcleo enfatizando o **fluxo end-to-end** entre as duas pontas (frontend → backend → persistência) e a **fronteira contratual** entre elas.
 
@@ -29,6 +31,7 @@ Capacidades particularmente comuns nesta variante (consulte `prompts/extensoes/`
 Combinações frequentemente encontradas:
 
 - **NestJS + Next.js** (TypeScript fullstack, monorepo `apps/api` + `apps/web`).
+- **Next.js, Nuxt ou SvelteKit em pacote único** (páginas, rotas de servidor e acesso a banco no mesmo `package.json`).
 - **Django + React** (Python backend + frontend separado consumindo API REST).
 - **Spring Boot + Angular** (Java backend + Angular CLI no frontend).
 - **Ruby on Rails + Vue** (Rails API mode + Vue/Vite).

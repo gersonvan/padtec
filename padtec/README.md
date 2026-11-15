@@ -20,9 +20,9 @@ A geração documental é configurada por três escolhas independentes:
 
 | Slug | Aplicação típica |
 |---|---|
-| `full-stack-web` | Aplicação web com backend de API e frontend acoplados no mesmo repositório ou organização |
+| `full-stack-web` | Aplicação web com backend e frontend no mesmo repositório, em pacotes separados ou em um único framework que também executa código de servidor (rotas de servidor, acesso a banco) |
 | `backend-api` | Serviço de API isolado, sem frontend próprio |
-| `frontend-site` | Aplicação de página única (SPA) ou site estático/server-side rendering |
+| `frontend-site` | Aplicação de página única (SPA) ou site estático/server-side rendering, sem código de servidor próprio |
 | `automacao-script` | Ferramentas de linha de comando, scripts de automação, utilitários de processamento em lote |
 | `iac` | Infraestrutura como código (Bicep, Terraform, ARM, CloudFormation, Ansible) |
 
