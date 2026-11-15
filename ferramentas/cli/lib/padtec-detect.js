@@ -146,6 +146,38 @@ const TEXT_EXTENSIONS = new Set([
   ".sh", ".ps1",
 ]);
 
+/**
+ * Extensões de código-fonte de aplicação (sem configuração, dados nem shell).
+ * Usadas pelas regras que só fazem sentido em código: nome de arquivo de
+ * autenticação e chamada a `ssh`/`scp` a partir do programa.
+ */
+const CODE_EXTENSIONS = Object.freeze([
+  ".js", ".mjs", ".cjs", ".jsx", ".ts", ".tsx", ".mts", ".cts",
+  ".vue", ".svelte", ".astro",
+  ".py", ".java", ".kt", ".kts", ".cs", ".go", ".rs", ".php", ".rb",
+  ".scala", ".groovy",
+]);
+
+/**
+ * Arquivos de teste, de fixtures e de configuração de testes. Evidência
+ * textual que só existe neles não ativa capacidade (mestre iv): um `baseURL`
+ * em `playwright.config.ts` ou um mock de upload não descrevem o sistema.
+ */
+const TEST_PATH_RE = /(^|\/)(tests?|__tests__|__mocks__|__fixtures__|fixtures|e2e|specs?|cypress|playwright)\/|\.(test|spec|e2e)\.\w+$|_test\.(go|py|rb)$|(^|\/)test_[\w-]+\.py$|(^|\/)(playwright|cypress|jest|vitest|karma|wdio)\.config\.\w+$/i;
+
+/**
+ * Documentação do próprio projeto e a cópia do pacote: as pastas de saída do
+ * mestre (iii.3) na raiz, os arquivos ADF gerados para publicação e a pasta
+ * `padtec/` da raiz. Uma execução anterior do PADTec, ou o próprio pacote,
+ * não podem virar evidência sobre o sistema.
+ */
+const DOCS_PATH_RE = /^(docs?|documentation|documentacao|padtec)\/|\.adf\.json$/i;
+
+/** Verdadeiro para arquivos que não descrevem o sistema: testes, documentação e o pacote. */
+function isNonSourcePath(rel) {
+  return TEST_PATH_RE.test(rel) || DOCS_PATH_RE.test(rel);
+}
+
 /** Arquivos sem extensão reconhecida que ainda entram na busca textual. */
 const TEXT_BASENAMES = /^(\.env(\..+)?|Dockerfile|crontab|Procfile)$/;
 
@@ -313,10 +345,14 @@ const CAPABILITY_RULES = Object.freeze({
       "firebase/php-jwt", "lcobucci/jwt", /^league\/oauth2-/, "symfony/security-bundle",
       "oauth2",
     ],
-    files: [],
+    files: [
+      { re: /(^|\/)(auth|login|logout|signin|sign-in)(\/|\.\w+$)|(^|\/)[\w.-]*[-_.](auth|session|login)\.\w+$/i, label: "rota ou módulo de autenticação (login, sessão)", code: true },
+    ],
     text: [
       { label: "guard, middleware ou decorator de autenticação", all: [/@UseGuards\s*\(|\bAuthGuard\s*\(|@Roles\s*\(|\bcanActivate\s*\(|passport\.(authenticate|use)\s*\(|@login_required\b|@permission_required\b|\[Authorize(\(|\])|@PreAuthorize\b|@Secured\b|@RolesAllowed\b|LoginRequiredMixin|\bIsAuthenticated\b|getServerSession\s*\(|\bjwt\.(sign|verify)\s*\(/] },
-      { label: "configuração de autenticação", all: [/\b(JWT_SECRET|JWT_(PUBLIC|PRIVATE)_KEY|OAUTH_CLIENT_(ID|SECRET)|OIDC_\w+|AUTH0_\w+|NEXTAUTH_SECRET|SESSION_SECRET|KEYCLOAK_\w+)\b/] },
+      { label: "configuração de autenticação", all: [/\b[A-Z0-9_]*(JWT_SECRET|SESSION_SECRET|PASSWORD_HASH|AUTH_SECRET|COOKIE_SECRET)\b|\b(JWT_(PUBLIC|PRIVATE)_KEY|OAUTH_CLIENT_(ID|SECRET)|OIDC_\w+|AUTH0_\w+|KEYCLOAK_\w+)\b/] },
+      { label: "hash ou verificação de senha com a biblioteca padrão", all: [/\b(scrypt|scryptSync|pbkdf2|pbkdf2Sync)\s*\(|hashlib\.(pbkdf2_hmac|scrypt)\s*\(|\bpassword_(hash|verify)\s*\(|\b(check|make)_password\s*\(|\bPasswordHasher\b|\bBCryptPasswordEncoder\b/] },
+      { label: "cookie de sessão protegido (httpOnly)", all: [/\bhttpOnly\s*:\s*true\b|\bhttponly\s*=\s*True\b|\bHttpOnly\s*=\s*true\b|;\s*HttpOnly\b/] },
     ],
   },
   "integracoes-externas": {
@@ -338,12 +374,15 @@ const CAPABILITY_RULES = Object.freeze({
     files: [],
     text: [
       { label: "cliente HTTP nomeado (baseURL fixa ou fábrica de cliente)", all: [/\bbaseURL\s*[:=]|\bbase_url\s*[:=]|axios\.create\s*\(|\bHttpService\b|AddHttpClient\s*\(|\bIHttpClientFactory\b|@FeignClient\b|WebClient\.(create|builder)\s*\(|\bRestTemplate\b|RestClient\.(create|builder)|resty\.New\s*\(|httpx\.(Client|AsyncClient)\s*\(|requests\.Session\s*\(|new\s+GuzzleHttp\\Client|Http::(withBaseUrl|baseUrl)/] },
-      { label: "configuração de serviço externo", all: [/\b[A-Z0-9_]*(EXTERNAL|INTEGRATION|INTEGRACAO|_API_URL|_API_KEY|_API_TOKEN|_WEBHOOK_URL)\b/] },
+      { label: "configuração de serviço externo", all: [/\b[A-Z0-9_]*(EXTERNAL|INTEGRATION|INTEGRACAO|_API_URL|_API_KEY|_API_TOKEN|_API_SECRET|_CONSUMER_KEY|_CONSUMER_SECRET|_WEBHOOK_URL|_WEBHOOK_SECRET)\b/] },
+      { label: "chamada HTTP nativa a host externo", all: [/\b(fetch|axios\.(get|post|put|patch|delete|request)|got(\.(get|post|put|patch|delete))?|ky(\.(get|post|put|patch|delete))?|requests\.(get|post|put|patch|delete|request)|httpx\.(get|post|put|patch|delete|request)|http\.(Get|Post)|urlopen|file_get_contents|curl_init)\s*\(\s*f?["'`]https?:\/\/(?!localhost\b|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|host\.docker\.internal)/] },
+      { label: "execução ou transferência remota a partir do código (ssh, scp, sftp)", ext: CODE_EXTENSIONS, all: [/\(\s*\[?\s*["'](ssh|scp|sftp)["']\s*[,\]]/] },
     ],
   },
   storage: {
     deps: [
       "multer", "multer-s3", "formidable", "busboy", "express-fileupload", "@fastify/multipart", "fastify-multipart",
+      "@vercel/blob", "@supabase/storage-js",
       "@aws-sdk/client-s3", "@aws-sdk/lib-storage", "@aws-sdk/s3-request-presigner", "@azure/storage-blob",
       "@azure/storage-file-share", "@google-cloud/storage", "minio", "fs-extra", "cloudinary", "uploadthing",
       "azure-storage-blob", "google-cloud-storage", "django-storages", "python-multipart",
@@ -356,7 +395,8 @@ const CAPABILITY_RULES = Object.freeze({
     files: [],
     text: [
       { label: "upload ou cliente de armazenamento de arquivos", all: [/@UploadedFiles?\s*\(|Files?Interceptor\s*\(|\bmulter\s*\(|\bBlobServiceClient\b|\bS3Client\b|\bPutObjectCommand\b|\bIFormFile\b|\bMultipartFile\b|\bupload_to\s*=|\bUploadFile\b|Storage::(disk|put)|\.putObject\s*\(|\.uploadStream\s*\(|getSignedUrl\s*\(/] },
-      { label: "configuração de armazenamento", all: [/\b(AWS_S3_BUCKET|S3_BUCKET\w*|AZURE_STORAGE_(CONNECTION_STRING|ACCOUNT\w*)|STORAGE_(BUCKET|ACCOUNT)\w*|GCS_BUCKET\w*|MINIO_\w+)\b/] },
+      { label: "configuração de armazenamento", all: [/\b(AWS_S3_BUCKET|S3_BUCKET\w*|AZURE_STORAGE_(CONNECTION_STRING|ACCOUNT\w*)|STORAGE_(BUCKET|ACCOUNT)\w*|GCS_BUCKET\w*|MINIO_\w+)\b|\b[A-Z0-9_]+(?<!TOKEN|LEAKY|LIMIT|HASH|TIME|HISTOGRAM)_BUCKET(_NAME)?\b/] },
+      { label: "armazenamento de arquivos de plataforma (cliente de storage, URL pré-assinada)", all: [/\.storage\s*\.\s*from\s*\(|from\s+["']firebase\/storage["']|\buploadBytes(Resumable)?\s*\(|from\s+["']@vercel\/blob["']|\bcreateSigned(Upload)?Url\s*\(|\bcreatePresignedPost\s*\(|\bgenerate_presigned_url\s*\(/] },
       { label: "serviço de armazenamento em docker-compose", ext: [".yml", ".yaml"], all: [/^\s*image:\s*["']?(bitnami\/)?(minio\/minio|minio|mcr\.microsoft\.com\/azure-storage\/azurite|azurite)\b/m] },
     ],
   },
@@ -394,9 +434,13 @@ const CAPABILITY_RULES = Object.freeze({
     ],
     files: [
       { re: /(^|\/)(crontab|[\w.-]+\.cron)$/, label: "arquivo crontab" },
+      { re: /(^|\/)[\w@.-]+\.timer$/, label: "timer do systemd" },
     ],
     text: [
       { label: "job agendado declarado (cron, @Scheduled, timer)", all: [/@Cron\s*\(|@Interval\s*\(|@Timeout\s*\(|@Scheduled\s*\(|cron\.schedule\s*\(|new\s+CronJob\s*\(|schedule\.(every|scheduleJob)\s*\(|@periodic_task\b|beat_schedule\s*=|\bcrontab\s*\(|RecurringJob\.AddOrUpdate|cron\.New\s*\(|gocron\.|->(cron|everyMinute|everyFiveMinutes|hourly|daily|dailyAt|weekly|monthly)\s*\(|kind:\s*CronJob\b|\btimerTrigger\b|"schedule"\s*:\s*"[^"]*\*/] },
+      { label: "agendador de nuvem (criado por script ou função agendada)", all: [/\bgcloud\s+scheduler\s+jobs\s+(create|update)\b|\baws\s+scheduler\s+create-schedule\b|\baws\s+events\s+put-rule\b|\bonSchedule\s*\(|\bpubsub\.schedule\s*\(/] },
+      { label: "agendamento declarado em configuração (crons, cron de workflow, CronJob, timerTrigger)", ext: [".json", ".yml", ".yaml", ".toml"], all: [/"crons"\s*:\s*\[|^\s*-\s*cron:\s*["']|^\s*kind:\s*CronJob\b|"type"\s*:\s*"timerTrigger"|^\s*crons\s*=\s*\[/m] },
+      { label: "agente agendado do sistema operacional (launchd, systemd, crontab)", all: [/<key>Start(Calendar)?Interval<\/key>|^\s*OnCalendar\s*=|\bcrontab\s+-[a-z]?\b|\/etc\/cron\.(d|daily|hourly|weekly)\b/m] },
     ],
   },
   "multi-tenancy": {
@@ -834,7 +878,7 @@ function runTextSearch(scan, warnings) {
   const rules = [];
   for (const slug of CAPABILITIES) {
     CAPABILITY_RULES[slug].text.forEach((rule, i) => {
-      rules.push({ id: `${slug}#${i}`, ...rule });
+      rules.push({ id: `${slug}#${i}`, sourceOnly: true, ...rule });
     });
   }
   for (const rule of VARIANT_TEXT_RULES) rules.push(rule);
@@ -850,8 +894,12 @@ function runTextSearch(scan, warnings) {
       interrupted = true;
       break;
     }
+    const nonSource = isNonSourcePath(file.rel);
     const applicable = rules.filter(
-      (rule) => ruleAppliesToExt(rule, file.ext) && hits.get(rule.id).length < MAX_EVIDENCE_PER_SIGNAL
+      (rule) =>
+        ruleAppliesToExt(rule, file.ext) &&
+        !(rule.sourceOnly && nonSource) &&
+        hits.get(rule.id).length < MAX_EVIDENCE_PER_SIGNAL
     );
     if (applicable.length === 0) continue;
 
@@ -1272,6 +1320,7 @@ function detectCapabilities(scan, manifests, textHits) {
       const seenDirs = new Set();
       for (const file of scan.files) {
         if (count >= MAX_EVIDENCE_PER_SIGNAL) break;
+        if (fileRule.code && (!CODE_EXTENSIONS.includes(file.ext) || isNonSourcePath(file.rel))) continue;
         const match = fileRule.re.exec(file.rel);
         if (!match) continue;
         // Para padrões de pasta, registra a pasta uma vez, não cada arquivo.
