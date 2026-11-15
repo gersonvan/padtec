@@ -194,12 +194,32 @@ A tabela do bloco iv do mestre ("Procedimento de detecção de capacidades")
   `@nestjs/schedule` etc.) e seus equivalentes nos ecossistemas JS, Python,
   JVM, .NET, Go, PHP e Rust;
 - **arquivos e pastas**: `*.sql`, `migrations/`, `schema.prisma`, arquivos
-  de configuração de ORM, `crontab`;
+  de configuração de ORM, `crontab`, timers do systemd (`*.timer`) e
+  arquivos de código cujo nome indica autenticação (`auth/`, `login/`,
+  `*-auth.ts`, `*.session.js`);
 - **texto no código e na configuração**: decorators e padrões citados pelo
   mestre (`@Process`, guards de auth, `axios` com `baseURL`, `@Cron`,
   resolvers de tenant, conexões nomeadas), variáveis de ambiente
   (`REDIS_URL`, `SMTP_HOST`, `JWT_SECRET`) e serviços declarados em
-  `docker-compose`.
+  `docker-compose`;
+- **implementações sem biblioteca dedicada**, que o mestre manda tratar como
+  a capacidade plena:
+  - `auth`: hash de senha com a biblioteca padrão (`scrypt`, `pbkdf2`,
+    `password_hash`), cookie `httpOnly` e variáveis `*_SESSION_SECRET`,
+    `*_PASSWORD_HASH`, `*_AUTH_SECRET`;
+  - `integracoes-externas`: chamada HTTP nativa (`fetch`, `requests.get`,
+    `http.Get` e equivalentes) com URL absoluta de host externo, variáveis
+    `*_CONSUMER_KEY`, `*_API_SECRET`, `*_WEBHOOK_SECRET`, e `ssh`, `scp` ou
+    `sftp` acionados a partir de código (em script de shell não conta, para
+    não confundir implantação com integração);
+  - `storage`: cliente de storage de plataforma (`.storage.from(`,
+    `firebase/storage`, `@vercel/blob`), URL pré-assinada e constantes ou
+    variáveis `*_BUCKET` (exceto `TOKEN_BUCKET` e similares de limitação de
+    taxa);
+  - `jobs-agendados`: `gcloud scheduler jobs create`, EventBridge Scheduler,
+    funções agendadas (`onSchedule`), `crons` em `vercel.json` ou
+    `wrangler.toml`, `cron` de workflow de CI, `CronJob` do Kubernetes,
+    `timerTrigger`, launchd (`StartInterval`), `OnCalendar` e `crontab`.
 
 Um único sinal ativa a capacidade: o mestre manda documentar a mais em vez
 de omitir, então uma dependência presente no manifesto basta, mesmo sem uso
@@ -214,6 +234,15 @@ pastas de cache/saída usuais; desce até dez níveis; lê só extensões de
 código e configuração comuns; pula arquivos acima de 512 KiB, lockfiles e
 minificados; e para após 5.000 arquivos ou 64 MiB lidos, registrando aviso.
 Cada sinal guarda no máximo cinco ocorrências.
+
+Arquivos que não descrevem o sistema não servem de evidência textual de
+capacidade nem de evidência por nome de arquivo de código: testes e
+fixtures (`test/`, `tests/`, `__tests__/`, `e2e/`, `*.test.*`, `*.spec.*`,
+`playwright.config.*` e equivalentes), a documentação do projeto (`docs/`,
+`documentation/`, `documentacao/` na raiz e arquivos `*.adf.json`) e a cópia
+do pacote em `padtec/`. Sem isso, a documentação gerada por uma execução
+anterior confirmaria a si mesma na seguinte. Dependências em manifestos e
+arquivos como `*.sql` continuam valendo onde estiverem.
 
 ### Seções previstas por nível
 

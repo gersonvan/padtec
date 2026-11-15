@@ -62,14 +62,16 @@ Itere sobre cada uma das nove capacidades abaixo. Para cada, busque no projeto d
 | Banco de dados | `banco-de-dados` | TypeORM, Prisma, Sequelize, arquivos `.sql`, migrations, schema files |
 | Cache | `cache` | Redis, `cache-manager`, `ioredis`, decorators de cache |
 | Filas / Processamento assíncrono | `filas-async` | Bull, BullMQ, RabbitMQ, Kafka, SQS, decorators `@Process` |
-| Autenticação e autorização | `auth` | passport, JWT, OAuth, OpenID, guards de auth, middlewares de sessão |
-| Integrações externas | `integracoes-externas` | clientes HTTP nomeados, SDKs de terceiros (axios com baseURL fixa, SDKs de provedores) |
-| Armazenamento de arquivos | `storage` | Azure Blob, AWS S3, multer, fs-extra usado para upload |
+| Autenticação e autorização | `auth` | passport, JWT, OAuth, OpenID, guards de auth, middlewares de sessão; autenticação própria sem biblioteca: rotas ou módulos de login e sessão, hash de senha com a biblioteca padrão da linguagem, cookie de sessão `httpOnly`, variáveis como `*_SESSION_SECRET` ou `*_PASSWORD_HASH` |
+| Integrações externas | `integracoes-externas` | clientes HTTP nomeados, SDKs de terceiros (axios com baseURL fixa, SDKs de provedores); chamadas HTTP nativas (`fetch` e equivalentes) a hosts externos; credenciais de serviço de terceiros em variáveis de ambiente (`*_API_KEY`, `*_CONSUMER_KEY`, `*_WEBHOOK_URL`); execução ou transferência remota a partir do código (`ssh`, `scp`, `sftp`) para ler ou gravar dados em outro sistema |
+| Armazenamento de arquivos | `storage` | Azure Blob, AWS S3, multer, fs-extra usado para upload; armazenamento oferecido pela plataforma de backend (cliente de storage do Supabase, do Firebase, Vercel Blob), URLs pré-assinadas, constantes ou variáveis `*_BUCKET` |
 | Notificações | `notificacoes` | SendGrid, Twilio, nodemailer, SMTP, push notification SDKs |
-| Jobs agendados | `jobs-agendados` | `@nestjs/schedule`, `node-cron`, cron jobs declarados |
+| Jobs agendados | `jobs-agendados` | `@nestjs/schedule`, `node-cron`, cron jobs declarados; agendamento fora do código da aplicação: agendador de nuvem criado por script (`gcloud scheduler`, EventBridge Scheduler), `crons` em `vercel.json`, workflow de CI com `schedule`/`cron`, `CronJob` do Kubernetes, agentes do sistema operacional (launchd, timer do systemd, crontab) |
 | Multi-tenancy | `multi-tenancy` | múltiplas conexões nomeadas, schemas dinâmicos, tenant resolvers |
 
-Estratégia de busca recomendada: leia o(s) manifesto(s) de dependências e faça buscas textuais nos diretórios de código-fonte (`src/`, `app/`, `apps/`, equivalentes). Quando a evidência for ambígua (ex.: pacote presente mas sem uso aparente), considere a capacidade **ativa** — é melhor documentar a mais do que omitir.
+Os sinais da tabela são exemplos, não uma lista fechada: a capacidade é definida pela função que o código cumpre, não pela biblioteca que ele usa. Uma implementação própria, feita só com a biblioteca padrão da linguagem ou com serviços da plataforma de hospedagem, ativa a capacidade do mesmo modo que uma biblioteca dedicada.
+
+Estratégia de busca recomendada: leia o(s) manifesto(s) de dependências e faça buscas textuais nos diretórios de código-fonte (`src/`, `app/`, `apps/`, equivalentes), nos scripts (`scripts/`, `bin/`) e nos arquivos de infraestrutura e de implantação (`infra/`, workflows de CI, arquivos de configuração da plataforma), onde costumam estar agendamentos e integrações. Não conte como evidência o que aparece apenas em arquivos de teste, de fixtures ou de configuração de testes, na documentação já existente do projeto (inclusive a gerada por uma execução anterior do PADTec) ou na própria pasta `padtec/`: esses arquivos não descrevem o sistema. Quando a evidência for ambígua (ex.: pacote presente mas sem uso aparente), considere a capacidade **ativa** — é melhor documentar a mais do que omitir.
 
 Mantenha a lista de **capacidades ativas** como parâmetro repassado a cada sub-prompt de seção (algumas seções do núcleo fazem referência cruzada às extensões ativas).
 

@@ -587,6 +587,153 @@ function buildCases() {
       },
     },
     {
+      label: "capacidade — auth: autenticação própria (hash com a biblioteca padrão, cookie httpOnly, variável de sessão)",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ next: "^16.0.0" }),
+          "src/lib/senha.ts": 'import { scryptSync } from "node:crypto";\nexport const derivar = (s: string, sal: string) => scryptSync(s, sal, 64);\n',
+          "src/lib/cookie.ts": "export const opcoes = {\n  httpOnly: true,\n  secure: true,\n};\n",
+          "src/lib/segredo.ts": "export const segredo = process.env.PAINEL_SESSION_SECRET;\n",
+        });
+        const ctx = detect(root);
+        assert.deepStrictEqual(ctx.capabilities, ["auth"]);
+        const signals = ctx.evidence.capabilities.auth.map((e) => e.signal);
+        assert.ok(signals.includes("hash ou verificação de senha com a biblioteca padrão"));
+        assert.ok(signals.includes("cookie de sessão protegido (httpOnly)"));
+        assert.ok(signals.includes("configuração de autenticação"));
+      },
+    },
+    {
+      label: "capacidade — auth: rota ou módulo de login pelo nome do arquivo, só em código-fonte",
+      run() {
+        const ativo = detect(makeTree({
+          "package.json": pkg({ next: "^16.0.0" }),
+          "src/app/api/auth/login/route.ts": "export async function POST() {}\n",
+          "src/lib/painel-auth.ts": "export const x = 1;\n",
+        }));
+        assert.deepStrictEqual(ativo.capabilities, ["auth"]);
+        assert.deepStrictEqual(
+          ativo.evidence.capabilities.auth.map((e) => e.file),
+          ["src/app/api/auth/login/route.ts", "src/lib/painel-auth.ts"]
+        );
+        const inativo = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "src/authors.js": "module.exports = [];\n",
+          "src/authorization-header.css": "",
+          "notas/auth.md": "# anotações\n",
+          "config/login.json": "{}\n",
+        }));
+        assert.deepStrictEqual(inativo.capabilities, []);
+      },
+    },
+    {
+      label: "capacidade — integracoes-externas: chamada HTTP nativa a host externo, não a localhost",
+      run() {
+        const externo = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "src/cep.js": 'async function cep(v) {\n  return fetch(`https://cep.exemplo.invalid/v1/${v}`);\n}\n',
+        }));
+        assert.deepStrictEqual(externo.capabilities, ["integracoes-externas"]);
+        const [ev] = externo.evidence.capabilities["integracoes-externas"];
+        assert.strictEqual(ev.signal, "chamada HTTP nativa a host externo");
+        assert.strictEqual(ev.line, 2);
+        const local = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "src/saude.js": 'fetch("http://localhost:3000/health");\nfetch("/api/interna");\n',
+        }));
+        assert.deepStrictEqual(local.capabilities, []);
+      },
+    },
+    {
+      label: "capacidade — integracoes-externas: ssh/scp a partir do código conta; em script de shell não",
+      run() {
+        const codigo = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "scripts/extrair.mjs": 'import { spawnSync } from "node:child_process";\nspawnSync("ssh", ["loja.exemplo.invalid", "relatorio"]);\n',
+        }));
+        assert.deepStrictEqual(codigo.capabilities, ["integracoes-externas"]);
+        assert.strictEqual(codigo.evidence.capabilities["integracoes-externas"][0].line, 2);
+        const shell = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "deploy.sh": "#!/bin/sh\nssh servidor.exemplo.invalid 'systemctl restart app'\n",
+        }));
+        assert.deepStrictEqual(shell.capabilities, []);
+      },
+    },
+    {
+      label: "capacidade — storage: cliente de storage de plataforma e constante de bucket",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ next: "^16.0.0" }),
+          "lib/fotos.ts": 'const FOTO_BUCKET = "fotos";\nexport const url = (sb: any, p: string) => sb.storage.from(FOTO_BUCKET).getPublicUrl(p);\n',
+        });
+        const ctx = detect(root);
+        assert.deepStrictEqual(ctx.capabilities, ["storage"]);
+        const signals = ctx.evidence.capabilities.storage.map((e) => e.signal);
+        assert.ok(signals.includes("armazenamento de arquivos de plataforma (cliente de storage, URL pré-assinada)"));
+        assert.ok(signals.includes("configuração de armazenamento"));
+        const limitador = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "src/limite.js": "const TOKEN_BUCKET = new Map();\nconst RATE_LIMIT_BUCKET = 10;\n",
+        }));
+        assert.deepStrictEqual(limitador.capabilities, []);
+      },
+    },
+    {
+      label: "capacidade — jobs-agendados: agendador de nuvem em script, crons de configuração e agente do sistema",
+      run() {
+        const nuvem = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "infra/agendar.sh": '#!/bin/sh\ngcloud scheduler jobs create http "sync" \\\n  --schedule "*/10 * * * *"\n',
+        }));
+        assert.deepStrictEqual(nuvem.capabilities, ["jobs-agendados"]);
+        assert.strictEqual(nuvem.evidence.capabilities["jobs-agendados"][0].line, 2);
+
+        const config = detect(makeTree({
+          "package.json": pkg({ next: "^16.0.0" }),
+          "vercel.json": '{\n  "crons": [{ "path": "/api/sync", "schedule": "0 5 * * *" }]\n}\n',
+          ".github/workflows/noturno.yml": "on:\n  schedule:\n    - cron: '0 3 * * *'\njobs: {}\n",
+        }));
+        assert.deepStrictEqual(config.capabilities, ["jobs-agendados"]);
+        assert.deepStrictEqual(
+          [...new Set(config.evidence.capabilities["jobs-agendados"].map((e) => e.file))].sort(),
+          [".github/workflows/noturno.yml", "vercel.json"]
+        );
+        assert.ok(
+          config.evidence.capabilities["jobs-agendados"].some(
+            (e) => e.signal === "agendamento declarado em configuração (crons, cron de workflow, CronJob, timerTrigger)"
+          )
+        );
+
+        const sistema = detect(makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "scripts/instalar.mjs": "const plist = `<key>StartInterval</key><integer>600</integer>`;\n",
+          "ops/sync.timer": "[Timer]\nOnCalendar=hourly\n",
+        }));
+        assert.deepStrictEqual(sistema.capabilities, ["jobs-agendados"]);
+        const signals = sistema.evidence.capabilities["jobs-agendados"].map((e) => e.signal);
+        assert.ok(signals.includes("timer do systemd"));
+        assert.ok(signals.includes("agente agendado do sistema operacional (launchd, systemd, crontab)"));
+      },
+    },
+    {
+      label: "capacidade — evidência textual só em testes, na documentação ou na cópia do pacote não ativa capacidade",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ express: "^4.19.0" }),
+          "playwright.config.ts": 'export default { use: { baseURL: "https://app.exemplo.invalid" } };\n',
+          "e2e/login.spec.ts": "const SESSION_SECRET = 'x';\n",
+          "src/upload.test.js": "const FOTO_BUCKET = 'fotos';\n",
+          "tests/tenant.py": "tenant_id = 1\n",
+          "docs/02-arquitetura.adf.json": '{ "text": "tenantId e SMTP_HOST" }\n',
+          "README.adf.json": '{ "text": "multi-tenancy" }\n',
+          "padtec/ferramenta/publicar.js": "const token = process.env.ATLASSIAN_API_TOKEN; // multi-tenancy\n",
+        });
+        const ctx = detect(root);
+        assert.deepStrictEqual(ctx.capabilities, []);
+      },
+    },
+    {
       label: "capacidade — nenhuma: as nove listas de evidência existem vazias",
       run() {
         const root = makeTree({ "package.json": pkg({ express: "^4.19.0" }) });
