@@ -196,7 +196,7 @@ function buildCases() {
         assert.strictEqual(ctx.variant, "backend-api");
         assert.strictEqual(ctx.evidence.variant.matchedRule, 3);
         assert.strictEqual(ctx.evidence.variant.rules[1].matched, false);
-        assert.match(ctx.evidence.variant.rules[1].reason, /nenhum package\.json com next/);
+        assert.match(ctx.evidence.variant.rules[1].reason, /nenhum framework de frontend em package\.json/);
       },
     },
     {
@@ -394,6 +394,144 @@ function buildCases() {
       },
     },
     {
+      label: "variante — full-stack-web: frontend na raiz e backend em server/ com manifesto próprio",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ react: "^19.0.0" }, { vite: "^7.0.0" }),
+          "index.html": "<div id=\"root\"></div>\n",
+          "server/package.json": pkg({ fastify: "^5.0.0", nodemailer: "^7.0.0" }),
+          "server/src/index.js": "",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        assert.strictEqual(ctx.monorepo.active, false);
+        const backend = ctx.evidence.variant.signals.backend;
+        assert.ok(backend.some((e) => e.kind === "manifesto" && e.signal === "fastify" && e.file === "server/package.json"));
+        assert.ok(backend.some((e) => e.kind === "estrutura" && e.file === "server"));
+        assert.ok(ctx.capabilities.includes("notificacoes"), "dependências do manifesto da subpasta contam para capacidades");
+      },
+    },
+    {
+      label: "variante — full-stack-web: pastas irmãs frontend/ e backend/ sem manifesto na raiz",
+      run() {
+        const root = makeTree({
+          "frontend/package.json": pkg({ react: "^19.0.0" }, { vite: "^7.0.0" }),
+          "backend/requirements.txt": "fastapi==0.115.0\nuvicorn==0.30.0\n",
+          "backend/app/main.py": "",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        assert.strictEqual(ctx.evidence.variant.matchedRule, 4);
+      },
+    },
+    {
+      label: "variante — manifesto em subpasta sem nome de unidade de aplicação não é lido",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ react: "^19.0.0" }, { vite: "^7.0.0" }),
+          "tools/package.json": pkg({ express: "^4.19.0" }),
+          "examples/package.json": pkg({ fastify: "^5.0.0" }),
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "frontend-site");
+        assert.deepStrictEqual(ctx.evidence.variant.signals.backend, []);
+      },
+    },
+    {
+      label: "variante — backend-api: servidor HTTP da biblioteca padrão, sem framework",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ pg: "^8.0.0" }),
+          "src/server.js": 'import { createServer } from "node:http";\n\nconst server = createServer((req, res) => res.end("ok"));\nserver.listen(3000);\n',
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "backend-api");
+        assert.strictEqual(ctx.evidence.variant.matchedRule, 3);
+        const [ev] = ctx.evidence.variant.signals.backend;
+        assert.strictEqual(ev.signal, "servidor HTTP da biblioteca padrão");
+        assert.strictEqual(ev.file, "src/server.js");
+        assert.strictEqual(ev.line, 3);
+      },
+    },
+    {
+      label: "variante — backend-api: função serverless com handler exportado",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ pg: "^8.0.0" }),
+          "api/metricas.js": "export default async function handler(request, response) {\n  response.status(200).json({});\n}\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "backend-api");
+        assert.strictEqual(ctx.evidence.variant.signals.backend[0].signal, "função serverless (handler exportado)");
+      },
+    },
+    {
+      label: "variante — frontend-site: createServer de ferramenta de desenvolvimento e servidor em teste não contam como backend",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ react: "^19.0.0" }, { vite: "^7.0.0" }),
+          "scripts/dev.mjs": 'import { createServer } from "vite";\nconst s = await createServer({ server: { origin: "http://localhost:5173" } });\n',
+          "test/servidor.test.js": 'const http = require("http");\nhttp.createServer(() => {});\n',
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "frontend-site");
+        assert.deepStrictEqual(ctx.evidence.variant.signals.backend, []);
+      },
+    },
+    {
+      label: "variante — full-stack-web: página estática em public/ com função serverless",
+      run() {
+        const root = makeTree({
+          "package.json": pkg({ pg: "^8.0.0" }),
+          "public/index.html": "<!doctype html>\n",
+          "api/metricas.js": "export default async function handler(req, res) {}\n",
+        });
+        const ctx = detect(root);
+        assert.strictEqual(ctx.variant, "full-stack-web");
+        assert.deepStrictEqual(ctx.evidence.variant.signals.frontend, [
+          { kind: "arquivo", signal: "página HTML de entrada", file: "public/index.html" },
+        ]);
+      },
+    },
+    {
+      label: "variante — frontend-site: site estático sem manifesto; index.html em docs/ não conta",
+      run() {
+        const site = detect(makeTree({ "index.html": "<!doctype html>\n", "css/site.css": "", "js/site.js": "" }));
+        assert.strictEqual(site.variant, "frontend-site");
+        assert.strictEqual(site.evidence.variant.matchedRule, 2);
+        const soDocs = detect(makeTree({ "docs/index.html": "<!doctype html>\n", "src/index.js": "" }));
+        assert.strictEqual(soDocs.variant, null);
+      },
+    },
+    {
+      label: "variante — frameworks ampliados: angular é frontend-site, hono é backend-api, aiohttp é backend-api",
+      run() {
+        assert.strictEqual(detect(makeTree({ "package.json": pkg({ "@angular/core": "^20.0.0" }) })).variant, "frontend-site");
+        assert.strictEqual(detect(makeTree({ "package.json": pkg({ hono: "^4.0.0" }) })).variant, "backend-api");
+        assert.strictEqual(detect(makeTree({ "requirements.txt": "aiohttp==3.10.0\n" })).variant, "backend-api");
+      },
+    },
+    {
+      label: "variante — automacao-script: manifesto que declara executável de linha de comando, sem frontend nem backend",
+      run() {
+        const node = detect(makeTree({
+          "package.json": { name: "ferramenta", bin: { ferramenta: "cli.js" }, dependencies: { commander: "^12.0.0" } },
+          "cli.js": "#!/usr/bin/env node\n",
+        }));
+        assert.strictEqual(node.variant, "automacao-script");
+        assert.strictEqual(node.evidence.variant.matchedRule, 5);
+        assert.match(node.evidence.variant.rules[4].reason, /declara executável de linha de comando/);
+        const python = detect(makeTree({
+          "pyproject.toml": '[project]\nname = "ferramenta"\ndependencies = ["click"]\n\n[project.scripts]\nferramenta = "ferramenta.cli:main"\n',
+        }));
+        assert.strictEqual(python.variant, "automacao-script");
+        const comServidor = detect(makeTree({
+          "package.json": { name: "servico", bin: { servico: "cli.js" }, dependencies: { express: "^4.19.0" } },
+        }));
+        assert.strictEqual(comServidor.variant, "backend-api");
+      },
+    },
+    {
       label: "variante — automacao-script: scripts/ sem manifestos",
       run() {
         const root = makeTree({
@@ -434,7 +572,7 @@ function buildCases() {
       },
     },
     {
-      label: "variante — package.json aplicacional sem framework não é automacao-script (mestre literal)",
+      label: "variante — package.json aplicacional sem framework e sem executável declarado continua indeterminado",
       run() {
         const root = makeTree({
           "package.json": pkg({ commander: "^12.0.0" }),
@@ -442,7 +580,7 @@ function buildCases() {
         });
         const ctx = detect(root);
         assert.strictEqual(ctx.variant, null);
-        assert.match(ctx.evidence.variant.rules[4].reason, /há manifesto de aplicação/);
+        assert.match(ctx.evidence.variant.rules[4].reason, /não declara executável de linha de comando/);
       },
     },
 
