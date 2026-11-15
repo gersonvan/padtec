@@ -1,6 +1,6 @@
 # PADTec
 
-Repositório-fonte do **PADTec — Padrão Automatizado de Documentação Técnica**, versão `v1.0.1`.
+Repositório-fonte do **PADTec — Padrão Automatizado de Documentação Técnica**, versão `v2.0.0`.
 
 O PADTec é um pacote portátil para produzir documentação técnica a partir do código-fonte existente de um projeto. Ele orienta um agente de codificação com acesso direto aos arquivos a inspecionar evidências no código e gerar documentação rastreável, sem alterar a aplicação documentada (apenas a pasta de documentação é criada ou atualizada).
 
@@ -10,6 +10,7 @@ O PADTec é um pacote portátil para produzir documentação técnica a partir d
 - [padtec/guia-humano.md](padtec/guia-humano.md): roteiro operacional — por onde começar.
 - [padtec/README.md](padtec/README.md): identidade do pacote, níveis, variantes, capacidades condicionais e estrutura interna.
 - [padtec/checklist-qa.md](padtec/checklist-qa.md): verificações objetivas sobre a documentação gerada.
+- [padtec/CHANGELOG.md](padtec/CHANGELOG.md): o que mudou em cada versão e como atualizar uma cópia antiga do pacote.
 - [padtec/adaptadores/](padtec/adaptadores/): apontadores opcionais por agente (Claude Code, GitHub Copilot, Antigravity, Gemini CLI, Gemini Code Assist) para acionar o PADTec com um pedido curto ou um comando por barra.
 - [ferramentas/cli/](ferramentas/cli/): `padtec detect`, comando opcional em Node.js que lê o projeto e antecipa variante, capacidades e seções previstas antes da execução.
 - [ferramentas/confluence-mermaid-package/](ferramentas/confluence-mermaid-package/): ferramental opcional, distribuído à parte do pacote, para publicar a documentação no Confluence, preservando diagramas Mermaid.

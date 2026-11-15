@@ -85,6 +85,7 @@ Se a documentação for publicada no Atlassian Confluence, utilize o ferramental
 
 A documentação gerada é propriedade do projeto destino. A partir deste ponto:
 
-- **Atualização contínua.** Reexecute o prompt mestre quando o código sofrer alterações estruturais relevantes. O agente regenera integralmente os documentos do conjunto gerado com base no novo estado do código e não altera outros arquivos da pasta de saída.
+- **Atualização contínua.** Reexecute o prompt mestre quando o código sofrer alterações estruturais relevantes. O agente regenera integralmente os documentos do conjunto gerado com base no novo estado do código e não altera outros arquivos da pasta de saída. Documentos de uma execução anterior que saíram do conjunto (capacidade que deixou de existir, nível menor, nome de versão anterior do pacote) são listados como órfãos ao final, com os arquivos que os referenciam, e só são removidos se você confirmar.
+- **Atualização do pacote.** Para adotar uma versão nova do PADTec, apague a pasta `padtec/` do projeto e copie a nova inteira; não copie por cima, porque arquivos são renomeados e removidos entre versões. O arquivo `padtec/VERSION` diz qual versão está no projeto, e `padtec/CHANGELOG.md` diz o que mudou e o que exige atenção. Depois, reexecute o prompt mestre.
 - **Extensão do glossário.** O `glossario-base.md` do pacote é uma semente. O glossário gerado em `docs/` cresce com termos específicos do domínio do projeto.
 - **Customizações.** Ajustes ao pacote para refletir particularidades do projeto destino (capacidades adicionais, convenções internas) devem ser feitos na cópia local de `padtec/`, não na cópia-fonte deste pacote.

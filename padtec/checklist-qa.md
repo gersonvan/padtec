@@ -115,6 +115,12 @@ Slugs válidos (os mesmos da tabela de capacidades do `README.md`): `banco-de-da
 - [ ] Listar capacidades detectadas (o agente reporta ao final da execução).
 - [ ] Para cada capacidade na lista, confirmar a presença do arquivo `condicional-<slug>.md`.
 
+**Documentos órfãos (todos os níveis):** arquivos em `<pasta-de-saída>/` com nome de documento do PADTec que não foram gerados nesta execução. As três origens e a tabela de nomes de versões anteriores estão no passo vi.5 de `prompts/00-mestre.md`.
+
+- [ ] Listar os arquivos com nome de documento do pacote: `ls <pasta-de-saída>/ | grep -E "^([0-9]{2}-|condicional-).*\.md$"`, e também os que têm nome antigo sem prefixo (`auth.md`, `banco-de-dados.md`, `cache.md`, `filas-async.md`, `integracoes-externas.md`, `storage.md`, `notificacoes.md`, `jobs-agendados.md`, `multi-tenancy.md`).
+- [ ] Separar os que não pertencem ao conjunto desta execução: seção do núcleo fora do nível alvo, `condicional-<slug>.md` de capacidade não detectada, ou nome de versão anterior (`condicional-autenticacao-e-autorizacao.md`, `condicional-armazenamento-de-arquivos.md`, `<slug>.md` sem prefixo com conteúdo de documento gerado).
+- [ ] Aprovado quando não há órfãos, ou quando cada órfão foi reportado ao usuário e a decisão (remover ou manter) está registrada no relato da execução. Reprovado se houver órfão não reportado ou removido sem confirmação; listar.
+
 ### B.2 Contagem de seções por documento
 
 Documentos do núcleo seguem estrutura mínima de seções definida pelos templates. Discrepância para baixo indica geração incompleta.
